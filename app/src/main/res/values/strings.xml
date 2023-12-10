@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ExpenseApp</string>
+
+    <string name="splash_image">Splash image</string>
+</resources>
