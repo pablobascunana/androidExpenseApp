@@ -2,4 +2,8 @@
     <string name="app_name">ExpenseApp</string>
 
     <string name="splash_image">Splash image</string>
+
+    <string name="add_expense">Add expense</string>
+    <string name="resume">Resume</string>
+    <string name="configuration">Configuration</string>
 </resources>
