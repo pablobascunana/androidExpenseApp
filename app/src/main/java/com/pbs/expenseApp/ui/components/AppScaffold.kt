@@ -17,7 +17,6 @@ import com.pbs.expenseApp.appstate.rememberAppState
 import com.pbs.expenseApp.navigation.AppNavigation
 import com.pbs.expenseApp.navigation.BottomBarRoutes
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold() {
