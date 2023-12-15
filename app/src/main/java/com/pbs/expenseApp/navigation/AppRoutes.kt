@@ -1,6 +1,6 @@
 package com.pbs.expenseApp.navigation
 
 sealed class AppRoutes(val route: String) {
-    object Splash: AppRoutes("/splash")
-    object BottomBar: AppRoutes("/bottom_bar")
+    object Splash: AppRoutes(Routes.SPLASH.route)
+    object BottomBar: AppRoutes(Routes.BOTTOM_BAR.route)
 }

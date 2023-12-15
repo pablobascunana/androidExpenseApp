@@ -28,15 +28,15 @@ fun AppNavigation(
         }
         navigation(
             route = AppRoutes.BottomBar.route,
-            startDestination = BottomBarRoutes.ADD_EXPENSE.routes
+            startDestination = BottomBarRoutes.ADD_EXPENSE.route
         ) {
-            composable(BottomBarRoutes.ADD_EXPENSE.routes) {
+            composable(BottomBarRoutes.ADD_EXPENSE.route) {
                 AddExpense()
             }
-            composable(BottomBarRoutes.RESUME.routes) {
+            composable(BottomBarRoutes.RESUME.route) {
                 Resume()
             }
-            composable(BottomBarRoutes.CONFIGURATION.routes) {
+            composable(BottomBarRoutes.CONFIGURATION.route) {
                 Configuration()
             }
         }

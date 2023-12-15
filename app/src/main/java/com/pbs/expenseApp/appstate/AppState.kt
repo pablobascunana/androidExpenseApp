@@ -21,7 +21,7 @@ class AppState(
     val navHostController: NavHostController
 ) {
 
-    private val routes = BottomBarRoutes.values().map { it.routes }
+    private val routes = BottomBarRoutes.values().map { it.route }
 
     val shouldShowBottomBar: Boolean
         @Composable get() =

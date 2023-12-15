@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pbs.expenseApp.appstate.rememberAppState
 import com.pbs.expenseApp.navigation.AppNavigation
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
                                 NavigationBar(
                                     containerColor = MaterialTheme.colorScheme.secondary,
                                 ) {
-                                    val tabList = listOf(
+                                    val navigationBarItems = listOf(
                                         BottomBarRoutes.ADD_EXPENSE,
                                         BottomBarRoutes.RESUME,
                                         BottomBarRoutes.CONFIGURATION
@@ -47,23 +48,23 @@ class MainActivity : ComponentActivity() {
 
                                     val navStackBackEntry by appState.navHostController.currentBackStackEntryAsState()
                                     val currentRoute = navStackBackEntry?.destination?.route
-                                    tabList.forEach { tab ->
+                                    navigationBarItems.forEach { item ->
                                         NavigationBarItem(
-                                            selected = tab.routes == currentRoute,
+                                            selected = item.route == currentRoute,
                                             label = {
                                                 Text(
-                                                    text = tab.title,
+                                                    text = stringResource(item.title),
                                                     color = Color.Black
                                                 )
                                             },
                                             icon = {
                                                 Icon(
-                                                    imageVector = tab.icon,
+                                                    imageVector = item.icon,
                                                     contentDescription = ""
                                                 )
                                             },
                                             onClick = {
-                                                appState.navHostController.navigate(tab.routes)
+                                                appState.navHostController.navigate(item.route)
                                             },
                                             colors = NavigationBarItemDefaults.colors(
                                                 unselectedTextColor = MaterialTheme.colorScheme.secondary,

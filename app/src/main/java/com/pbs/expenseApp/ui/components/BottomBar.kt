@@ -54,13 +54,13 @@ fun BottomBarItems(
     navHostController: NavHostController
 ) {
 
-    val selected = currentDestination?.hierarchy?.any { it.route == tab.routes } == true
+    val selected = currentDestination?.hierarchy?.any { it.route == tab.route } == true
 
     val contentColor =
         if (selected) Color.Unspecified else MaterialTheme.colorScheme.onPrimary
 
     IconButton(onClick = {
-        navHostController.navigate(tab.routes)
+        navHostController.navigate(tab.route)
     }) {
         Icon(
             imageVector = tab.icon,
