@@ -14,10 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.navigation.AppScreens
+import com.pbs.expenseApp.navigation.AppRoutes
 import kotlinx.coroutines.delay
 
 @Composable
@@ -25,7 +24,7 @@ fun SplashScreen(navHostController: NavHostController) {
     LaunchedEffect(key1 = true) {
         delay(5000)
         navHostController.popBackStack()
-        navHostController.navigate(AppScreens.MainScreen.route)
+        navHostController.navigate(AppRoutes.BottomBar.route)
     }
     Splash()
 }
