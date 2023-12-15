@@ -18,7 +18,7 @@ import com.pbs.expenseApp.navigation.BottomBarRoutes
 @Composable
 fun BottomBarNavigation(appState: AppState) {
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.secondary,
+        containerColor = MaterialTheme.colorScheme.primary,
     ) {
         val navigationBarItems = listOf(
             BottomBarRoutes.ADD_EXPENSE,
@@ -35,21 +35,24 @@ fun BottomBarNavigation(appState: AppState) {
                 label = {
                     Text(
                         text = title,
-                        color = Color.Black
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = "$title icon"
+                        contentDescription = "$title icon",
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 onClick = {
                     appState.navHostController.navigate(item.route)
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    unselectedTextColor = MaterialTheme.colorScheme.secondary,
-                    selectedTextColor = MaterialTheme.colorScheme.tertiary
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                    indicatorColor = MaterialTheme.colorScheme.secondary,
+                    selectedIconColor = MaterialTheme.colorScheme.onSecondary
                 ),
             )
         }
