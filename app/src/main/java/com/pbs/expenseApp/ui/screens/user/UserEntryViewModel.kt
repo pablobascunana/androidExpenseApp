@@ -20,6 +20,14 @@ class UserEntryViewModel(private val userRepository: UserRepository): ViewModel(
         )
     }
 
+    suspend fun isUserExists(uuid: String): Boolean {
+        var userExists = false
+        viewModelScope.async {
+            userExists = userRepository.isUserExists(uuid)
+        }.await()
+        return userExists
+    }
+
     suspend fun saveUser(uuid: String) {
         viewModelScope.launch {
             userRepository.insertUser(userUiState.userDetails.toUser(uuid))
