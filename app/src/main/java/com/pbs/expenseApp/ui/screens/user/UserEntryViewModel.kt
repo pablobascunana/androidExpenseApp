@@ -36,7 +36,7 @@ fun UserDetails.toUser(uuid: String): User = User(
     monthlySavings = monthlySavings.toDoubleOrNull() ?: 0.0,
 )
 
-fun User.toUserUiState(isEntryValid: Boolean = false): UserUiState = UserUiState(
+fun User.toUserUiState(): UserUiState = UserUiState(
     userDetails = this.toUserDetails()
 )
 
