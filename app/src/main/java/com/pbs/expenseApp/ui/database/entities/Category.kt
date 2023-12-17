@@ -1,6 +1,7 @@
 package com.pbs.expenseApp.ui.database.entities
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 enum class CategoryType(val value: String) {
@@ -17,7 +18,11 @@ enum class CategoryType(val value: String) {
             childColumns = ["userUuid"],
             onDelete = androidx.room.ForeignKey.Companion.CASCADE
         )
-    ])
+    ],
+    indices = [
+        Index(value = ["userUuid"])
+    ]
+)
 data class Category(
     @PrimaryKey()
     val uuid: String,
