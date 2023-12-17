@@ -20,7 +20,7 @@ enum class CategoryType(val value: String) {
         )
     ],
     indices = [
-        Index(value = ["userUuid"])
+        Index(value = ["userUuid", "name"], unique = true)
     ]
 )
 data class Category(

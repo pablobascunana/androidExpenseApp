@@ -15,3 +15,4 @@ All notable changes will be documented in this file
 * [PR-6](https://github.com/pablobascunana/androidExpenseApp/pull/6) Add navigation bar and theme
 * [PR-7](https://github.com/pablobascunana/androidExpenseApp/pull/7) Create database, entities, dao and repositories
 * [PR-8](https://github.com/pablobascunana/androidExpenseApp/pull/8) Create SplashViewModel
+* [PR-9](https://github.com/pablobascunana/androidExpenseApp/pull/9) Add default categories and insert them in database

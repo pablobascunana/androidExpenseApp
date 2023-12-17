@@ -6,6 +6,8 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.pbs.expenseApp.ExpenseApplication
+import com.pbs.expenseApp.ui.screens.SplashViewModel
+import com.pbs.expenseApp.ui.screens.category.CategoryEntryViewModel
 import com.pbs.expenseApp.ui.screens.user.UserEditViewModel
 import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
 
@@ -18,6 +20,15 @@ object AppViewModelProvider {
         }
         initializer {
             UserEntryViewModel(expenseApplication().container.userRepository)
+        }
+        initializer {
+            CategoryEntryViewModel(
+                expenseApplication().container.categoryRepository,
+                expenseApplication().baseContext
+            )
+        }
+        initializer {
+            SplashViewModel(expenseApplication().baseContext)
         }
     }
 }

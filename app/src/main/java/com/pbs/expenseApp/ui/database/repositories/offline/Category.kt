@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class OfflineCategoryRepository(private val categoryDao: CategoryDao): CategoryRepository {
     override suspend fun insertCategory(category: Category) = categoryDao.insert(category)
+    override suspend fun insertAllCategories(categories: List<Category>) = categoryDao.insertAll(categories)
     override suspend fun updateCategory(category: Category) = categoryDao.update(category)
     override suspend fun deleteCategory(category: Category) = categoryDao.delete(category)
     override fun getCategoryStream(uuid: String): Flow<Category?> = categoryDao.getCategory(uuid = "uuid")

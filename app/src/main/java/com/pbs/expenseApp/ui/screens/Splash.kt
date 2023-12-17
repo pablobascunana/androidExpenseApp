@@ -10,7 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -20,18 +19,23 @@ import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.navigation.AppRoutes
 import com.pbs.expenseApp.ui.AppViewModelProvider
+import com.pbs.expenseApp.ui.screens.category.CategoryEntryViewModel
 import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
 
 @Composable
 fun SplashScreen(navHostController: NavHostController) {
-    val coroutineScope = rememberCoroutineScope()
     val userVm: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoryVm: CategoryEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val splashVM: SplashViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        coroutineScope.launch {
-            userVm.saveUser(splashVM.id)
+        val exist = async { userVm.isUserExists(splashVM.id) }.await()
+        if (!exist) {
+            async { userVm.saveUser(splashVM.id) }.await()
+            async {
+                categoryVm.saveCategories(categoryVm.defaultCategories, splashVM.id)
+            }.await()
         }
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)

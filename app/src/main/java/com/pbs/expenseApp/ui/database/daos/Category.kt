@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(category: Category)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(entities: List<Category?>)
     @Update
     suspend fun update(category: Category)
     @Delete

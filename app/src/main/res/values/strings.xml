@@ -6,4 +6,22 @@
     <string name="add_expense">Add expense</string>
     <string name="resume">Resume</string>
     <string name="configuration">Configuration</string>
+
+    <string name="income_debts">Deudas</string>
+    <string name="income_deposit">Depósitos</string>
+    <string name="income_salary">Salario</string>
+    <string name="income_savings">Ahorros</string>
+
+    <string name="expense_bills">Facturas</string>
+    <string name="expense_car">Coche</string>
+    <string name="expense_clothes">Ropa</string>
+    <string name="expense_entertainment">Entretenimiento</string>
+    <string name="expense_food">Comida</string>
+    <string name="expense_health">Salud</string>
+    <string name="expense_house">Casa</string>
+    <string name="expense_pets">Mascotas</string>
+    <string name="expense_presents">Regalos</string>
+    <string name="expense_restaurants">Restaurantes</string>
+    <string name="expense_sports">Deportes</string>
+    <string name="expense_transports">Transporte</string>
 </resources>
