@@ -9,7 +9,7 @@ import com.pbs.expenseApp.navigation.AppNavigationGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppScaffold(context: Context) {
+fun AppScaffold() {
     val appState = rememberAppState()
     Scaffold(
         bottomBar = {
@@ -20,7 +20,6 @@ fun AppScaffold(context: Context) {
     ) { innerPadding ->
         AppNavigationGraph(
             navController = appState.navHostController,
-            context = context,
             padding = innerPadding
         )
     }

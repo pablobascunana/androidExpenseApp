@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ExpenseAppTheme(dynamicColor = false) {
-                AppSurface(context = this)
+                AppSurface()
             }
         }
     }

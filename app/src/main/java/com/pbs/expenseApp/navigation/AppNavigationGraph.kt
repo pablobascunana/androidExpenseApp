@@ -17,7 +17,6 @@ import com.pbs.expenseApp.ui.screens.SplashScreen
 @Composable
 fun AppNavigationGraph(
     navController: NavHostController,
-    context: Context,
     padding: PaddingValues
 ) {
     NavHost(
@@ -26,7 +25,7 @@ fun AppNavigationGraph(
         modifier = Modifier.padding(padding)
     ) {
         composable(AppRoutes.Splash.route) {
-            SplashScreen(navController, context)
+            SplashScreen(navController)
         }
         navigation(
             route = AppRoutes.BottomBar.route,
