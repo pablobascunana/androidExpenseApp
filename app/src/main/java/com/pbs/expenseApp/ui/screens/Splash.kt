@@ -1,7 +1,5 @@
 package com.pbs.expenseApp.ui.screens
 
-import android.content.Context
-import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,17 +24,14 @@ import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun SplashScreen(
-    navHostController: NavHostController,
-    context: Context
-) {
+fun SplashScreen(navHostController: NavHostController) {
     val coroutineScope = rememberCoroutineScope()
-    val viewModel: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val userVm: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val splashVM: SplashViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val id: String = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
     LaunchedEffect(key1 = true) {
         coroutineScope.launch {
-            viewModel.saveUser(id)
+            userVm.saveUser(splashVM.id)
         }
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)
