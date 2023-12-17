@@ -1,5 +1,6 @@
 package com.pbs.expenseApp.navigation
 
+import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -14,8 +15,9 @@ import com.pbs.expenseApp.ui.screens.Resume
 import com.pbs.expenseApp.ui.screens.SplashScreen
 
 @Composable
-fun AppNavigation(
+fun AppNavigationGraph(
     navController: NavHostController,
+    context: Context,
     padding: PaddingValues
 ) {
     NavHost(
@@ -24,7 +26,7 @@ fun AppNavigation(
         modifier = Modifier.padding(padding)
     ) {
         composable(AppRoutes.Splash.route) {
-            SplashScreen(navController)
+            SplashScreen(navController, context)
         }
         navigation(
             route = AppRoutes.BottomBar.route,
