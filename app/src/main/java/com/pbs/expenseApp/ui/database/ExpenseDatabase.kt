@@ -4,17 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-// import com.pbs.expenseApp.ui.database.daos.CategoryDao
+import com.pbs.expenseApp.ui.database.daos.CategoryDao
 // import com.pbs.expenseApp.ui.database.daos.ExpenseDao
 import com.pbs.expenseApp.ui.database.daos.UserDao
-// import com.pbs.expenseApp.ui.database.entities.Category
+import com.pbs.expenseApp.ui.database.entities.Category
 // import com.pbs.expenseApp.ui.database.entities.Expense
 import com.pbs.expenseApp.ui.database.entities.User
 
 @Database(
     entities = [
         User::class,
-        // Category::class,
+        Category::class,
         // Expense::class
     ],
     version = 1,
@@ -23,8 +23,8 @@ import com.pbs.expenseApp.ui.database.entities.User
 abstract class ExpenseDatabase: RoomDatabase() {
 
     abstract fun userDao(): UserDao
-/* abstract fun categoryDao(): CategoryDao
-abstract fun expenseDao(): ExpenseDao */
+    abstract fun categoryDao(): CategoryDao
+    /* abstract fun expenseDao(): ExpenseDao */
 
     companion object {
         private const val DATABASE_NAME = "expense_database"
