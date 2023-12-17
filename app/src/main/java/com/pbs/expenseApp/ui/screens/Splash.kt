@@ -20,19 +20,22 @@ import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.navigation.AppRoutes
 import com.pbs.expenseApp.ui.AppViewModelProvider
+import com.pbs.expenseApp.ui.screens.category.CategoryEntryViewModel
 import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
 
 @Composable
 fun SplashScreen(navHostController: NavHostController) {
-    val coroutineScope = rememberCoroutineScope()
     val userVm: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoryVm: CategoryEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val splashVM: SplashViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        coroutineScope.launch {
-            userVm.saveUser(splashVM.id)
-        }
+        async { userVm.saveUser(splashVM.id) }.await()
+        async {
+            categoryVm.saveCategories(categoryVm.defaultCategories, splashVM.id)
+        }.await()
+
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)
     }

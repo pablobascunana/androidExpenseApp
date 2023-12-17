@@ -4,8 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.ui.database.entities.User
 import com.pbs.expenseApp.ui.database.repositories.UserRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class UserEntryViewModel(private val userRepository: UserRepository): ViewModel() {
     var userUiState by mutableStateOf(UserUiState())
@@ -18,7 +21,9 @@ class UserEntryViewModel(private val userRepository: UserRepository): ViewModel(
     }
 
     suspend fun saveUser(uuid: String) {
-        userRepository.insertUser(userUiState.userDetails.toUser(uuid))
+        viewModelScope.launch {
+            userRepository.insertUser(userUiState.userDetails.toUser(uuid))
+        }
     }
 }
 

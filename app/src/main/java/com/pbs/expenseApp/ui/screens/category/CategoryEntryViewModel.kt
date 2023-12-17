@@ -5,10 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.database.entities.Category
 import com.pbs.expenseApp.ui.database.entities.CategoryType
 import com.pbs.expenseApp.ui.database.repositories.CategoryRepository
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class CategoryEntryViewModel(
@@ -46,8 +48,11 @@ class CategoryEntryViewModel(
     }
 
     suspend fun saveCategories(categories: List<DefaultCategory>, id: String) {
-        categoryRepository.insertAllCategories(
-            categoryUiState.categoryDetails.toCategory(categories = categories, id = id))
+        viewModelScope.launch {
+            categoryRepository.insertAllCategories(
+                categoryUiState.categoryDetails.toCategory(categories = categories, id = id)
+            )
+        }
     }
 }
 
