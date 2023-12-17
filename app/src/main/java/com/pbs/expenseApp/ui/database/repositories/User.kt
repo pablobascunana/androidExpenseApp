@@ -7,6 +7,7 @@ interface UserRepository {
     suspend fun insertUser(user: User)
     suspend fun updateUser(user: User)
     suspend fun deleteUser(user: User)
+    suspend fun isUserExists(uuid: String): Boolean
     fun getUserStream(uuid: String): Flow<User?>
     fun getAllUsersStream(): Flow<List<User>>
 }

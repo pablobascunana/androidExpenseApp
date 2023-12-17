@@ -10,7 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -31,11 +30,13 @@ fun SplashScreen(navHostController: NavHostController) {
     val splashVM: SplashViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        async { userVm.saveUser(splashVM.id) }.await()
-        async {
-            categoryVm.saveCategories(categoryVm.defaultCategories, splashVM.id)
-        }.await()
-
+        val exist = async { userVm.isUserExists(splashVM.id) }.await()
+        if (!exist) {
+            async { userVm.saveUser(splashVM.id) }.await()
+            async {
+                categoryVm.saveCategories(categoryVm.defaultCategories, splashVM.id)
+            }.await()
+        }
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)
     }
