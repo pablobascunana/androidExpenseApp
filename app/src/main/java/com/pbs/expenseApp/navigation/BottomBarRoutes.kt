@@ -17,7 +17,7 @@ enum class BottomBarRoutes(
 ) {
     ADD_EXPENSE(
         id = 1,
-        title = R.string.splash_image,
+        title = R.string.add_expense,
         route = Routes.ADD_EXPENSE.route,
         icon = Icons.Outlined.Add
     ),
