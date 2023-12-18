@@ -46,7 +46,7 @@ data class UserDetails(
 
 fun UserDetails.toUser(uuid: String): User = User(
     uuid = uuid,
-    monthlySavings = monthlySavings.toDoubleOrNull() ?: 0.0,
+    monthlySavings = monthlySavings.toIntOrNull() ?: 0,
 )
 
 fun User.toUserUiState(): UserUiState = UserUiState(

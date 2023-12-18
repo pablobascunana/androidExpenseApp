@@ -12,4 +12,5 @@ class OfflineUserRepository(private val userDao: UserDao): UserRepository {
     override suspend fun isUserExists(uuid: String): Boolean = userDao.isUserExist(uuid = uuid)
     override fun getUserStream(uuid: String): Flow<User?> = userDao.getUser(uuid = uuid)
     override fun getAllUsersStream(): Flow<List<User>> = userDao.getAllUsers()
+    override suspend fun getMonthlySavings(uuid: String): Int = userDao.getMonthlySavings(uuid = uuid)
 }

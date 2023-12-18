@@ -10,4 +10,5 @@ interface UserRepository {
     suspend fun isUserExists(uuid: String): Boolean
     fun getUserStream(uuid: String): Flow<User?>
     fun getAllUsersStream(): Flow<List<User>>
+    suspend fun getMonthlySavings(uuid: String): Int
 }

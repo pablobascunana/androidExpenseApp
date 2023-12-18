@@ -27,16 +27,17 @@ import kotlinx.coroutines.async
 fun SplashScreen(navHostController: NavHostController) {
     val userVm: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVm: CategoryEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val splashVM: SplashViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        val exist = async { userVm.isUserExists(splashVM.id) }.await()
+        val exist = async { userVm.isUserExists(appVM.id) }.await()
         if (!exist) {
-            async { userVm.saveUser(splashVM.id) }.await()
+            async { userVm.saveUser(appVM.id) }.await()
             async {
-                categoryVm.saveCategories(categoryVm.defaultCategories, splashVM.id)
+                categoryVm.saveCategories(categoryVm.defaultCategories, appVM.id)
             }.await()
         }
+        var monthlySavings = async { userVm.getMonthlySavings(appVM.id) }.await()
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)
     }

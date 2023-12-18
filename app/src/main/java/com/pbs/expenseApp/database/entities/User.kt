@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class User(
     @PrimaryKey()
     val uuid: String,
-    val monthlySavings: Double
+    val monthlySavings: Int
 )
