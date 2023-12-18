@@ -1,6 +1,6 @@
-package com.pbs.expenseApp.ui.database.repositories
+package com.pbs.expenseApp.database.repositories
 
-import com.pbs.expenseApp.ui.database.entities.User
+import com.pbs.expenseApp.database.entities.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

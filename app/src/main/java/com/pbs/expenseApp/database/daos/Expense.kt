@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.database.daos
+package com.pbs.expenseApp.database.daos
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.pbs.expenseApp.ui.database.entities.Expense
+import com.pbs.expenseApp.database.entities.Expense
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.database.converters
+package com.pbs.expenseApp.database.converters
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter

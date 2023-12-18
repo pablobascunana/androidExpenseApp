@@ -1,12 +1,12 @@
-package com.pbs.expenseApp.ui.database
+package com.pbs.expenseApp.database
 
 import android.content.Context
-import com.pbs.expenseApp.ui.database.repositories.CategoryRepository
-import com.pbs.expenseApp.ui.database.repositories.ExpenseRepository
-import com.pbs.expenseApp.ui.database.repositories.UserRepository
-import com.pbs.expenseApp.ui.database.repositories.offline.OfflineCategoryRepository
-import com.pbs.expenseApp.ui.database.repositories.offline.OfflineExpenseRepository
-import com.pbs.expenseApp.ui.database.repositories.offline.OfflineUserRepository
+import com.pbs.expenseApp.database.repositories.CategoryRepository
+import com.pbs.expenseApp.database.repositories.ExpenseRepository
+import com.pbs.expenseApp.database.repositories.UserRepository
+import com.pbs.expenseApp.database.repositories.offline.OfflineCategoryRepository
+import com.pbs.expenseApp.database.repositories.offline.OfflineExpenseRepository
+import com.pbs.expenseApp.database.repositories.offline.OfflineUserRepository
 
 interface AppContainer {
     val userRepository: UserRepository
