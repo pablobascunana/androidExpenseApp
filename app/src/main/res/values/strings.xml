@@ -3,9 +3,9 @@
 
     <string name="splash_image">Splash image</string>
 
-    <string name="add_expense">Add expense</string>
-    <string name="resume">Resume</string>
-    <string name="configuration">Configuration</string>
+    <string name="add_expense">Añadir gasto</string>
+    <string name="resume">Resumen</string>
+    <string name="configuration">Configuración</string>
 
     <string name="income_debts">Deudas</string>
     <string name="income_deposit">Depósitos</string>
@@ -24,4 +24,7 @@
     <string name="expense_restaurants">Restaurantes</string>
     <string name="expense_sports">Deportes</string>
     <string name="expense_transports">Transporte</string>
+
+    <string name="add_expense_monthly_savings_1">Tú objetivo es ahorrar</string>
+    <string name="add_expense_monthly_savings_2">al mes</string>
 </resources>

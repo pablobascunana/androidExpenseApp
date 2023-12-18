@@ -33,6 +33,14 @@ class UserEntryViewModel(private val userRepository: UserRepository): ViewModel(
             userRepository.insertUser(userUiState.userDetails.toUser(uuid))
         }
     }
+
+    suspend fun getMonthlySavings(uuid: String): Int {
+        var monthlySavings = 0
+        viewModelScope.async {
+            monthlySavings = userRepository.getMonthlySavings(uuid)
+        }.await()
+        return monthlySavings
+    }
 }
 
 data class UserUiState(
