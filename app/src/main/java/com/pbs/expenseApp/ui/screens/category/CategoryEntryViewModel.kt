@@ -7,9 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.ui.database.entities.Category
-import com.pbs.expenseApp.ui.database.entities.CategoryType
-import com.pbs.expenseApp.ui.database.repositories.CategoryRepository
+import com.pbs.expenseApp.database.entities.Category
+import com.pbs.expenseApp.database.entities.CategoryType
+import com.pbs.expenseApp.database.repositories.CategoryRepository
 import kotlinx.coroutines.launch
 import java.util.UUID
 

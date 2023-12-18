@@ -1,8 +1,8 @@
-package com.pbs.expenseApp.ui.database.repositories.offline
+package com.pbs.expenseApp.database.repositories.offline
 
-import com.pbs.expenseApp.ui.database.daos.CategoryDao
-import com.pbs.expenseApp.ui.database.entities.Category
-import com.pbs.expenseApp.ui.database.repositories.CategoryRepository
+import com.pbs.expenseApp.database.daos.CategoryDao
+import com.pbs.expenseApp.database.entities.Category
+import com.pbs.expenseApp.database.repositories.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 
 class OfflineCategoryRepository(private val categoryDao: CategoryDao): CategoryRepository {

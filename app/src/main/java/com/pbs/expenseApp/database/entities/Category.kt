@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.database.entities
+package com.pbs.expenseApp.database.entities
 
 import androidx.room.Entity
 import androidx.room.Index

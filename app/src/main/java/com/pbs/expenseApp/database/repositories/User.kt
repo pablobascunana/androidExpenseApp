@@ -1,6 +1,6 @@
-package com.pbs.expenseApp.ui.database.repositories
+package com.pbs.expenseApp.database.repositories
 
-import com.pbs.expenseApp.ui.database.entities.User
+import com.pbs.expenseApp.database.entities.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -10,4 +10,5 @@ interface UserRepository {
     suspend fun isUserExists(uuid: String): Boolean
     fun getUserStream(uuid: String): Flow<User?>
     fun getAllUsersStream(): Flow<List<User>>
+    suspend fun getMonthlySavings(uuid: String): Int
 }

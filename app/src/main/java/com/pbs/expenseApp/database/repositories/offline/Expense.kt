@@ -1,8 +1,8 @@
-package com.pbs.expenseApp.ui.database.repositories.offline
+package com.pbs.expenseApp.database.repositories.offline
 
-import com.pbs.expenseApp.ui.database.daos.ExpenseDao
-import com.pbs.expenseApp.ui.database.entities.Expense
-import com.pbs.expenseApp.ui.database.repositories.ExpenseRepository
+import com.pbs.expenseApp.database.daos.ExpenseDao
+import com.pbs.expenseApp.database.entities.Expense
+import com.pbs.expenseApp.database.repositories.ExpenseRepository
 import kotlinx.coroutines.flow.Flow
 
 class OfflineExpenseRepository(private val expenseDao: ExpenseDao): ExpenseRepository {

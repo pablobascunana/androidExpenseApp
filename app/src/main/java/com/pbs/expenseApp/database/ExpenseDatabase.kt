@@ -1,16 +1,16 @@
-package com.pbs.expenseApp.ui.database
+package com.pbs.expenseApp.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.pbs.expenseApp.ui.database.converters.DateConverters
-import com.pbs.expenseApp.ui.database.daos.CategoryDao
-import com.pbs.expenseApp.ui.database.daos.ExpenseDao
-import com.pbs.expenseApp.ui.database.daos.UserDao
-import com.pbs.expenseApp.ui.database.entities.Category
-import com.pbs.expenseApp.ui.database.entities.Expense
-import com.pbs.expenseApp.ui.database.entities.User
+import com.pbs.expenseApp.database.converters.DateConverters
+import com.pbs.expenseApp.database.daos.CategoryDao
+import com.pbs.expenseApp.database.daos.ExpenseDao
+import com.pbs.expenseApp.database.daos.UserDao
+import com.pbs.expenseApp.database.entities.Category
+import com.pbs.expenseApp.database.entities.Expense
+import com.pbs.expenseApp.database.entities.User
 
 @Database(
     entities = [

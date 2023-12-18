@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pbs.expenseApp.ui.database.entities.User
-import com.pbs.expenseApp.ui.database.repositories.UserRepository
+import com.pbs.expenseApp.database.entities.User
+import com.pbs.expenseApp.database.repositories.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -46,7 +46,7 @@ data class UserDetails(
 
 fun UserDetails.toUser(uuid: String): User = User(
     uuid = uuid,
-    monthlySavings = monthlySavings.toDoubleOrNull() ?: 0.0,
+    monthlySavings = monthlySavings.toIntOrNull() ?: 0,
 )
 
 fun User.toUserUiState(): UserUiState = UserUiState(

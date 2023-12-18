@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.database.entities
+package com.pbs.expenseApp.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class User(
     @PrimaryKey()
     val uuid: String,
-    val monthlySavings: Double
+    val monthlySavings: Int
 )
