@@ -13,7 +13,7 @@ fun AppScaffold() {
     Scaffold(
         bottomBar = {
             if (appState.shouldShowBottomBar) {
-                BottomBarNavigation(appState = appState)
+                AppNavigationBar(appState = appState)
             }
         }
     ) { innerPadding ->

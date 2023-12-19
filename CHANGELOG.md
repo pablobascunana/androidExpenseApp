@@ -16,3 +16,5 @@ All notable changes will be documented in this file
 * [PR-7](https://github.com/pablobascunana/androidExpenseApp/pull/7) Create database, entities, dao and repositories
 * [PR-8](https://github.com/pablobascunana/androidExpenseApp/pull/8) Create SplashViewModel
 * [PR-9](https://github.com/pablobascunana/androidExpenseApp/pull/9) Add default categories and insert them in database
+* [PR-12](https://github.com/pablobascunana/androidExpenseApp/pull/12) Database refactor
+* [PR-13](https://github.com/pablobascunana/androidExpenseApp/pull/9) Get and add monthly savings into add expense screen

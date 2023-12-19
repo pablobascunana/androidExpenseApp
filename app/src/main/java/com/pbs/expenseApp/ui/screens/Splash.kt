@@ -38,6 +38,7 @@ fun SplashScreen(navHostController: NavHostController) {
             }.await()
         }
         var monthlySavings = async { userVm.getMonthlySavings(appVM.id) }.await()
+        // TODO use appState navController here
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)
     }
