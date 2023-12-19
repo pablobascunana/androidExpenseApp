@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppCard
+import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
@@ -31,10 +32,9 @@ fun AddExpense() {
     LaunchedEffect(key1 = true) {
         monthlySavings = async { userVm.getMonthlySavings(appVM.id) }.await()
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+    AppColumn(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)
     ) {
         AppCard {
             AppRow(modifier = Modifier
