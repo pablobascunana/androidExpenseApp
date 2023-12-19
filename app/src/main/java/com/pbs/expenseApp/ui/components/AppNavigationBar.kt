@@ -1,6 +1,5 @@
 package com.pbs.expenseApp.ui.components
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,6 +16,7 @@ fun AppNavigationBar(appState: AppState) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {
+        // TODO move to model view
         val navigationBarItems = listOf(
             BottomBarRoutes.ADD_EXPENSE,
             BottomBarRoutes.RESUME,
@@ -33,7 +33,7 @@ fun AppNavigationBar(appState: AppState) {
                     AppText(id = item.title, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 },
                 icon = {
-                    Icon(
+                    AppIcon(
                         imageVector = item.icon,
                         contentDescription = "$title icon",
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
