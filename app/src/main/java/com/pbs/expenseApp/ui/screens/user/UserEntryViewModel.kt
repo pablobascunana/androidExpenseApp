@@ -30,8 +30,17 @@ class UserEntryViewModel(private val userRepository: UserRepository): ViewModel(
 
     suspend fun saveUser(uuid: String) {
         viewModelScope.launch {
-            userRepository.insertUser(userUiState.userDetails.toUser(uuid))
+            async {
+                userRepository.insertUser(userUiState.userDetails.toUser(uuid))
+            }.await()
         }
+    }
+
+    suspend fun updateUser(uuid: String, monthlySavings: Int) {
+        viewModelScope.async {
+            userRepository.updateUser(userUiState.userDetails.toUser(uuid, monthlySavings))
+        }.await()
+
     }
 
     suspend fun getMonthlySavings(uuid: String): Int {
@@ -49,12 +58,12 @@ data class UserUiState(
 
 data class UserDetails(
     val uuid: String = "",
-    val monthlySavings: String = "0",
+    val monthlySavings: Int = 0,
 )
 
-fun UserDetails.toUser(uuid: String): User = User(
+fun UserDetails.toUser(uuid: String, monthlySavings: Int = 0): User = User(
     uuid = uuid,
-    monthlySavings = monthlySavings.toIntOrNull() ?: 0,
+    monthlySavings = monthlySavings,
 )
 
 fun User.toUserUiState(): UserUiState = UserUiState(
@@ -63,5 +72,5 @@ fun User.toUserUiState(): UserUiState = UserUiState(
 
 fun User.toUserDetails(): UserDetails = UserDetails(
     uuid = uuid,
-    monthlySavings = monthlySavings.toString()
+    monthlySavings = monthlySavings
 )
