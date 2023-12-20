@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
@@ -15,17 +16,18 @@ import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
+import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
 @Composable
 fun AddExpense() {
+    val context = LocalContext.current
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val monthlySavings = userVM.monthlySavings.observeAsState()
 
     LaunchedEffect(key1 = true) {
-        async { userVM.getMonthlySavings(appVM.id) }.await()
+        async { userVM.getMonthlySavings(AppUtils.appId(context)) }.await()
     }
 
     AppColumn(
