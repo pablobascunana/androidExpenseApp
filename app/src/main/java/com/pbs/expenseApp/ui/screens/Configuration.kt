@@ -18,12 +18,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -39,6 +34,7 @@ import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
+import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -49,13 +45,15 @@ import kotlinx.coroutines.launch
 fun Configuration() {
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
-
-    var inputValue by remember { mutableStateOf(value = "") }
-    var canEditMonthlySavings by remember { mutableStateOf(value = false) }
-    val sheetState = rememberModalBottomSheetState()
-    val pattern = remember { Regex(pattern = "^\\d+\$") }
+    val configurationMV: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val monthlySavings = userVM.monthlySavings.observeAsState()
+
+    val monthlySavingsInputValue = configurationMV.monthlySavingsInputValue.observeAsState()
+    val decimalPattern = configurationMV.decimalPattern.observeAsState()
+    val editMonthlySavings = configurationMV.editMonthlySavings.observeAsState()
+
+    val sheetState = rememberModalBottomSheetState()
 
     LaunchedEffect(key1 = true) {
         async { userVM.getMonthlySavings(appVM.id) }.await()
@@ -76,21 +74,21 @@ fun Configuration() {
              ) {
                 MyMonthlySavingText(monthlySavings = monthlySavings.value ?: 0)
                 Spacer(modifier = Modifier.weight(1f))
-                if (!canEditMonthlySavings) {
+                if (!editMonthlySavings.value!!) {
                     AppIcon(
                         imageVector = Icons.Outlined.Edit,
                         contentDescription = "Edit icon",
                         modifier = Modifier.clickable {
-                            canEditMonthlySavings = !canEditMonthlySavings
+                            configurationMV.canEditMonthlySavings()
                         }
                     )
                 }
             }
         }
-        if (canEditMonthlySavings) {
+        if (editMonthlySavings.value!!) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    canEditMonthlySavings = !canEditMonthlySavings
+                    configurationMV.canEditMonthlySavings()
                 },
                 sheetState = sheetState
             ) {
@@ -103,12 +101,12 @@ fun Configuration() {
                 ) {
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = inputValue,
+                        value = monthlySavingsInputValue.value!!,
                         onValueChange = {
-                            if (it.isNotEmpty() && it.matches(pattern)) {
-                                inputValue = it
+                            if (it.isNotEmpty() && it.matches(decimalPattern.value!!)) {
+                                configurationMV.setMonthlySavingsInputValue(it)
                             } else if(it.isEmpty()) {
-                                inputValue = ""
+                                configurationMV.setMonthlySavingsInputValue()
                             }
                         },
                         label = {
@@ -123,8 +121,8 @@ fun Configuration() {
                         // TODO create AppButton composable
                         Button(
                             onClick = {
-                                inputValue = ""
-                                canEditMonthlySavings = !canEditMonthlySavings
+                                configurationMV.setMonthlySavingsInputValue()
+                                configurationMV.canEditMonthlySavings()
                             },
                             colors = ButtonDefaults.buttonColors(
                                 MaterialTheme.colorScheme.errorContainer
@@ -140,12 +138,14 @@ fun Configuration() {
                             onClick = {
                                 userVM.viewModelScope.launch {
                                     async {
-                                        userVM.updateUser(appVM.id, inputValue.toInt())
-                                        // userVM.getMonthlySavings(appVM.id)
+                                        userVM.updateUser(
+                                            appVM.id,
+                                            monthlySavingsInputValue.value!!.toInt()
+                                        )
                                     }.await()
-                                    canEditMonthlySavings = !canEditMonthlySavings
+                                    configurationMV.canEditMonthlySavings()
                                 }
-                                inputValue = ""
+                                configurationMV.setMonthlySavingsInputValue()
                             },
                             colors = ButtonDefaults.buttonColors(
                                 MaterialTheme.colorScheme.secondaryContainer
