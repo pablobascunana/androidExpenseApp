@@ -21,7 +21,7 @@ fun AppCard(cardContent: @Composable() () -> Unit) {
             defaultElevation = dimensionResource(id = R.dimen.card_elevation)
         ),
         border = BorderStroke(
-            dimensionResource(id = R.dimen.card_elevation),
+            dimensionResource(id = R.dimen.card_border),
             color = MaterialTheme.colorScheme.inversePrimary
         ),
         modifier = Modifier

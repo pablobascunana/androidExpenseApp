@@ -2,9 +2,9 @@
 <resources>
     <dimen name="splash_width_height">150dp</dimen>
 
-    <dimen name="card_elevation">150dp</dimen>
-    <dimen name="card_border">150dp</dimen>
-    <dimen name="card_height">150dp</dimen>
+    <dimen name="card_elevation">6dp</dimen>
+    <dimen name="card_border">1dp</dimen>
+    <dimen name="card_height">50dp</dimen>
 
     <dimen name="padding_xs">8dp</dimen>
     <dimen name="padding_sm">16dp</dimen>
