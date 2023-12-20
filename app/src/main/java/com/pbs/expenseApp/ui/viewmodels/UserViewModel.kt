@@ -1,5 +1,6 @@
 package com.pbs.expenseApp.ui.viewmodels
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.database.entities.User
@@ -9,16 +10,13 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
 
-    init {
-        val users = userRepository.getAllUsersStream()
-    }
+    var userExists = MutableLiveData(false)
+    var monthlySavings = MutableLiveData(0)
 
-    suspend fun userExists(uuid: String): Boolean {
-        var userExists = false
+    suspend fun userExists(uuid: String) {
         viewModelScope.async() {
-            userExists = userRepository.isUserExists(uuid)
+            userExists.value = userRepository.isUserExists(uuid)
         }.await()
-        return userExists
     }
 
     fun insertUser(uuid: String) {
@@ -30,12 +28,10 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
         }
     }
 
-    suspend fun getMonthlySavings(uuid: String): Int {
-        var monthlySavings = 0
+    suspend fun getMonthlySavings(uuid: String) {
         viewModelScope.async {
-            monthlySavings = userRepository.getMonthlySavings(uuid)
+            monthlySavings.value = userRepository.getMonthlySavings(uuid)
         }.await()
-        return monthlySavings
     }
 }
 

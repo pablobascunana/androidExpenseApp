@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -22,13 +20,13 @@ import kotlinx.coroutines.async
 
 @Composable
 fun AddExpense() {
-    val userVm: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    var monthlySavings by remember { mutableIntStateOf(value = 0) }
 
     LaunchedEffect(key1 = true) {
-        monthlySavings = async { userVm.getMonthlySavings(appVM.id) }.await()
+        async { userVM.getMonthlySavings(appVM.id) }.await()
     }
+
     AppColumn(
         modifier = Modifier
         .fillMaxSize()
@@ -37,12 +35,9 @@ fun AddExpense() {
         AppCard {
             AppRow(modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    start = dimensionResource(id = R.dimen.padding_sm),
-                    end = dimensionResource(id = R.dimen.padding_sm)
-                )
+                .padding(start = dimensionResource(id = R.dimen.padding_sm),  end = dimensionResource(id = R.dimen.padding_sm))
             ) {
-                MyMonthlySavingText(monthlySavings)
+                MyMonthlySavingText(monthlySavings = userVM.monthlySavings.value ?: 0)
             }
         }
     }

@@ -13,16 +13,16 @@ import kotlinx.coroutines.async
 
 @Composable
 fun SplashScreen(navHostController: NavHostController) {
-    val userVm: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val categoryVm: CategoryEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoryVM: CategoryEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        val exist = async { userVm.userExists(appVM.id) }.await()
-        if (!exist) {
-            async { userVm.insertUser(appVM.id) }.await()
+        async { userVM.userExists(appVM.id) }.await()
+        if (!userVM.userExists.value!!) {
+            async { userVM.insertUser(appVM.id) }.await()
             async {
-                categoryVm.saveCategories(categoryVm.defaultCategories, appVM.id)
+                categoryVM.saveCategories(categoryVM.defaultCategories, appVM.id)
             }.await()
         }
         navHostController.popBackStack()
