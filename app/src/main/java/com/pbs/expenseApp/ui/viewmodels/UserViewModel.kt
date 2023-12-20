@@ -48,9 +48,10 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
             _monthlySavings.value = result
         }.await()
     }
+
+    private fun createUser(uuid: String, monthlySavings: Int = 0): User {
+        return User(uuid = uuid, monthlySavings = monthlySavings)
+    }
 }
 
-// TODO: probably rename function similar to userUiState to User
-fun createUser(uuid: String, monthlySavings: Int = 0): User {
-    return User(uuid = uuid, monthlySavings = monthlySavings)
-}
+

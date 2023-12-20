@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.screens.category
+package com.pbs.expenseApp.ui.viewmodels
 
 import android.content.Context
 import androidx.compose.runtime.getValue
@@ -13,7 +13,7 @@ import com.pbs.expenseApp.database.repositories.CategoryRepository
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class CategoryEntryViewModel(
+class CategoryViewModel(
     private val categoryRepository: CategoryRepository,
     context: Context
 ): ViewModel() {

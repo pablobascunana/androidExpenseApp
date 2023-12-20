@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import com.pbs.expenseApp.navigation.AppRoutes
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppSplash
-import com.pbs.expenseApp.ui.screens.category.CategoryEntryViewModel
+import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
@@ -19,7 +19,7 @@ fun SplashScreen(navHostController: NavHostController) {
     val appId = AppUtils.appId(LocalContext.current)
 
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val categoryVM: CategoryEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val userExists = userVM.userExists.observeAsState()
 

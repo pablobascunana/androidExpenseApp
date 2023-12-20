@@ -5,7 +5,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.pbs.expenseApp.ExpenseApplication
-import com.pbs.expenseApp.ui.screens.category.CategoryEntryViewModel
+import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 
@@ -15,7 +15,7 @@ object AppViewModelProvider {
             UserViewModel(expenseApplication().container.userRepository)
         }
         initializer {
-            CategoryEntryViewModel(
+            CategoryViewModel(
                 expenseApplication().container.categoryRepository,
                 expenseApplication().baseContext
             )
