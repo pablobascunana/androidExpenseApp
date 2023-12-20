@@ -1,5 +1,6 @@
 package com.pbs.expenseApp.ui.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,12 +11,17 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
 
-    var userExists = MutableLiveData(false)
-    var monthlySavings = MutableLiveData(0)
+    private val _userExists = MutableLiveData<Boolean>()
+    val userExists: LiveData<Boolean>
+        get() = _userExists
+
+    private val _monthlySavings = MutableLiveData<Int>()
+    val monthlySavings: LiveData<Int>
+        get() = _monthlySavings
 
     suspend fun userExists(uuid: String) {
         viewModelScope.async() {
-            userExists.value = userRepository.isUserExists(uuid)
+            _userExists.value = userRepository.isUserExists(uuid)
         }.await()
     }
 
@@ -28,9 +34,18 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
         }
     }
 
+    suspend fun updateUser(uuid: String, savings: Int) {
+        val user = createUser(uuid = uuid, monthlySavings = savings)
+        viewModelScope.async {
+            userRepository.updateUser(user)
+            _monthlySavings.value = savings
+        }.await()
+    }
+
     suspend fun getMonthlySavings(uuid: String) {
         viewModelScope.async {
-            monthlySavings.value = userRepository.getMonthlySavings(uuid)
+            val result = userRepository.getMonthlySavings(uuid)
+            _monthlySavings.value = result
         }.await()
     }
 }

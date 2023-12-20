@@ -2,6 +2,8 @@ package com.pbs.expenseApp.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.navigation.AppRoutes
@@ -17,9 +19,11 @@ fun SplashScreen(navHostController: NavHostController) {
     val categoryVM: CategoryEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
+    val userExists = userVM.userExists.observeAsState()
+
     LaunchedEffect(key1 = true) {
         async { userVM.userExists(appVM.id) }.await()
-        if (!userVM.userExists.value!!) {
+        if (!userExists.value!!) {
             async { userVM.insertUser(appVM.id) }.await()
             async {
                 categoryVM.saveCategories(categoryVM.defaultCategories, appVM.id)

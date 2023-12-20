@@ -19,6 +19,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,17 +47,18 @@ import kotlinx.coroutines.launch
 @Preview(showBackground = true)
 @Composable
 fun Configuration() {
-    val userVm: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    var monthlySavings by remember { mutableIntStateOf(value = 0) }
     var inputValue by remember { mutableStateOf(value = "") }
     var canEditMonthlySavings by remember { mutableStateOf(value = false) }
     val sheetState = rememberModalBottomSheetState()
     val pattern = remember { Regex(pattern = "^\\d+\$") }
 
+    val monthlySavings = userVM.monthlySavings.observeAsState()
+
     LaunchedEffect(key1 = true) {
-        monthlySavings = async { userVm.getMonthlySavings(appVM.id) }.await()
+        async { userVM.getMonthlySavings(appVM.id) }.await()
     }
 
     AppColumn(
@@ -72,7 +74,7 @@ fun Configuration() {
                      end = dimensionResource(id = R.dimen.padding_sm)
                  )
              ) {
-                MyMonthlySavingText(monthlySavings)
+                MyMonthlySavingText(monthlySavings = monthlySavings.value ?: 0)
                 Spacer(modifier = Modifier.weight(1f))
                 if (!canEditMonthlySavings) {
                     AppIcon(
@@ -136,10 +138,10 @@ fun Configuration() {
                         Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
                         Button(
                             onClick = {
-                                userVm.viewModelScope.launch {
+                                userVM.viewModelScope.launch {
                                     async {
-                                        // userVm.updateUser(appVM.id, inputValue.toInt())
-                                        monthlySavings = userVm.getMonthlySavings(appVM.id)
+                                        userVM.updateUser(appVM.id, inputValue.toInt())
+                                        // userVM.getMonthlySavings(appVM.id)
                                     }.await()
                                     canEditMonthlySavings = !canEditMonthlySavings
                                 }

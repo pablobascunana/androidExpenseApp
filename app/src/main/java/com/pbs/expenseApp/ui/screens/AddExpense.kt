@@ -4,8 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,6 +22,8 @@ fun AddExpense() {
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
+    val monthlySavings = userVM.monthlySavings.observeAsState()
+
     LaunchedEffect(key1 = true) {
         async { userVM.getMonthlySavings(appVM.id) }.await()
     }
@@ -37,7 +38,7 @@ fun AddExpense() {
                 .fillMaxSize()
                 .padding(start = dimensionResource(id = R.dimen.padding_sm),  end = dimensionResource(id = R.dimen.padding_sm))
             ) {
-                MyMonthlySavingText(monthlySavings = userVM.monthlySavings.value ?: 0)
+                MyMonthlySavingText(monthlySavings = monthlySavings.value ?: 0)
             }
         }
     }
