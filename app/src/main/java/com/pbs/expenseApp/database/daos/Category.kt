@@ -1,5 +1,6 @@
 package com.pbs.expenseApp.database.daos
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -7,7 +8,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.pbs.expenseApp.database.entities.Category
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
@@ -20,8 +20,8 @@ interface CategoryDao {
     @Delete
     suspend fun delete(category: Category)
     @Query("SELECT * from categories WHERE uuid = :uuid")
-    fun getCategory(uuid: String): Flow<Category>
+    fun getCategory(uuid: String): LiveData<Category?>
     @Query("SELECT * from categories")
-    fun getAllCategories(): Flow<List<Category>>
+    fun getAllCategories(): LiveData<List<Category>>
 }
 
