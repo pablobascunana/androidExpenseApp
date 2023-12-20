@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="splash_width_height">150dp</dimen>
+
+    <dimen name="card_elevation">150dp</dimen>
+    <dimen name="card_border">150dp</dimen>
+    <dimen name="card_height">150dp</dimen>
+
+    <dimen name="padding_xs">8dp</dimen>
+    <dimen name="padding_sm">16dp</dimen>
+    <dimen name="padding_sm_3">22dp</dimen>
+    <dimen name="padding_md">24dp</dimen>
+    <dimen name="padding_lg">32dp</dimen>
+    <dimen name="padding_xl">40dp</dimen>
 </resources>

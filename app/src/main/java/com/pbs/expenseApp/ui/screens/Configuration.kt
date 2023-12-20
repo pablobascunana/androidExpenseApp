@@ -25,9 +25,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
@@ -62,12 +62,16 @@ fun Configuration() {
     AppColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(dimensionResource(id = R.dimen.padding_sm))
     ) {
         AppCard {
              AppRow(modifier = Modifier
                  .fillMaxSize()
-                 .padding(start = 16.dp, end = 16.dp)) {
+                 .padding(
+                     start = dimensionResource(id = R.dimen.padding_sm),
+                     end = dimensionResource(id = R.dimen.padding_sm)
+                 )
+             ) {
                 MyMonthlySavingText(monthlySavings)
                 Spacer(modifier = Modifier.weight(1f))
                 if (!canEditMonthlySavings) {
@@ -90,9 +94,9 @@ fun Configuration() {
             ) {
                 AppColumn(
                     modifier = Modifier.padding(
-                        start = 22.dp,
-                        end = 22.dp,
-                        bottom = 22.dp
+                        start = dimensionResource(id = R.dimen.padding_sm_3),
+                        end = dimensionResource(id = R.dimen.padding_sm_3),
+                        bottom = dimensionResource(id = R.dimen.padding_sm_3)
                     ),
                 ) {
                     TextField(
@@ -112,7 +116,7 @@ fun Configuration() {
                     )
                     AppRow(modifier = Modifier
                         .align(Alignment.End)
-                        .padding(top = 16.dp)
+                        .padding(top = dimensionResource(id = R.dimen.padding_sm))
                     ) {
                         // TODO create AppButton composable
                         Button(
@@ -129,7 +133,7 @@ fun Configuration() {
                                 color = MaterialTheme.colorScheme.onErrorContainer
                             )
                         }
-                        Spacer(Modifier.size(8.dp))
+                        Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
                         Button(
                             onClick = {
                                 userVm.viewModelScope.launch {

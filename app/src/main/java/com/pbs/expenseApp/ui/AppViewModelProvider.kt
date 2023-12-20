@@ -8,7 +8,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.pbs.expenseApp.ExpenseApplication
 import com.pbs.expenseApp.ui.screens.AppViewModel
 import com.pbs.expenseApp.ui.screens.category.CategoryEntryViewModel
-import com.pbs.expenseApp.ui.screens.user.UserEditViewModel
 import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
 
 object AppViewModelProvider {
