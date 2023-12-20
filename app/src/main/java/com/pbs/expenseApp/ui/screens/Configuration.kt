@@ -19,8 +19,8 @@ import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppIcon
-import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppRow
+import com.pbs.expenseApp.ui.composables.MyMonthlySavingModalBottomSheet
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
@@ -69,7 +69,7 @@ fun Configuration() {
             }
         }
         if (editMonthlySavings.value!!) {
-            AppModalBottomSheet(userMV = userVM, configurationMV = configurationMV)
+            MyMonthlySavingModalBottomSheet(userVM = userVM, configurationMV = configurationMV)
         }
     }
 }
