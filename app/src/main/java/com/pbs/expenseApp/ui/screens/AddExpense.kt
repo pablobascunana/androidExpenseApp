@@ -17,19 +17,20 @@ import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
-import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
+import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 
 @Composable
 fun AddExpense() {
-    val userVm: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val userVm: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
     var monthlySavings by remember { mutableIntStateOf(value = 0) }
 
     LaunchedEffect(key1 = true) {
         monthlySavings = async { userVm.getMonthlySavings(appVM.id) }.await()
     }
-    AppColumn(modifier = Modifier
+    AppColumn(
+        modifier = Modifier
         .fillMaxSize()
         .padding(dimensionResource(id = R.dimen.padding_sm))
     ) {

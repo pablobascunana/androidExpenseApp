@@ -38,7 +38,7 @@ import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
-import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
+import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 @Preview(showBackground = true)
 @Composable
 fun Configuration() {
-    val userVm: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val userVm: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     var monthlySavings by remember { mutableIntStateOf(value = 0) }
@@ -138,7 +138,7 @@ fun Configuration() {
                             onClick = {
                                 userVm.viewModelScope.launch {
                                     async {
-                                        userVm.updateUser(appVM.id, inputValue.toInt())
+                                        // userVm.updateUser(appVM.id, inputValue.toInt())
                                         monthlySavings = userVm.getMonthlySavings(appVM.id)
                                     }.await()
                                     canEditMonthlySavings = !canEditMonthlySavings
