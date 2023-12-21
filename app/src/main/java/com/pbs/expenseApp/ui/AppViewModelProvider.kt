@@ -21,7 +21,7 @@ object AppViewModelProvider {
             )
         }
         initializer {
-            ConfigurationViewModel(expenseApplication().baseContext)
+            ConfigurationViewModel()
         }
     }
 }

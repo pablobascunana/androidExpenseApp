@@ -17,8 +17,7 @@ import com.pbs.expenseApp.R
 fun AppCard(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
-    borderColor: Color = MaterialTheme.colorScheme.inversePrimary,
-    cardContent: @Composable() () -> Unit
+    cardContent: @Composable () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -30,7 +29,7 @@ fun AppCard(
         ),
         border = BorderStroke(
             dimensionResource(id = R.dimen.card_border),
-            color = borderColor
+            color = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         cardContent()

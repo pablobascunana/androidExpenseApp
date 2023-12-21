@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun AppModalBottomSheet(
     onDismissRequest: () -> Unit,
-    bottomSheetContent: @Composable()  () -> Unit
+    bottomSheetContent: @Composable () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
 

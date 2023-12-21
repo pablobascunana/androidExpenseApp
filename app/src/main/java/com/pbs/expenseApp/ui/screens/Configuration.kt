@@ -4,7 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,12 +23,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppIcon
+import com.pbs.expenseApp.ui.components.AppLazyVerticalGrid
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingModalBottomSheet
@@ -85,26 +89,13 @@ fun Configuration() {
                 }
             }
         }
-        if (editMonthlySavings.value!!) {
-            MyMonthlySavingModalBottomSheet(userVM = userVM, configurationMV = configurationMV)
-        }
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 2),
-            modifier = Modifier.padding(
-                top = dimensionResource(id = R.dimen.padding_sm),
-                bottom = dimensionResource(id = R.dimen.padding_sm),
-            ),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_sm)),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_sm))
-        ) {
+        AppLazyVerticalGrid {
             items(cardItems.value!!) { item ->
                 AppCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(dimensionResource(R.dimen.card_height_lg)),
-                    containerColor = item.containerColor!!,
-                    borderColor = item.borderColor!!
+                    containerColor = item.containerColor!!
                 ) {
                     AppRow(modifier = Modifier
                         .fillMaxSize()
@@ -118,6 +109,9 @@ fun Configuration() {
                 }
             }
         }
+        if (editMonthlySavings.value!!) {
+            MyMonthlySavingModalBottomSheet(userVM = userVM, configurationMV = configurationMV)
+        }
     }
 }
 
@@ -125,12 +119,9 @@ fun Configuration() {
 fun FillCardItems(item: CardItem) {
     if (item.title == R.string.configuration_card_savings) {
         item.containerColor = MaterialTheme.colorScheme.tertiaryContainer
-        item.borderColor = MaterialTheme.colorScheme.onTertiaryContainer
     } else if (item.title == R.string.configuration_card_expenses) {
         item.containerColor = MaterialTheme.colorScheme.errorContainer
-        item.borderColor = MaterialTheme.colorScheme.onErrorContainer
     } else {
-        item.containerColor = MaterialTheme.colorScheme.primaryContainer
-        item.borderColor = MaterialTheme.colorScheme.inversePrimary
+        item.containerColor = MaterialTheme.colorScheme.secondaryContainer
     }
 }
