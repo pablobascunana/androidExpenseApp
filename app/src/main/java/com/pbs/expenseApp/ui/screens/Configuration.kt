@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.database.entities.Category
@@ -64,7 +63,7 @@ fun Configuration() {
     }
 
     cardItems.value!!.forEach { item ->
-        FillCardItems(item)
+        GetCardColors(item)
     }
 
     AppColumn(
@@ -134,7 +133,7 @@ fun Configuration() {
                         .fillMaxWidth()
                         .padding(bottom = dimensionResource(id = R.dimen.padding_xs))
                         .height(dimensionResource(R.dimen.card_height)),
-                    containerColor = fillCategoryItems(category)
+                    containerColor = getCategoryCardColor(category)
                 ) {
                     AppRow(modifier = Modifier
                         .fillMaxSize()
@@ -154,20 +153,20 @@ fun Configuration() {
     }
 }
 
-// TODO REFACTOR
+
 @Composable
-fun FillCardItems(item: CardItem) {
-    if (item.title == R.string.configuration_card_savings) {
-        item.containerColor = MaterialTheme.colorScheme.tertiaryContainer
-    } else if (item.title == R.string.configuration_card_expenses) {
-        item.containerColor = MaterialTheme.colorScheme.errorContainer
-    } else {
-        item.containerColor = MaterialTheme.colorScheme.secondaryContainer
+fun GetCardColors(item: CardItem) {
+    when (item.title) {
+        R.string.configuration_card_savings ->
+            item.containerColor = MaterialTheme.colorScheme.tertiaryContainer
+        R.string.configuration_card_expenses ->
+            item.containerColor = MaterialTheme.colorScheme.errorContainer
+        else -> item.containerColor = MaterialTheme.colorScheme.secondaryContainer
     }
 }
 
 @Composable
-fun fillCategoryItems(item: Category): Color {
+fun getCategoryCardColor(item: Category): Color {
     if (item.type == CategoryType.INCOME) {
         return MaterialTheme.colorScheme.tertiaryContainer
     }
