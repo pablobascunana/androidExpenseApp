@@ -27,7 +27,7 @@ fun SplashScreen(navHostController: NavHostController) {
         async { userVM.userExists(appId) }.await()
         if (!userExists.value!!) {
             async { userVM.insertUser(appId) }.await()
-            async { categoryVM.saveCategories(categoryVM.defaultCategories, appId) }.await()
+            async { categoryVM.saveCategories() }.await()
         }
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)
