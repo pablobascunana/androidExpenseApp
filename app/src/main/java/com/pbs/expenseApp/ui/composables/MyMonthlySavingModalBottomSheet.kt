@@ -33,7 +33,7 @@ fun MyMonthlySavingModalBottomSheet(
     val context = LocalContext.current
 
     val monthlySavingsInputValue = configurationMV.monthlySavingsInputValue.observeAsState()
-    val decimalPattern = configurationMV.decimalPattern.observeAsState()
+    val decimalPatter = AppUtils.getDecimalPattern()
 
     AppModalBottomSheet(onDismissRequest = { configurationMV.canEditMonthlySavings() }) {
         AppColumn(
@@ -46,7 +46,7 @@ fun MyMonthlySavingModalBottomSheet(
             AppTextField(
                 value = monthlySavingsInputValue.value!!,
                 onValueChange = {
-                    if (it.isNotEmpty() && it.matches(decimalPattern.value!!)) {
+                    if (it.isNotEmpty() && it.matches(decimalPatter)) {
                         configurationMV.setMonthlySavingsInputValue(it)
                     } else if(it.isEmpty()) {
                         configurationMV.setMonthlySavingsInputValue()

@@ -1,6 +1,8 @@
 package com.pbs.expenseApp.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,7 +37,10 @@ fun AddExpense() {
         .fillMaxSize()
         .padding(dimensionResource(id = R.dimen.padding_sm))
     ) {
-        AppCard {
+        AppCard(modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(R.dimen.card_height))
+        ) {
             AppRow(modifier = Modifier
                 .fillMaxSize()
                 .padding(start = dimensionResource(id = R.dimen.padding_sm),  end = dimensionResource(id = R.dimen.padding_sm))
