@@ -9,10 +9,10 @@ import com.pbs.expenseApp.ui.components.AppText
 
 @Composable
 fun MyMonthlySavingText(monthlySavings: Int) {
-    AppText(stringResource(id = R.string.add_expense_monthly_savings_1))
+    AppText(text = stringResource(id = R.string.add_expense_monthly_savings_1))
     Text(
         text = " $monthlySavings€ ",
         fontWeight = FontWeight.Bold
     )
-    AppText(stringResource(id = R.string.add_expense_monthly_savings_2))
+    AppText(text = stringResource(id = R.string.add_expense_monthly_savings_2))
 }
