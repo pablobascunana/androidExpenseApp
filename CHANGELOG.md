@@ -19,3 +19,4 @@ All notable changes will be documented in this file
 * [PR-12](https://github.com/pablobascunana/androidExpenseApp/pull/12) Database refactor
 * [PR-13](https://github.com/pablobascunana/androidExpenseApp/pull/13) Get and add monthly savings into add expense screen
 * [PR-14](https://github.com/pablobascunana/androidExpenseApp/pull/14) Update monthlySavings
+* [PR-15](https://github.com/pablobascunana/androidExpenseApp/pull/15) Refactor to create view models and composables
