@@ -1,6 +1,6 @@
 package com.pbs.expenseApp.database.daos
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -20,7 +20,7 @@ interface CategoryDao {
     @Delete
     suspend fun delete(category: Category)
     @Query("SELECT * from categories WHERE uuid = :uuid")
-    fun getCategory(uuid: String): LiveData<Category?>
+    suspend fun getCategory(uuid: String): Category?
     @Query("SELECT * from categories")
-    fun getAllCategories(): LiveData<List<Category>>
+    suspend fun getAllCategories(): List<Category>
 }

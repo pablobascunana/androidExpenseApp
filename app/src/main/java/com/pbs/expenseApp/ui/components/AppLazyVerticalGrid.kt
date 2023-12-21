@@ -1,7 +1,6 @@
 package com.pbs.expenseApp.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -20,8 +19,8 @@ fun AppLazyVerticalGrid(
         modifier = Modifier
             .padding(
                 top = dimensionResource(id = R.dimen.padding_sm),
-                bottom = dimensionResource(id = R.dimen.padding_xl))
-            .fillMaxSize(),
+                bottom = dimensionResource(id = R.dimen.padding_xs)
+            ),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_sm)),
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_sm))
     ) {

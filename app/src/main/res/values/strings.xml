@@ -32,6 +32,7 @@
     <string name="configuration_card_category">Añade nuevas categorías</string>
     <string name="configuration_card_savings">Añade ingresos fijos mensuales</string>
     <string name="configuration_card_expenses">Añade gastos fijos mensuales</string>
+    <string name="configuration_category_title">Categorías</string>
 
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>

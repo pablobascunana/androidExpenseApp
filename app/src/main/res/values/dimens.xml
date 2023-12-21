@@ -13,4 +13,6 @@
     <dimen name="padding_md">24dp</dimen>
     <dimen name="padding_lg">32dp</dimen>
     <dimen name="padding_xl">40dp</dimen>
+
+    <dimen name="font_md">24sp</dimen>
 </resources>
