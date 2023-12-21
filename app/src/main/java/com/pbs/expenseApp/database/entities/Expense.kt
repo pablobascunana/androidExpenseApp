@@ -9,7 +9,6 @@ import androidx.room.TypeConverters
 import com.pbs.expenseApp.database.converters.DateConverters
 import java.util.Date
 
-
 enum class MethodType(val value: String) {
     CASH(value = "cash"),
     CREDIT(value = "credit"),

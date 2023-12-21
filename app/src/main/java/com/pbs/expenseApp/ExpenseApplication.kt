@@ -7,7 +7,6 @@ import com.pbs.expenseApp.database.AppDataContainer
 class ExpenseApplication: Application() {
 
     lateinit var container: AppContainer
-
     override fun onCreate() {
         super.onCreate()
         container = AppDataContainer(this)

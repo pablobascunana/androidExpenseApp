@@ -24,4 +24,3 @@ interface CategoryDao {
     @Query("SELECT * from categories")
     fun getAllCategories(): LiveData<List<Category>>
 }
-

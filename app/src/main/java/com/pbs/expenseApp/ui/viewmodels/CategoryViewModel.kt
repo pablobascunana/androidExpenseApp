@@ -9,7 +9,6 @@ import com.pbs.expenseApp.database.entities.CategoryType
 import com.pbs.expenseApp.database.repositories.CategoryRepository
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 class CategoryViewModel(
     private val categoryRepository: CategoryRepository,

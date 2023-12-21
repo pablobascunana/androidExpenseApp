@@ -12,7 +12,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
@@ -27,7 +26,6 @@ import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
-@Preview(showBackground = true)
 @Composable
 fun Configuration() {
     val context = LocalContext.current
