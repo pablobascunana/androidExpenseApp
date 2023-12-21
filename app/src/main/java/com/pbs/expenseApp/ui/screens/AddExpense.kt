@@ -1,47 +1,46 @@
 package com.pbs.expenseApp.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
-import com.pbs.expenseApp.ui.screens.user.UserEntryViewModel
+import com.pbs.expenseApp.ui.viewmodels.UserViewModel
+import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
 @Composable
 fun AddExpense() {
-    val userVm: UserEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val appVM: AppViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    var monthlySavings by remember { mutableIntStateOf(value = 0) }
+    val context = LocalContext.current
+    val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
+
+    val monthlySavings = userVM.monthlySavings.observeAsState()
 
     LaunchedEffect(key1 = true) {
-        monthlySavings = async { userVm.getMonthlySavings(appVM.id) }.await()
+        async { userVM.getMonthlySavings(AppUtils.appId(context)) }.await()
     }
-    AppColumn(modifier = Modifier
+
+    AppColumn(
+        modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp)
+        .padding(dimensionResource(id = R.dimen.padding_sm))
     ) {
         AppCard {
             AppRow(modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = dimensionResource(id = R.dimen.padding_sm),  end = dimensionResource(id = R.dimen.padding_sm))
             ) {
-                MyMonthlySavingText(monthlySavings)
+                MyMonthlySavingText(monthlySavings = monthlySavings.value ?: 0)
             }
         }
     }

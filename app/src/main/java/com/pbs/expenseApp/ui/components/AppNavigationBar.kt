@@ -16,7 +16,6 @@ fun AppNavigationBar(appState: AppState) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {
-        // TODO move to model view
         val navigationBarItems = listOf(
             BottomBarRoutes.ADD_EXPENSE,
             BottomBarRoutes.RESUME,

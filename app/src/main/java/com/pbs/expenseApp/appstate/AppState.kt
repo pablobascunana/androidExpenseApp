@@ -8,7 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pbs.expenseApp.navigation.BottomBarRoutes
 
-
 @Composable
 fun rememberAppState(
     navHostController: NavHostController = rememberNavController()

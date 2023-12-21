@@ -8,7 +8,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.pbs.expenseApp.R
 
 @Composable
 fun AppCard(cardContent: @Composable() () -> Unit) {
@@ -17,12 +18,15 @@ fun AppCard(cardContent: @Composable() () -> Unit) {
             containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
+            defaultElevation = dimensionResource(id = R.dimen.card_elevation)
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.inversePrimary),
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.card_border),
+            color = MaterialTheme.colorScheme.inversePrimary
+        ),
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .height(dimensionResource(R.dimen.card_height))
     ) {
         cardContent()
     }
