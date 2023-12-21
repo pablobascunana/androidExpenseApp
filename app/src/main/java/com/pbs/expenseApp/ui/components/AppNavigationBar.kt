@@ -29,7 +29,7 @@ fun AppNavigationBar(appState: AppState) {
             NavigationBarItem(
                 selected = item.route == currentRoute,
                 label = {
-                    AppText(id = item.title, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    AppText(stringResource(id = item.title), color = MaterialTheme.colorScheme.onPrimaryContainer)
                 },
                 icon = {
                     AppIcon(

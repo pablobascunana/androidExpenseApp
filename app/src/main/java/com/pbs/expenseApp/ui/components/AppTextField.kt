@@ -10,13 +10,13 @@ import androidx.compose.ui.text.input.KeyboardType
 @Composable
 fun AppTextField(
     value: String = "",
-    textId: Int,
+    text: String,
     onValueChange: (String) -> Unit) {
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
-        label = { AppText(id = textId) },
+        label = { AppText(text = text) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }

@@ -10,11 +10,11 @@ import androidx.compose.ui.res.stringResource
 // TODO REFACTOR AppText have to receive as parameter text string not id int
 @Composable
 fun AppText(
-    id: Int,
+    text: String,
     color: Color = MaterialTheme.colorScheme.primary
 ) {
     Text(
-        text = stringResource(id = id),
+        text = text,
         color = color
     )
 }

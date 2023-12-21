@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.components.AppButton
@@ -52,7 +53,7 @@ fun MyMonthlySavingModalBottomSheet(
                         configurationMV.setMonthlySavingsInputValue()
                     }
                 },
-                textId = R.string.configuration_save_money
+                text = stringResource(id = R.string.configuration_save_money)
             )
             AppRow(modifier = Modifier
                 .align(Alignment.End)
@@ -66,7 +67,7 @@ fun MyMonthlySavingModalBottomSheet(
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
                 ) {
                     AppText(
-                        id = R.string.cancel,
+                        text = stringResource(id = R.string.cancel),
                         color = MaterialTheme.colorScheme.onErrorContainer
                     )
                 }
@@ -86,7 +87,7 @@ fun MyMonthlySavingModalBottomSheet(
                     },
                     buttonContent = {
                         AppText(
-                            id = R.string.save,
+                            text = stringResource(id = R.string.save),
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                     }

@@ -114,7 +114,7 @@ fun Configuration() {
                             end = dimensionResource(id = R.dimen.padding_sm)
                         )
                     ) {
-                        AppText(id = item.title)
+                        AppText(text = stringResource(id = item.title))
                     }
                 }
             }
