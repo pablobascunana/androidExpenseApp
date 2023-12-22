@@ -1,6 +1,7 @@
 package com.pbs.expenseApp.ui.viewmodels
 
 import android.content.Context
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,10 +38,23 @@ class CategoryViewModel(
         Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_transports))
     )
 
-    private val _categories = MutableLiveData(defaultCategories)
+    val categoryTypes = enumValues<CategoryType>()
 
+    private val _categories = MutableLiveData(defaultCategories)
     val categories: LiveData<List<Category>>
         get() = _categories
+
+    private val _expandedCategoryTypeDropDown = MutableLiveData(false)
+    val expandedCategoryTypeDropDown: LiveData<Boolean>
+        get() = _expandedCategoryTypeDropDown
+
+    private val _categoryName = MutableLiveData("")
+    val categoryName: LiveData<String>
+        get() = _categoryName
+
+    private val _categoryType = MutableLiveData("")
+    val categoryType: LiveData<String>
+        get() = _categoryType
 
     suspend fun saveCategories(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {
@@ -55,5 +69,20 @@ class CategoryViewModel(
     }
     private suspend fun getCategories() {
         _categories.value = categoryRepository.getAllCategoriesStream()
+    }
+
+    fun isExpandedCategoryTypeDropdown() {
+        _expandedCategoryTypeDropDown.value = !_expandedCategoryTypeDropDown.value!!
+    }
+
+    fun setExpandedCategoryTypeDropdown(value: Boolean) {
+        _expandedCategoryTypeDropDown.value = value
+    }
+
+    fun setCategoryName(text: String) {
+        _categoryName.value = text
+    }
+    fun setCategoryType(text: String) {
+        _categoryType.value = text
     }
 }

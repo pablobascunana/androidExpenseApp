@@ -12,6 +12,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -19,30 +20,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.database.entities.CategoryType
+import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppButton
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
+import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
+import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAddCategoryModalBottomSheet() {
-    val categoryTypes = enumValues<CategoryType>()
+    val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    categoryTypes.forEach { category ->
-        when (category.value) {
-            CategoryType.INCOME.value ->
-                category.value = stringResource(id = R.string.category_type_income)
-            else -> category.value = stringResource(id = R.string.category_type_expense)
-        }
-    }
-
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
-    var categoryText by remember { mutableStateOf("") }
+    val categoryTypes = formatCategoryTypes(categoryVM.categoryTypes)
+    val expandedCategoryTypeDropDown = categoryVM.expandedCategoryTypeDropDown.observeAsState()
+    val categoryName = categoryVM.categoryName.observeAsState()
+    val categoryType = categoryVM.categoryType.observeAsState()
 
     AppColumn(
         modifier = Modifier.padding(
@@ -51,37 +50,41 @@ fun MyAddCategoryModalBottomSheet() {
             bottom = dimensionResource(id = R.dimen.padding_sm_3)
         ),
     ) {
+        AppText(text = stringResource(id = R.string.configuration_category))
         AppTextField(
             text = stringResource(id = R.string.configuration_category_name),
             modifier = Modifier.fillMaxWidth(),
-            value = categoryText,
-            onValueChange = { categoryText = it },
+            value = categoryName.value!!,
+            onValueChange = { categoryVM.setCategoryName(it) },
         )
         ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded },
+            expanded = expandedCategoryTypeDropDown.value!!,
+            onExpandedChange = { categoryVM.isExpandedCategoryTypeDropdown() },
         ) {
             AppTextField(
                 text = stringResource(id = R.string.configuration_category_type),
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(),
-                value = selectedOptionText,
-                onValueChange = { selectedOptionText = it },
+                value = categoryType.value!!,
+                onValueChange = { categoryVM.setCategoryType(it) },
                 readOnly = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = expandedCategoryTypeDropDown.value!!
+                    )},
             )
 
             ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+                expanded = expandedCategoryTypeDropDown.value!!,
+                onDismissRequest = { categoryVM.setExpandedCategoryTypeDropdown(false) }
             ) {
                 categoryTypes.forEach { categoryType ->
                     DropdownMenuItem(
                         text = { AppText(text = categoryType.value) },
                         onClick = {
-                            selectedOptionText = categoryType.value
-                            expanded = false
+                            categoryVM.setCategoryType(categoryType.value)
+                            categoryVM.setExpandedCategoryTypeDropdown(false)
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
@@ -94,7 +97,11 @@ fun MyAddCategoryModalBottomSheet() {
             .padding(top = dimensionResource(id = R.dimen.padding_sm))
         ) {
             AppButton(
-                onClick = {},
+                onClick = {
+                    categoryVM.setCategoryName("")
+                    categoryVM.setCategoryType("")
+                    configurationVM.canAddCategory()
+                },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
             ) {
                 AppText(
@@ -114,4 +121,16 @@ fun MyAddCategoryModalBottomSheet() {
             )
         }
     }
+}
+
+@Composable
+private fun formatCategoryTypes(categoryTypes: Array<CategoryType>): Array<CategoryType> {
+    categoryTypes.forEach { category ->
+        when (category.value) {
+            CategoryType.INCOME.value ->
+                category.value = stringResource(id = R.string.category_type_income)
+            else -> category.value = stringResource(id = R.string.category_type_expense)
+        }
+    }
+    return categoryTypes
 }
