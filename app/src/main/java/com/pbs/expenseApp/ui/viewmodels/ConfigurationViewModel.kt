@@ -1,6 +1,5 @@
 package com.pbs.expenseApp.ui.viewmodels
 
-import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,9 +16,12 @@ class ConfigurationViewModel: ViewModel() {
     val editMonthlySavings: LiveData<Boolean>
         get() = _editMonthlySavings
 
+    private val _addCategory = MutableLiveData(false)
+    val addCategory: LiveData<Boolean>
+        get() = _addCategory
+
     private val _cardItems = MutableLiveData(
         listOf(
-            // CardItem(title = R.string.configuration_card_category),
             CardItem(title = R.string.configuration_card_savings),
             CardItem(title = R.string.configuration_card_expenses)
         )
@@ -33,6 +35,10 @@ class ConfigurationViewModel: ViewModel() {
 
     fun canEditMonthlySavings() {
         _editMonthlySavings.value = !_editMonthlySavings.value!!
+    }
+
+    fun canAddCategory() {
+        _addCategory.value = !_addCategory.value!!
     }
 }
 

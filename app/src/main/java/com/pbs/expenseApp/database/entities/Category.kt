@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-enum class CategoryType(val value: String) {
+enum class CategoryType(var value: String) {
     INCOME(value = "income"),
     EXPENSE(value = "expense")
 }
