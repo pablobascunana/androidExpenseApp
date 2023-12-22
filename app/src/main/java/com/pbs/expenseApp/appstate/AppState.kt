@@ -7,6 +7,7 @@ import androidx.compose.runtime.Stable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pbs.expenseApp.navigation.BottomBarRoutes
+import com.pbs.expenseApp.navigation.Routes
 
 @Composable
 fun rememberAppState(
@@ -25,4 +26,9 @@ class AppState(
     val shouldShowBottomBar: Boolean
         @Composable get() =
             navHostController.currentBackStackEntryAsState().value?.destination?.route in routes
+
+    val shouldShowFloatingActionButton: Boolean
+    @Composable get() =
+            navHostController.currentBackStackEntryAsState().value?.destination?.route ==
+                    Routes.CONFIGURATION.route
 }

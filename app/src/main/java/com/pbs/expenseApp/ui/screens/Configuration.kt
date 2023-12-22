@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -60,7 +63,11 @@ fun Configuration() {
     AppColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(dimensionResource(id = R.dimen.padding_sm))
+            .padding(
+                top = dimensionResource(id = R.dimen.padding_sm),
+                start = dimensionResource(id = R.dimen.padding_sm),
+                end = dimensionResource(id = R.dimen.padding_sm),
+            )
     ) {
         AppCard(modifier = Modifier
             .fillMaxWidth()
