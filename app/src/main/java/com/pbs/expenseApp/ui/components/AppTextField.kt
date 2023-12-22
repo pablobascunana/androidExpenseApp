@@ -14,7 +14,8 @@ fun AppTextField(
     readOnly: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
     trailingIcon: @Composable () -> Unit = {},
-    onValueChange: (String) -> Unit) {
+    onValueChange: (String) -> Unit
+) {
     TextField(
         modifier = modifier,
         value = value,

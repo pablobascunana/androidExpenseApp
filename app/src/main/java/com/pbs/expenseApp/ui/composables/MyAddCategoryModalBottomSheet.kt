@@ -5,17 +5,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -32,16 +24,12 @@ import com.pbs.expenseApp.ui.components.AppTextField
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAddCategoryModalBottomSheet() {
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val categoryTypes = formatCategoryTypes(categoryVM.categoryTypes)
-    val expandedCategoryTypeDropDown = categoryVM.expandedCategoryTypeDropDown.observeAsState()
     val categoryName = categoryVM.categoryName.observeAsState()
-    val categoryType = categoryVM.categoryType.observeAsState()
 
     AppColumn(
         modifier = Modifier.padding(
@@ -50,48 +38,18 @@ fun MyAddCategoryModalBottomSheet() {
             bottom = dimensionResource(id = R.dimen.padding_sm_3)
         ),
     ) {
-        AppText(text = stringResource(id = R.string.configuration_category))
+        AppText(
+            text = stringResource(id = R.string.configuration_category),
+            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
+        )
         AppTextField(
             text = stringResource(id = R.string.configuration_category_name),
             modifier = Modifier.fillMaxWidth(),
             value = categoryName.value!!,
             onValueChange = { categoryVM.setCategoryName(it) },
         )
-        ExposedDropdownMenuBox(
-            expanded = expandedCategoryTypeDropDown.value!!,
-            onExpandedChange = { categoryVM.isExpandedCategoryTypeDropdown() },
-        ) {
-            AppTextField(
-                text = stringResource(id = R.string.configuration_category_type),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .menuAnchor(),
-                value = categoryType.value!!,
-                onValueChange = { categoryVM.setCategoryType(it) },
-                readOnly = true,
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = expandedCategoryTypeDropDown.value!!
-                    )},
-            )
-
-            ExposedDropdownMenu(
-                expanded = expandedCategoryTypeDropDown.value!!,
-                onDismissRequest = { categoryVM.setExpandedCategoryTypeDropdown(false) }
-            ) {
-                categoryTypes.forEach { categoryType ->
-                    DropdownMenuItem(
-                        text = { AppText(text = categoryType.value) },
-                        onClick = {
-                            categoryVM.setCategoryType(categoryType.value)
-                            categoryVM.setExpandedCategoryTypeDropdown(false)
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
-                }
-            }
-        }
-
+        Spacer(modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm)))
+        MyCategoryTypeExposedDropdownMenuBox()
         AppRow(modifier = Modifier
             .align(Alignment.End)
             .padding(top = dimensionResource(id = R.dimen.padding_sm))
@@ -124,7 +82,7 @@ fun MyAddCategoryModalBottomSheet() {
 }
 
 @Composable
-private fun formatCategoryTypes(categoryTypes: Array<CategoryType>): Array<CategoryType> {
+fun formatCategoryTypes(categoryTypes: Array<CategoryType>): Array<CategoryType> {
     categoryTypes.forEach { category ->
         when (category.value) {
             CategoryType.INCOME.value ->
