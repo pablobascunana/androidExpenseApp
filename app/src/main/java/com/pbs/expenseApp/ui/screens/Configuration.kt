@@ -9,10 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,10 +23,11 @@ import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppIcon
+import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.composables.MyAddIncomesAndExpensesGrid
 import com.pbs.expenseApp.ui.composables.MyCategoryList
-import com.pbs.expenseApp.ui.composables.MyMonthlySavingModalBottomSheet
+import com.pbs.expenseApp.ui.composables.MyModalMonthlySavingModalBottomSheet
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.viewmodels.CardItem
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
@@ -96,7 +94,9 @@ fun Configuration() {
         MyAddIncomesAndExpensesGrid(cardItems.value!!)
         MyCategoryList(categories.value!!)
         if (editMonthlySavings.value!!) {
-            MyMonthlySavingModalBottomSheet(userVM = userVM, configurationMV = configurationMV)
+            AppModalBottomSheet(onDismissRequest = { configurationMV.canEditMonthlySavings() }) {
+                MyModalMonthlySavingModalBottomSheet()
+            }
         }
     }
 }

@@ -13,10 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
+import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppButton
 import com.pbs.expenseApp.ui.components.AppColumn
-import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
@@ -27,72 +28,70 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
-fun MyMonthlySavingModalBottomSheet(
-    userVM: UserViewModel,
-    configurationMV: ConfigurationViewModel
-) {
+fun MyModalMonthlySavingModalBottomSheet() {
     val context = LocalContext.current
 
+    val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val configurationMV: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val monthlySavingsInputValue = configurationMV.monthlySavingsInputValue.observeAsState()
-    val decimalPatter = AppUtils.getDecimalPattern()
 
-    AppModalBottomSheet(onDismissRequest = { configurationMV.canEditMonthlySavings() }) {
-        AppColumn(
-            modifier = Modifier.padding(
-                start = dimensionResource(id = R.dimen.padding_sm_3),
-                end = dimensionResource(id = R.dimen.padding_sm_3),
-                bottom = dimensionResource(id = R.dimen.padding_sm_3)
-            ),
-        ) {
-            AppTextField(
-                value = monthlySavingsInputValue.value!!,
-                onValueChange = {
-                    if (it.isNotEmpty() && it.matches(decimalPatter)) {
-                        configurationMV.setMonthlySavingsInputValue(it)
-                    } else if(it.isEmpty()) {
-                        configurationMV.setMonthlySavingsInputValue()
-                    }
-                },
-                text = stringResource(id = R.string.configuration_save_money)
-            )
-            AppRow(modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = dimensionResource(id = R.dimen.padding_sm))
-            ) {
-                AppButton(
-                    onClick = {
-                        configurationMV.setMonthlySavingsInputValue()
-                        configurationMV.canEditMonthlySavings()
-                    },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
-                ) {
-                    AppText(
-                        text = stringResource(id = R.string.cancel),
-                        color = MaterialTheme.colorScheme.onErrorContainer
-                    )
+    AppColumn(
+        modifier = Modifier.padding(
+            start = dimensionResource(id = R.dimen.padding_sm_3),
+            end = dimensionResource(id = R.dimen.padding_sm_3),
+            bottom = dimensionResource(id = R.dimen.padding_sm_3)
+        ),
+    ) {
+        AppTextField(
+            value = monthlySavingsInputValue.value!!,
+            onValueChange = {
+                if (it.isNotEmpty() && it.matches(AppUtils.getDecimalPattern())) {
+                    configurationMV.setMonthlySavingsInputValue(it)
+                } else if(it.isEmpty()) {
+                    configurationMV.setMonthlySavingsInputValue()
                 }
-                Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
-                AppButton(
-                    onClick = {
-                        userVM.viewModelScope.launch {
-                            async {
-                                userVM.updateUser(
-                                    AppUtils.appId(context),
-                                    monthlySavingsInputValue.value!!.toInt()
-                                )
-                            }.await()
-                            configurationMV.canEditMonthlySavings()
-                        }
-                        configurationMV.setMonthlySavingsInputValue()
-                    },
-                    buttonContent = {
-                        AppText(
-                            text = stringResource(id = R.string.save),
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    }
+            },
+            text = stringResource(id = R.string.configuration_save_money)
+        )
+        AppRow(modifier = Modifier
+            .align(Alignment.End)
+            .padding(top = dimensionResource(id = R.dimen.padding_sm))
+        ) {
+            AppButton(
+                onClick = {
+                    configurationMV.setMonthlySavingsInputValue()
+                    configurationMV.canEditMonthlySavings()
+                },
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
+            ) {
+                AppText(
+                    text = stringResource(id = R.string.cancel),
+                    color = MaterialTheme.colorScheme.onErrorContainer
                 )
             }
+            Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
+            AppButton(
+                onClick = {
+                    userVM.viewModelScope.launch {
+                        async {
+                            userVM.updateUser(
+                                AppUtils.appId(context),
+                                monthlySavingsInputValue.value!!.toInt()
+                            )
+                        }.await()
+                        configurationMV.canEditMonthlySavings()
+                    }
+                    configurationMV.setMonthlySavingsInputValue()
+                },
+                buttonContent = {
+                    AppText(
+                        text = stringResource(id = R.string.save),
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+            )
         }
     }
+
+
 }
