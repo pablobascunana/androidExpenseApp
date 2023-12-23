@@ -5,17 +5,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.LiveData
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.database.entities.Category
 import com.pbs.expenseApp.database.entities.CategoryType
@@ -23,7 +18,6 @@ import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppLazyColum
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
-
 
 @Composable
 fun MyCategoryList(categories: List<Category>) {

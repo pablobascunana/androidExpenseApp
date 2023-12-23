@@ -19,23 +19,25 @@ class CategoryViewModel(
     context: Context
 ): ViewModel() {
 
-    private val defaultCategories: List<Category> = listOf(
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_salary)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_deposit)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_savings)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_debts)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_bills)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_car)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_clothes)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_entertainment)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_food)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_health)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_house)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_pets)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_presents)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_restaurants)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_sports)),
-        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.appId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_transports))
+    private val appContext = context
+
+    private val defaultCategories: MutableList<Category> = mutableListOf(
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_salary)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_deposit)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_savings)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_debts)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_bills)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_car)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_clothes)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_entertainment)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_food)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_health)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_house)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_pets)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_presents)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_restaurants)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_sports)),
+        Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_transports))
     )
 
     val categoryTypes = enumValues<CategoryType>()
@@ -56,9 +58,27 @@ class CategoryViewModel(
     val categoryType: LiveData<String>
         get() = _categoryType
 
+    private val _canSaveCategory = MutableLiveData(false)
+    val canSaveCategory: LiveData<Boolean>
+        get() = _canSaveCategory
+
     suspend fun saveCategories(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {
             categoryRepository.insertAllCategories(categories = categories)
+        }
+    }
+    suspend fun saveCategory(name: String, type: CategoryType) {
+        val uuid = AppUtils.getUuid()
+        val category = Category(
+            uuid = uuid,
+            userUuid = AppUtils.getAppId(appContext),
+            name = name,
+            type = type
+        )
+        viewModelScope.launch {
+            viewModelScope.async {
+                categoryRepository.insertCategory(category = category)
+            }.await()
         }
     }
 
@@ -85,4 +105,9 @@ class CategoryViewModel(
     fun setCategoryType(text: String) {
         _categoryType.value = text
     }
+
+    fun canSaveCategory() {
+        _canSaveCategory.value = !_canSaveCategory.value!!
+    }
+
 }

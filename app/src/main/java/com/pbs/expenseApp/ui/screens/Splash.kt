@@ -16,7 +16,7 @@ import kotlinx.coroutines.async
 
 @Composable
 fun SplashScreen(navHostController: NavHostController) {
-    val appId = AppUtils.appId(LocalContext.current)
+    val appId = AppUtils.getAppId(LocalContext.current)
 
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)

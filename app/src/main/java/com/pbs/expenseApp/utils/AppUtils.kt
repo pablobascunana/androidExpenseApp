@@ -8,7 +8,7 @@ import java.util.UUID
 object AppUtils {
     @SuppressLint("HardwareIds")
     @JvmStatic
-    fun appId(context: Context): String =
+    fun getAppId(context: Context): String =
         Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
     @JvmStatic

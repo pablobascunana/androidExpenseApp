@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
+import com.pbs.expenseApp.database.entities.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
@@ -59,4 +60,17 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
             }
         }
     }
+}
+
+
+@Composable
+private fun formatCategoryTypes(categoryTypes: Array<CategoryType>): Array<CategoryType> {
+    categoryTypes.forEach { category ->
+        when (category.value) {
+            CategoryType.INCOME.value ->
+                category.value = stringResource(id = R.string.category_type_income)
+            else -> category.value = stringResource(id = R.string.category_type_expense)
+        }
+    }
+    return categoryTypes
 }

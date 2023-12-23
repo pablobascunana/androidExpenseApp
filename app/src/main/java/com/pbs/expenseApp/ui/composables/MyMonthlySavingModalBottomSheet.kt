@@ -80,7 +80,7 @@ fun MyModalMonthlySavingModalBottomSheet() {
                     userVM.viewModelScope.launch {
                         async {
                             userVM.updateUser(
-                                AppUtils.appId(context),
+                                AppUtils.getAppId(context),
                                 monthlySavingsInputValue.value!!.toInt()
                             )
                         }.await()
@@ -97,6 +97,4 @@ fun MyModalMonthlySavingModalBottomSheet() {
             )
         }
     }
-
-
 }

@@ -29,7 +29,7 @@ fun AddExpense() {
     val monthlySavings = userVM.monthlySavings.observeAsState()
 
     LaunchedEffect(key1 = true) {
-        async { userVM.getMonthlySavings(AppUtils.appId(context)) }.await()
+        async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
     }
 
     AppColumn(

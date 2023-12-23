@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,13 +24,17 @@ import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
+import kotlinx.coroutines.async
 
 @Composable
 fun MyAddCategoryModalBottomSheet() {
+
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val categoryName = categoryVM.categoryName.observeAsState()
+    val saveCategory = categoryVM.canSaveCategory.observeAsState()
+    var categoryType: CategoryType?
 
     AppColumn(
         modifier = Modifier.padding(
@@ -69,7 +74,7 @@ fun MyAddCategoryModalBottomSheet() {
             }
             Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
             AppButton(
-                onClick = {},
+                onClick = { categoryVM.canSaveCategory() },
                 buttonContent = {
                     AppText(
                         text = stringResource(id = R.string.save),
@@ -77,18 +82,25 @@ fun MyAddCategoryModalBottomSheet() {
                     )
                 }
             )
+            if (saveCategory.value!!) {
+                categoryType = categoryTypeToEnumValue(type = categoryVM.categoryType.value!!)
+                LaunchedEffect(key1 = 1) {
+                    async {
+                        categoryVM.saveCategory(categoryName.value!!, categoryType!!)
+                        categoryVM.canSaveCategory()
+                        configurationVM.canAddCategory()
+                    }.await()
+                }
+
+            }
         }
     }
 }
 
 @Composable
-fun formatCategoryTypes(categoryTypes: Array<CategoryType>): Array<CategoryType> {
-    categoryTypes.forEach { category ->
-        when (category.value) {
-            CategoryType.INCOME.value ->
-                category.value = stringResource(id = R.string.category_type_income)
-            else -> category.value = stringResource(id = R.string.category_type_expense)
-        }
+fun categoryTypeToEnumValue(type: String): CategoryType {
+    return when (type) {
+        stringResource(id = R.string.category_type_income) -> CategoryType.INCOME
+        else -> CategoryType.EXPENSE
     }
-    return categoryTypes
 }
