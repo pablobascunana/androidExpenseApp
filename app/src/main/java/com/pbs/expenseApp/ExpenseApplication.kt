@@ -1,8 +1,8 @@
 package com.pbs.expenseApp
 
 import android.app.Application
-import com.pbs.expenseApp.database.AppContainer
-import com.pbs.expenseApp.database.AppDataContainer
+import com.pbs.expenseApp.data.AppContainer
+import com.pbs.expenseApp.data.AppDataContainer
 
 class ExpenseApplication: Application() {
 

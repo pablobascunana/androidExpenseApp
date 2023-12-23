@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.database.entities
+package com.pbs.expenseApp.domain.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -6,7 +6,7 @@ import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.pbs.expenseApp.database.converters.DateConverters
+import com.pbs.expenseApp.data.converters.DateConverters
 import java.util.Date
 
 enum class MethodType(val value: String) {
