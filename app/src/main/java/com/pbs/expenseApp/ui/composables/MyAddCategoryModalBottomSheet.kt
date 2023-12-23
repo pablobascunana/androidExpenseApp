@@ -46,22 +46,22 @@ fun MyAddCategoryModalBottomSheet() {
             text = stringResource(id = R.string.configuration_category),
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
         )
+
+        MyCategoryTypeExposedDropdownMenuBox()
+        Spacer(modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm)))
         AppTextField(
             text = stringResource(id = R.string.configuration_category_name),
             modifier = Modifier.fillMaxWidth(),
             value = categoryName,
             onValueChange = { categoryVM.categoryName = it },
         )
-        Spacer(modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm)))
-        MyCategoryTypeExposedDropdownMenuBox()
         AppRow(modifier = Modifier
             .align(Alignment.End)
             .padding(top = dimensionResource(id = R.dimen.padding_sm))
         ) {
             AppButton(
                 onClick = {
-                    categoryVM.categoryName = ""
-                    categoryVM.categoryType = ""
+                    resetInputs(categoryVM)
                     configurationVM.addCategory = !configurationVM.addCategory
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
@@ -86,6 +86,7 @@ fun MyAddCategoryModalBottomSheet() {
                 LaunchedEffect(key1 = 1) {
                     async {
                         categoryVM.saveCategory(categoryName, categoryType!!)
+                        resetInputs(categoryVM)
                         categoryVM.canSaveCategory()
                         configurationVM.addCategory = !configurationVM.addCategory
                     }.await()
@@ -102,4 +103,9 @@ fun categoryTypeToEnumValue(type: String): CategoryType {
         stringResource(id = R.string.category_type_income) -> CategoryType.INCOME
         else -> CategoryType.EXPENSE
     }
+}
+
+private fun resetInputs(categoryVM: CategoryViewModel) {
+    categoryVM.categoryName = ""
+    categoryVM.categoryType = ""
 }
