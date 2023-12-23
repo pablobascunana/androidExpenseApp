@@ -31,8 +31,6 @@ fun MyAddCategoryModalBottomSheet() {
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val categoryName = categoryVM.categoryName
-    val saveCategory = categoryVM.canSaveCategory
     var categoryType: CategoryType?
 
     AppColumn(
@@ -46,13 +44,12 @@ fun MyAddCategoryModalBottomSheet() {
             text = stringResource(id = R.string.configuration_category),
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
         )
-
         MyCategoryTypeExposedDropdownMenuBox()
         Spacer(modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm)))
         AppTextField(
             text = stringResource(id = R.string.configuration_category_name),
             modifier = Modifier.fillMaxWidth(),
-            value = categoryName,
+            value = categoryVM.categoryName,
             onValueChange = { categoryVM.categoryName = it },
         )
         AppRow(modifier = Modifier
@@ -73,6 +70,8 @@ fun MyAddCategoryModalBottomSheet() {
             }
             Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
             AppButton(
+                enabled = categoryVM.categoryName.isNotEmpty() &&
+                        categoryVM.categoryType.isNotEmpty(),
                 onClick = { categoryVM.canSaveCategory() },
                 buttonContent = {
                     AppText(
@@ -81,11 +80,11 @@ fun MyAddCategoryModalBottomSheet() {
                     )
                 }
             )
-            if (saveCategory) {
+            if (categoryVM.canSaveCategory) {
                 categoryType = categoryTypeToEnumValue(type = categoryVM.categoryType)
                 LaunchedEffect(key1 = 1) {
                     async {
-                        categoryVM.saveCategory(categoryName, categoryType!!)
+                        categoryVM.saveCategory(categoryVM.categoryName, categoryType!!)
                         resetInputs(categoryVM)
                         categoryVM.canSaveCategory()
                         configurationVM.addCategory = !configurationVM.addCategory

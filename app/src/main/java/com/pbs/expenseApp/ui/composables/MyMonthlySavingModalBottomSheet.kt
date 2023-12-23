@@ -74,6 +74,7 @@ fun MyModalMonthlySavingModalBottomSheet() {
             }
             Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
             AppButton(
+                enabled = configurationVM.monthlySavingsInputValue.isNotEmpty(),
                 onClick = {
                     userVM.viewModelScope.launch {
                         async {

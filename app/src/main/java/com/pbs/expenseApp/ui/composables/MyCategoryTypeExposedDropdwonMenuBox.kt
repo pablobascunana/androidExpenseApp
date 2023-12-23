@@ -24,8 +24,6 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
     val categoryTypes = formatCategoryTypes(categoryVM.categoryTypes)
     val expandedCategoryTypeDropDown = categoryVM.expandedCategoryTypeDropDown
 
-    val categoryType = categoryVM.categoryType
-
     ExposedDropdownMenuBox(
         expanded = expandedCategoryTypeDropDown,
         onExpandedChange = { categoryVM.isExpandedCategoryTypeDropdown() },
@@ -35,7 +33,7 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
             modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(),
-            value = categoryType,
+            value = categoryVM.categoryType,
             onValueChange = { categoryVM.categoryType = it },
             readOnly = true,
             trailingIcon = {
