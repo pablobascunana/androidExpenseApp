@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.database.entities
+package com.pbs.expenseApp.domain.model
 
 import androidx.room.Entity
 import androidx.room.Index

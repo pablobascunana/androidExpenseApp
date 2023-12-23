@@ -6,12 +6,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.database.entities.CategoryType
+import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
@@ -23,12 +22,12 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val categoryTypes = formatCategoryTypes(categoryVM.categoryTypes)
-    val expandedCategoryTypeDropDown = categoryVM.expandedCategoryTypeDropDown.observeAsState()
+    val expandedCategoryTypeDropDown = categoryVM.expandedCategoryTypeDropDown
 
-    val categoryType = categoryVM.categoryType.observeAsState()
+    val categoryType = categoryVM.categoryType
 
     ExposedDropdownMenuBox(
-        expanded = expandedCategoryTypeDropDown.value!!,
+        expanded = expandedCategoryTypeDropDown,
         onExpandedChange = { categoryVM.isExpandedCategoryTypeDropdown() },
     ) {
         AppTextField(
@@ -36,24 +35,24 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
             modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(),
-            value = categoryType.value!!,
-            onValueChange = { categoryVM.setCategoryType(it) },
+            value = categoryType,
+            onValueChange = { categoryVM.categoryType = it },
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expandedCategoryTypeDropDown.value!!
+                    expanded = expandedCategoryTypeDropDown
                 )},
         )
         ExposedDropdownMenu(
-            expanded = expandedCategoryTypeDropDown.value!!,
-            onDismissRequest = { categoryVM.setExpandedCategoryTypeDropdown(false) }
+            expanded = expandedCategoryTypeDropDown,
+            onDismissRequest = { categoryVM.expandedCategoryTypeDropDown = false }
         ) {
             categoryTypes.forEach { categoryType ->
                 DropdownMenuItem(
                     text = { AppText(text = categoryType.value) },
                     onClick = {
-                        categoryVM.setCategoryType(categoryType.value)
-                        categoryVM.setExpandedCategoryTypeDropdown(false)
+                        categoryVM.categoryType = categoryType.value
+                        categoryVM.expandedCategoryTypeDropDown = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                 )

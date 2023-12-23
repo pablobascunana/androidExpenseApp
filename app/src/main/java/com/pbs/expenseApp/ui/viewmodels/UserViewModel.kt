@@ -49,5 +49,3 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
         return User(uuid = uuid, monthlySavings = monthlySavings)
     }
 }
-
-

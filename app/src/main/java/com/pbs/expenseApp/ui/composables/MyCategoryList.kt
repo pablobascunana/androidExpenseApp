@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.database.entities.Category
-import com.pbs.expenseApp.database.entities.CategoryType
+import com.pbs.expenseApp.domain.model.Category
+import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppLazyColum
 import com.pbs.expenseApp.ui.components.AppRow

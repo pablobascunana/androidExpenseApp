@@ -8,14 +8,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.database.entities.CategoryType
+import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppButton
 import com.pbs.expenseApp.ui.components.AppColumn
@@ -32,8 +31,8 @@ fun MyAddCategoryModalBottomSheet() {
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val categoryName = categoryVM.categoryName.observeAsState()
-    val saveCategory = categoryVM.canSaveCategory.observeAsState()
+    val categoryName = categoryVM.categoryName
+    val saveCategory = categoryVM.canSaveCategory
     var categoryType: CategoryType?
 
     AppColumn(
@@ -50,8 +49,8 @@ fun MyAddCategoryModalBottomSheet() {
         AppTextField(
             text = stringResource(id = R.string.configuration_category_name),
             modifier = Modifier.fillMaxWidth(),
-            value = categoryName.value!!,
-            onValueChange = { categoryVM.setCategoryName(it) },
+            value = categoryName,
+            onValueChange = { categoryVM.categoryName = it },
         )
         Spacer(modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm)))
         MyCategoryTypeExposedDropdownMenuBox()
@@ -61,8 +60,8 @@ fun MyAddCategoryModalBottomSheet() {
         ) {
             AppButton(
                 onClick = {
-                    categoryVM.setCategoryName("")
-                    categoryVM.setCategoryType("")
+                    categoryVM.categoryName = ""
+                    categoryVM.categoryType = ""
                     configurationVM.canAddCategory()
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
@@ -82,11 +81,11 @@ fun MyAddCategoryModalBottomSheet() {
                     )
                 }
             )
-            if (saveCategory.value!!) {
-                categoryType = categoryTypeToEnumValue(type = categoryVM.categoryType.value!!)
+            if (saveCategory) {
+                categoryType = categoryTypeToEnumValue(type = categoryVM.categoryType)
                 LaunchedEffect(key1 = 1) {
                     async {
-                        categoryVM.saveCategory(categoryName.value!!, categoryType!!)
+                        categoryVM.saveCategory(categoryName, categoryType!!)
                         categoryVM.canSaveCategory()
                         configurationVM.canAddCategory()
                     }.await()

@@ -1,15 +1,15 @@
 package com.pbs.expenseApp.ui.viewmodels
 
 import android.content.Context
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.database.entities.Category
-import com.pbs.expenseApp.database.entities.CategoryType
-import com.pbs.expenseApp.database.repositories.CategoryRepository
+import com.pbs.expenseApp.domain.model.Category
+import com.pbs.expenseApp.domain.model.CategoryType
+import com.pbs.expenseApp.domain.repository.CategoryRepository
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ class CategoryViewModel(
 
     private val appContext = context
 
-    private val defaultCategories: MutableList<Category> = mutableListOf(
+    private val defaultCategories: List<Category> = listOf(
         Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_salary)),
         Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_deposit)),
         Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.INCOME, name = AppUtils.getString(context = context, id = R.string.income_savings)),
@@ -42,25 +42,11 @@ class CategoryViewModel(
 
     val categoryTypes = enumValues<CategoryType>()
 
-    private val _categories = MutableLiveData(defaultCategories)
-    val categories: LiveData<List<Category>>
-        get() = _categories
-
-    private val _expandedCategoryTypeDropDown = MutableLiveData(false)
-    val expandedCategoryTypeDropDown: LiveData<Boolean>
-        get() = _expandedCategoryTypeDropDown
-
-    private val _categoryName = MutableLiveData("")
-    val categoryName: LiveData<String>
-        get() = _categoryName
-
-    private val _categoryType = MutableLiveData("")
-    val categoryType: LiveData<String>
-        get() = _categoryType
-
-    private val _canSaveCategory = MutableLiveData(false)
-    val canSaveCategory: LiveData<Boolean>
-        get() = _canSaveCategory
+    var categories by mutableStateOf(emptyList<Category>())
+    var expandedCategoryTypeDropDown by mutableStateOf(false)
+    var categoryName by mutableStateOf("")
+    var categoryType by mutableStateOf("")
+    var canSaveCategory by mutableStateOf(false)
 
     suspend fun saveCategories(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {
@@ -87,27 +73,19 @@ class CategoryViewModel(
             getCategories()
         }
     }
-    private suspend fun getCategories() {
-        _categories.value = categoryRepository.getAllCategoriesStream()
+    private fun getCategories() {
+        viewModelScope.launch {
+            categoryRepository.getAllCategoriesOrderByType().collect { response: List<Category> ->
+                categories = response
+            }
+        }
     }
 
     fun isExpandedCategoryTypeDropdown() {
-        _expandedCategoryTypeDropDown.value = !_expandedCategoryTypeDropDown.value!!
-    }
-
-    fun setExpandedCategoryTypeDropdown(value: Boolean) {
-        _expandedCategoryTypeDropDown.value = value
-    }
-
-    fun setCategoryName(text: String) {
-        _categoryName.value = text
-    }
-    fun setCategoryType(text: String) {
-        _categoryType.value = text
+        expandedCategoryTypeDropDown = !expandedCategoryTypeDropDown
     }
 
     fun canSaveCategory() {
-        _canSaveCategory.value = !_canSaveCategory.value!!
+        canSaveCategory = !canSaveCategory
     }
-
 }
