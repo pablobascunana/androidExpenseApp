@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,8 +34,7 @@ fun MyModalMonthlySavingModalBottomSheet() {
     val context = LocalContext.current
 
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val configurationMV: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val monthlySavingsInputValue = configurationMV.monthlySavingsInputValue.observeAsState()
+    val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     AppColumn(
         modifier = Modifier.padding(
@@ -46,12 +44,12 @@ fun MyModalMonthlySavingModalBottomSheet() {
         ),
     ) {
         AppTextField(
-            value = monthlySavingsInputValue.value!!,
+            value = configurationVM.monthlySavingsInputValue,
             onValueChange = {
                 if (it.isNotEmpty() && it.matches(AppUtils.getDecimalPattern())) {
-                    configurationMV.setMonthlySavingsInputValue(it)
+                    configurationVM.monthlySavingsInputValue = it
                 } else if(it.isEmpty()) {
-                    configurationMV.setMonthlySavingsInputValue()
+                    configurationVM.monthlySavingsInputValue = ""
                 }
             },
             text = stringResource(id = R.string.configuration_save_money),
@@ -64,8 +62,8 @@ fun MyModalMonthlySavingModalBottomSheet() {
         ) {
             AppButton(
                 onClick = {
-                    configurationMV.setMonthlySavingsInputValue()
-                    configurationMV.canEditMonthlySavings()
+                    configurationVM.monthlySavingsInputValue = ""
+                    configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
             ) {
@@ -81,12 +79,12 @@ fun MyModalMonthlySavingModalBottomSheet() {
                         async {
                             userVM.updateUser(
                                 AppUtils.getAppId(context),
-                                monthlySavingsInputValue.value!!.toInt()
+                                configurationVM.monthlySavingsInputValue.toInt()
                             )
                         }.await()
-                        configurationMV.canEditMonthlySavings()
+                        configurationVM.editMonthlySavings = ! configurationVM.editMonthlySavings
                     }
-                    configurationMV.setMonthlySavingsInputValue()
+                    configurationVM.monthlySavingsInputValue = ""
                 },
                 buttonContent = {
                     AppText(

@@ -1,45 +1,21 @@
 package com.pbs.expenseApp.ui.viewmodels
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pbs.expenseApp.R
 
 class ConfigurationViewModel: ViewModel() {
 
-    private val _monthlySavingsInputValue = MutableLiveData("")
-    val monthlySavingsInputValue: LiveData<String>
-        get() = _monthlySavingsInputValue
-
-    private val _editMonthlySavings = MutableLiveData(false)
-    val editMonthlySavings: LiveData<Boolean>
-        get() = _editMonthlySavings
-
-    private val _addCategory = MutableLiveData(false)
-    val addCategory: LiveData<Boolean>
-        get() = _addCategory
-
-    private val _cardItems = MutableLiveData(
-        listOf(
-            CardItem(title = R.string.configuration_card_savings),
-            CardItem(title = R.string.configuration_card_expenses)
-        )
-    )
-    val cardItems: LiveData<List<CardItem>>
-        get() = _cardItems
-
-    fun setMonthlySavingsInputValue(value: String = "") {
-        _monthlySavingsInputValue.value = value
-    }
-
-    fun canEditMonthlySavings() {
-        _editMonthlySavings.value = !_editMonthlySavings.value!!
-    }
-
-    fun canAddCategory() {
-        _addCategory.value = !_addCategory.value!!
-    }
+    var monthlySavingsInputValue by mutableStateOf("")
+    var editMonthlySavings by mutableStateOf(false)
+    var addCategory by mutableStateOf(false)
+    val cardItems by mutableStateOf(listOf(
+        CardItem(title = R.string.configuration_card_savings),
+        CardItem(title = R.string.configuration_card_expenses)
+    ))
 }
 
 data class CardItem(

@@ -13,7 +13,6 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -42,19 +41,18 @@ fun Configuration() {
     val context = LocalContext.current
 
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val configurationMV: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val categoriesMV: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoriesVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val monthlySavings = userVM.monthlySavings
-    val editMonthlySavings = configurationMV.editMonthlySavings.observeAsState()
-    val cardItems = configurationMV.cardItems.observeAsState()
-    val categories = categoriesMV.categories
+    // val editMonthlySavings = configurationMV.editMonthlySavings
+    // val categories = categoriesVM.categories
 
     LaunchedEffect(key1 = true) {
         async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
     }
 
-    cardItems.value!!.forEach { item ->
+    configurationVM.cardItems.forEach { item ->
         GetCardColors(item)
     }
 
@@ -80,21 +78,23 @@ fun Configuration() {
             ) {
                 MyMonthlySavingText(monthlySavings = monthlySavings)
                 Spacer(modifier = Modifier.weight(1f))
-                if (!editMonthlySavings.value!!) {
+                if (!configurationVM.editMonthlySavings) {
                     AppIcon(
                         imageVector = Icons.Outlined.Edit,
                         contentDescription = "Edit icon",
                         modifier = Modifier.clickable {
-                            configurationMV.canEditMonthlySavings()
+                            configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
                         }
                     )
                 }
             }
         }
-        MyAddIncomesAndExpensesGrid(cardItems.value!!)
-        MyCategoryList(categories)
-        if (editMonthlySavings.value!!) {
-            AppModalBottomSheet(onDismissRequest = { configurationMV.canEditMonthlySavings() }) {
+        MyAddIncomesAndExpensesGrid(configurationVM.cardItems)
+        MyCategoryList(categoriesVM.categories)
+        if (configurationVM.editMonthlySavings) {
+            AppModalBottomSheet(onDismissRequest = {
+                configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
+            }) {
                 MyModalMonthlySavingModalBottomSheet()
             }
         }

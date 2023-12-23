@@ -62,7 +62,7 @@ fun MyAddCategoryModalBottomSheet() {
                 onClick = {
                     categoryVM.categoryName = ""
                     categoryVM.categoryType = ""
-                    configurationVM.canAddCategory()
+                    configurationVM.addCategory = !configurationVM.addCategory
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
             ) {
@@ -87,7 +87,7 @@ fun MyAddCategoryModalBottomSheet() {
                     async {
                         categoryVM.saveCategory(categoryName, categoryType!!)
                         categoryVM.canSaveCategory()
-                        configurationVM.canAddCategory()
+                        configurationVM.addCategory = !configurationVM.addCategory
                     }.await()
                 }
 
