@@ -12,6 +12,7 @@ class ConfigurationViewModel: ViewModel() {
     var monthlySavingsInputValue by mutableStateOf("")
     var editMonthlySavings by mutableStateOf(false)
     var addCategory by mutableStateOf(false)
+    var editCategory by mutableStateOf(false)
     val cardItems by mutableStateOf(listOf(
         CardItem(title = R.string.configuration_card_savings),
         CardItem(title = R.string.configuration_card_expenses)

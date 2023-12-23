@@ -108,3 +108,8 @@ private fun GetCardColors(item: CardItem) {
         else -> item.containerColor = MaterialTheme.colorScheme.secondaryContainer
     }
 }
+
+fun resetInputs(categoryVM: CategoryViewModel) {
+    categoryVM.categoryName = ""
+    categoryVM.categoryType = ""
+}

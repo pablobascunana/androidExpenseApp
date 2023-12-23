@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppButton
 import com.pbs.expenseApp.ui.components.AppColumn
@@ -22,17 +20,13 @@ import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
-import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
-import kotlinx.coroutines.async
 
 @Composable
-fun MyAddCategoryModalBottomSheet() {
-
-    val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
-
-    var categoryType: CategoryType?
-
+fun MyConfigurationModalBottomSheet(
+    text: String,
+    onClickNegative: () -> Unit,
+    onClickPositive: () -> Unit,
+) {
     AppColumn(
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.padding_sm_3),
@@ -40,8 +34,10 @@ fun MyAddCategoryModalBottomSheet() {
             bottom = dimensionResource(id = R.dimen.padding_sm_3)
         ),
     ) {
+        val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+
         AppText(
-            text = stringResource(id = R.string.configuration_category),
+            text = text,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
         )
         MyCategoryTypeExposedDropdownMenuBox()
@@ -57,10 +53,7 @@ fun MyAddCategoryModalBottomSheet() {
             .padding(top = dimensionResource(id = R.dimen.padding_sm))
         ) {
             AppButton(
-                onClick = {
-                    resetInputs(categoryVM)
-                    configurationVM.addCategory = !configurationVM.addCategory
-                },
+                onClick = { onClickNegative() },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
             ) {
                 AppText(
@@ -72,7 +65,7 @@ fun MyAddCategoryModalBottomSheet() {
             AppButton(
                 enabled = categoryVM.categoryName.isNotEmpty() &&
                         categoryVM.categoryType.isNotEmpty(),
-                onClick = { categoryVM.canSaveCategory() },
+                onClick = { onClickPositive() },
                 buttonContent = {
                     AppText(
                         text = stringResource(id = R.string.save),
@@ -80,31 +73,6 @@ fun MyAddCategoryModalBottomSheet() {
                     )
                 }
             )
-            if (categoryVM.canSaveCategory) {
-                categoryType = categoryTypeToEnumValue(type = categoryVM.categoryType)
-                LaunchedEffect(key1 = 1) {
-                    async {
-                        categoryVM.saveCategory(categoryVM.categoryName, categoryType!!)
-                        resetInputs(categoryVM)
-                        categoryVM.canSaveCategory()
-                        configurationVM.addCategory = !configurationVM.addCategory
-                    }.await()
-                }
-
-            }
         }
     }
-}
-
-@Composable
-fun categoryTypeToEnumValue(type: String): CategoryType {
-    return when (type) {
-        stringResource(id = R.string.category_type_income) -> CategoryType.INCOME
-        else -> CategoryType.EXPENSE
-    }
-}
-
-private fun resetInputs(categoryVM: CategoryViewModel) {
-    categoryVM.categoryName = ""
-    categoryVM.categoryType = ""
 }

@@ -32,7 +32,8 @@
     <string name="add_expense_monthly_savings_2">al mes</string>
 
     <string name="configuration_save_money">¿Cuánto quieres ahorrar al mes?</string>
-    <string name="configuration_category">Añade una nueva categoría</string>
+    <string name="configuration_add_new_category">Añade una nueva categoría</string>
+    <string name="configuration_edit_category">Edita una categoría</string>
     <string name="configuration_card_savings">Añade ingresos fijos mensuales</string>
     <string name="configuration_card_expenses">Añade gastos fijos mensuales</string>
     <string name="configuration_category_title">Categorías</string>
