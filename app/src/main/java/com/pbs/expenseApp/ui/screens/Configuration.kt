@@ -45,10 +45,10 @@ fun Configuration() {
     val configurationMV: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoriesMV: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val monthlySavings = userVM.monthlySavings.observeAsState()
+    val monthlySavings = userVM.monthlySavings
     val editMonthlySavings = configurationMV.editMonthlySavings.observeAsState()
     val cardItems = configurationMV.cardItems.observeAsState()
-    val categories = categoriesMV.categories.observeAsState()
+    val categories = categoriesMV.categories
 
     LaunchedEffect(key1 = true) {
         async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
@@ -78,7 +78,7 @@ fun Configuration() {
                     end = dimensionResource(id = R.dimen.padding_xs)
                 )
             ) {
-                MyMonthlySavingText(monthlySavings = monthlySavings.value ?: 0)
+                MyMonthlySavingText(monthlySavings = monthlySavings)
                 Spacer(modifier = Modifier.weight(1f))
                 if (!editMonthlySavings.value!!) {
                     AppIcon(
@@ -92,7 +92,7 @@ fun Configuration() {
             }
         }
         MyAddIncomesAndExpensesGrid(cardItems.value!!)
-        MyCategoryList(categories.value!!)
+        MyCategoryList(categories)
         if (editMonthlySavings.value!!) {
             AppModalBottomSheet(onDismissRequest = { configurationMV.canEditMonthlySavings() }) {
                 MyModalMonthlySavingModalBottomSheet()

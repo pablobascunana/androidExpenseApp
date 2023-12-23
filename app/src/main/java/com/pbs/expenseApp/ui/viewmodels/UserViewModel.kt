@@ -1,32 +1,29 @@
 package com.pbs.expenseApp.ui.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pbs.expenseApp.database.entities.User
-import com.pbs.expenseApp.database.repositories.UserRepository
+import com.pbs.expenseApp.domain.model.User
+import com.pbs.expenseApp.domain.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
 
-    private val _userExists = MutableLiveData<Boolean>()
-    val userExists: LiveData<Boolean>
-        get() = _userExists
-
-    private val _monthlySavings = MutableLiveData<Int>()
-    val monthlySavings: LiveData<Int>
-        get() = _monthlySavings
+    var userExists by mutableStateOf(false)
+    var monthlySavings by mutableIntStateOf(0)
 
     suspend fun userExists(uuid: String) {
-        viewModelScope.async() {
-            _userExists.value = userRepository.isUserExists(uuid)
+        viewModelScope.async {
+            userExists = userRepository.userExists(uuid)
         }.await()
     }
 
     fun insertUser(uuid: String) {
-        val user = createUser(uuid = uuid)
+        val user = toUser(uuid = uuid)
         viewModelScope.launch {
             async {
                 userRepository.insertUser(user)
@@ -35,21 +32,20 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
     }
 
     suspend fun updateUser(uuid: String, savings: Int) {
-        val user = createUser(uuid = uuid, monthlySavings = savings)
+        val user = toUser(uuid = uuid, monthlySavings = savings)
         viewModelScope.async {
             userRepository.updateUser(user)
-            _monthlySavings.value = savings
+            monthlySavings = savings
         }.await()
     }
 
     suspend fun getMonthlySavings(uuid: String) {
         viewModelScope.async {
-            val result = userRepository.getMonthlySavings(uuid)
-            _monthlySavings.value = result
+            monthlySavings = userRepository.getMonthlySavings(uuid)
         }.await()
     }
 
-    private fun createUser(uuid: String, monthlySavings: Int = 0): User {
+    private fun toUser(uuid: String, monthlySavings: Int = 0): User {
         return User(uuid = uuid, monthlySavings = monthlySavings)
     }
 }
