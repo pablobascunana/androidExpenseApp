@@ -59,7 +59,8 @@ class CategoryViewModel(
             uuid = uuid,
             userUuid = AppUtils.getAppId(appContext),
             name = name,
-            type = type
+            type = type,
+            isDefault = false,
         )
         viewModelScope.launch {
             viewModelScope.async {

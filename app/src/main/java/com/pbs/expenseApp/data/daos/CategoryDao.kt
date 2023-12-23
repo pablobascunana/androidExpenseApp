@@ -13,6 +13,6 @@ interface CategoryDao {
     suspend fun insert(category: Category)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(entities: List<Category?>)
-    @Query("SELECT * FROM categories ORDER BY type DESC")
+    @Query("SELECT * FROM categories ORDER BY type DESC, isDefault")
     fun getAllCategoriesOrderByType(): Flow<List<Category>>
 }

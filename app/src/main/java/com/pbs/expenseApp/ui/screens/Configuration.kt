@@ -16,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
@@ -77,7 +78,7 @@ fun Configuration() {
                 if (!configurationVM.editMonthlySavings) {
                     AppIcon(
                         imageVector = Icons.Outlined.Edit,
-                        contentDescription = "Edit icon",
+                        contentDescription = stringResource(id = R.string.edit),
                         modifier = Modifier.clickable {
                             configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
                         }

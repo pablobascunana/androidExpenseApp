@@ -28,5 +28,6 @@ data class Category(
     val uuid: String,
     val userUuid: String,
     val name: String,
-    val type: CategoryType
+    val type: CategoryType,
+    val isDefault: Boolean = true
 )
