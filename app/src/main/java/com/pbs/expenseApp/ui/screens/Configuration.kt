@@ -44,10 +44,6 @@ fun Configuration() {
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoriesVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val monthlySavings = userVM.monthlySavings
-    // val editMonthlySavings = configurationMV.editMonthlySavings
-    // val categories = categoriesVM.categories
-
     LaunchedEffect(key1 = true) {
         async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
     }
@@ -76,7 +72,7 @@ fun Configuration() {
                     end = dimensionResource(id = R.dimen.padding_xs)
                 )
             ) {
-                MyMonthlySavingText(monthlySavings = monthlySavings)
+                MyMonthlySavingText(monthlySavings = userVM.monthlySavings)
                 Spacer(modifier = Modifier.weight(1f))
                 if (!configurationVM.editMonthlySavings) {
                     AppIcon(

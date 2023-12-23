@@ -25,8 +25,6 @@ fun AddExpense() {
     val context = LocalContext.current
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val monthlySavings = userVM.monthlySavings
-
     LaunchedEffect(key1 = true) {
         async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
     }
@@ -44,7 +42,7 @@ fun AddExpense() {
                 .fillMaxSize()
                 .padding(start = dimensionResource(id = R.dimen.padding_sm),  end = dimensionResource(id = R.dimen.padding_sm))
             ) {
-                MyMonthlySavingText(monthlySavings = monthlySavings)
+                MyMonthlySavingText(monthlySavings = userVM.monthlySavings)
             }
         }
     }

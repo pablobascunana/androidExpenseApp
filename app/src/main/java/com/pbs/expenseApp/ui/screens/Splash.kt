@@ -20,11 +20,9 @@ fun SplashScreen(navHostController: NavHostController) {
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val userExists = userVM.userExists
-
     LaunchedEffect(key1 = true) {
         async { userVM.userExists(appId) }.await()
-        if (!userExists) {
+        if (!userVM.userExists) {
             async { userVM.insertUser(appId) }.await()
             async { categoryVM.saveCategories() }.await()
         }

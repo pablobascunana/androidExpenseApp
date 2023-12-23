@@ -59,7 +59,6 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
     }
 }
 
-
 @Composable
 private fun formatCategoryTypes(categoryTypes: Array<CategoryType>): Array<CategoryType> {
     categoryTypes.forEach { category ->
