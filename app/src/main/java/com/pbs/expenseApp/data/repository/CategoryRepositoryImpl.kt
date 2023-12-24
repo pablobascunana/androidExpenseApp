@@ -6,7 +6,8 @@ import com.pbs.expenseApp.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 
 class CategoryRepositoryImpl(private val categoryDao: CategoryDao): CategoryRepository {
-    override suspend fun insertCategory(category: Category) = categoryDao.insert(category)
-    override suspend fun insertAllCategories(categories: List<Category>) = categoryDao.insertAll(categories)
-    override fun getAllCategoriesOrderByType(): Flow<List<Category>> = categoryDao.getAllCategoriesOrderByType()
+    override suspend fun insert(category: Category) = categoryDao.insert(category)
+    override suspend fun insertAll(categories: List<Category>) = categoryDao.insertAll(categories)
+    override suspend fun update(category: Category) = categoryDao.update(category)
+    override fun getAllOrderByType(): Flow<List<Category>> = categoryDao.getAllOrderByType()
 }

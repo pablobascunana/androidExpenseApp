@@ -1,5 +1,6 @@
 package com.pbs.expenseApp.ui.composables
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,8 +13,10 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,11 +30,18 @@ import com.pbs.expenseApp.ui.components.AppLazyColum
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
+import com.pbs.expenseApp.ui.screens.resetInputs
+import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
+import com.pbs.expenseApp.utils.AppUtils
+import kotlinx.coroutines.async
 
 @Composable
 fun MyCategoryList(categories: List<Category>) {
+    val context = LocalContext.current
+
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     AppText(
         text = stringResource(id = R.string.configuration_category_title),
@@ -72,6 +82,11 @@ fun MyCategoryList(categories: List<Category>) {
                             modifier = Modifier
                                 .padding(end = dimensionResource(id = R.dimen.padding_xs))
                                 .clickable {
+                                    categoryVM.categoryType = formatCategoryType(
+                                        context, category.type.value
+                                    )
+                                    categoryVM.categoryName = category.name
+                                    categoryVM.categoryToEdit = category
                                     configurationVM.editCategory = !configurationVM.editCategory
                                 }
                         )
@@ -79,7 +94,7 @@ fun MyCategoryList(categories: List<Category>) {
                             imageVector = Icons.Outlined.Delete,
                             contentDescription = stringResource(id = R.string.delete),
                             modifier = Modifier.clickable {
-
+                                configurationVM.editCategory = !configurationVM.editCategory
                             }
                         )
                     }
@@ -94,9 +109,26 @@ fun MyCategoryList(categories: List<Category>) {
         ) {
             MyConfigurationModalBottomSheet(
                 text = stringResource(id = R.string.configuration_edit_category),
-                onClickNegative = {},
-                onClickPositive = {}
+                onClickNegative = {
+                    resetInputs(categoryVM)
+                    configurationVM.editCategory = !configurationVM.editCategory
+                },
+                onClickPositive = {
+                    categoryVM.canEditCategory = !categoryVM.canEditCategory
+                }
             )
+        }
+    }
+    if (categoryVM.canEditCategory) {
+        categoryVM.categoryToEdit.name = categoryVM.categoryName
+        categoryVM.categoryToEdit.type = categoryTypeToEnumValue(categoryVM.categoryType)
+        LaunchedEffect(key1 = 1) {
+            async {
+                categoryVM.editCategory(categoryVM.categoryToEdit)
+                resetInputs(categoryVM)
+                categoryVM.canEditCategory = !categoryVM.canEditCategory
+                configurationVM.editCategory = !configurationVM.editCategory
+            }.await()
         }
     }
 }
@@ -107,4 +139,13 @@ private fun getCategoryCardColor(item: Category): Color {
         return MaterialTheme.colorScheme.tertiaryContainer
     }
     return MaterialTheme.colorScheme.errorContainer
+}
+
+private fun formatCategoryType(context: Context, type: String): String {
+    return when (type) {
+        CategoryType.INCOME.value -> AppUtils.getString(
+            context = context, id = R.string.category_type_income
+        )
+        else -> AppUtils.getString(context = context, id = R.string.category_type_expense)
+    }
 }

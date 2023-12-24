@@ -47,25 +47,39 @@ class CategoryViewModel(
     var categoryName by mutableStateOf("")
     var categoryType by mutableStateOf("")
     var canSaveCategory by mutableStateOf(false)
+    var categoryToEdit by mutableStateOf(
+        Category(uuid = "", userUuid = "", type = CategoryType.EXPENSE, name = "" )
+    )
+    var canEditCategory by mutableStateOf(false)
 
     suspend fun saveCategories(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {
-            categoryRepository.insertAllCategories(categories = categories)
+            categoryRepository.insertAll(categories = categories)
         }
     }
     suspend fun saveCategory(name: String, type: CategoryType) {
-        val uuid = AppUtils.getUuid()
-        val category = Category(
-            uuid = uuid,
-            userUuid = AppUtils.getAppId(appContext),
-            name = name,
-            type = type,
-            isDefault = false,
-        )
+        val category = toCategory(name = name, type = type)
         viewModelScope.launch {
             viewModelScope.async {
-                categoryRepository.insertCategory(category = category)
+                categoryRepository.insert(category = category)
             }.await()
+        }
+    }
+
+    suspend fun editCategory(category: Category) {
+        viewModelScope.launch {
+            viewModelScope.async {
+                categoryRepository.update(category = category)
+                // getCategories()
+            }.await()
+        }
+    }
+
+    private fun getCategories() {
+        viewModelScope.launch {
+            categoryRepository.getAllOrderByType().collect { response: List<Category> ->
+                categories = response
+            }
         }
     }
 
@@ -74,19 +88,18 @@ class CategoryViewModel(
             getCategories()
         }
     }
-    private fun getCategories() {
-        viewModelScope.launch {
-            categoryRepository.getAllCategoriesOrderByType().collect { response: List<Category> ->
-                categories = response
-            }
-        }
-    }
 
-    fun isExpandedCategoryTypeDropdown() {
-        expandedCategoryTypeDropDown = !expandedCategoryTypeDropDown
-    }
-
-    fun canSaveCategory() {
-        canSaveCategory = !canSaveCategory
+    private fun toCategory(
+        uuid: String = AppUtils.getUuid(), name: String, type: CategoryType
+    ): Category {
+        return Category(
+            uuid = uuid,
+            userUuid = AppUtils.getAppId(appContext),
+            name = name,
+            type = type,
+            isDefault = false,
+        )
     }
 }
+
+

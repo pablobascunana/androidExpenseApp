@@ -33,7 +33,6 @@ fun MyAddCategoryFab() {
             contentDescription = stringResource(id = R.string.configuration_add_category)
         )
     }
-
     if(configurationVM.addCategory) {
         AppModalBottomSheet(onDismissRequest = {
             configurationVM.addCategory = !configurationVM.addCategory
@@ -46,7 +45,7 @@ fun MyAddCategoryFab() {
                     configurationVM.addCategory = !configurationVM.addCategory
                 },
                 onClickPositive = {
-                    categoryVM.canSaveCategory()
+                    categoryVM.canSaveCategory = !categoryVM.canSaveCategory
                 }
             )
         }
@@ -57,7 +56,7 @@ fun MyAddCategoryFab() {
             async {
                 categoryVM.saveCategory(categoryVM.categoryName, categoryType)
                 resetInputs(categoryVM)
-                categoryVM.canSaveCategory()
+                categoryVM.canSaveCategory = !categoryVM.canSaveCategory
                 configurationVM.addCategory = !configurationVM.addCategory
             }.await()
         }

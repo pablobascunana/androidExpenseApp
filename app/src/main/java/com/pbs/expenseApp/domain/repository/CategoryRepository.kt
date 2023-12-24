@@ -4,7 +4,8 @@ import com.pbs.expenseApp.domain.model.Category
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
-    suspend fun insertCategory(category: Category)
-    suspend fun insertAllCategories(categories: List<Category>)
-    fun getAllCategoriesOrderByType(): Flow<List<Category>>
+    suspend fun insert(category: Category)
+    suspend fun update(category: Category)
+    suspend fun insertAll(categories: List<Category>)
+    fun getAllOrderByType(): Flow<List<Category>>
 }

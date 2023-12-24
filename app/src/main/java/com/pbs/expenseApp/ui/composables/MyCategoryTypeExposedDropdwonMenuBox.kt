@@ -6,6 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -14,19 +15,25 @@ import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
+import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
+import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
+import kotlinx.coroutines.async
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyCategoryTypeExposedDropdownMenuBox() {
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val categoryTypes = formatCategoryTypes(categoryVM.categoryTypes)
     val expandedCategoryTypeDropDown = categoryVM.expandedCategoryTypeDropDown
 
     ExposedDropdownMenuBox(
         expanded = expandedCategoryTypeDropDown,
-        onExpandedChange = { categoryVM.isExpandedCategoryTypeDropdown() },
+        onExpandedChange = {
+            categoryVM.expandedCategoryTypeDropDown = !categoryVM.expandedCategoryTypeDropDown
+        },
     ) {
         AppTextField(
             text = stringResource(id = R.string.configuration_category_type),

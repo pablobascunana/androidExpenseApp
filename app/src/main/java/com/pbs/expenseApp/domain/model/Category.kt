@@ -25,9 +25,9 @@ enum class CategoryType(var value: String) {
 )
 data class Category(
     @PrimaryKey()
-    val uuid: String,
-    val userUuid: String,
-    val name: String,
-    val type: CategoryType,
+    val uuid: String = "",
+    val userUuid: String = "",
+    var name: String = "",
+    var type: CategoryType = CategoryType.INCOME,
     val isDefault: Boolean = true
 )
