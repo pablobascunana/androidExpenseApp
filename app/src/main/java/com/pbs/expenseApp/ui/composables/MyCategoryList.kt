@@ -89,13 +89,13 @@ fun MyCategoryList(categories: List<Category>) {
                                     configurationVM.editCategory = !configurationVM.editCategory
                                 }
                         )
-                        AppIcon(
+                        /* AppIcon(
                             imageVector = Icons.Outlined.Delete,
                             contentDescription = stringResource(id = R.string.delete),
                             modifier = Modifier.clickable {
                                 configurationVM.editCategory = !configurationVM.editCategory
                             }
-                        )
+                        ) */ 
                     }
                 }
             }
