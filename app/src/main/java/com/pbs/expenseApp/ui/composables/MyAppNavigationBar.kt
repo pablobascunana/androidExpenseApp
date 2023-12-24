@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.components
+package com.pbs.expenseApp.ui.composables
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -10,9 +10,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pbs.expenseApp.appstate.AppState
 import com.pbs.expenseApp.navigation.BottomBarRoutes
+import com.pbs.expenseApp.ui.components.AppIcon
+import com.pbs.expenseApp.ui.components.AppText
 
 @Composable
-fun AppNavigationBar(appState: AppState) {
+fun MyAppNavigationBar(appState: AppState) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {
@@ -29,7 +31,10 @@ fun AppNavigationBar(appState: AppState) {
             NavigationBarItem(
                 selected = item.route == currentRoute,
                 label = {
-                    AppText(id = item.title, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    AppText(
+                        text = stringResource(id = item.title),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 },
                 icon = {
                     AppIcon(

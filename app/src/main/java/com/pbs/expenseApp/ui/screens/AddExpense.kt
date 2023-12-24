@@ -1,10 +1,11 @@
 package com.pbs.expenseApp.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -24,10 +25,8 @@ fun AddExpense() {
     val context = LocalContext.current
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val monthlySavings = userVM.monthlySavings.observeAsState()
-
     LaunchedEffect(key1 = true) {
-        async { userVM.getMonthlySavings(AppUtils.appId(context)) }.await()
+        async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
     }
 
     AppColumn(
@@ -35,12 +34,15 @@ fun AddExpense() {
         .fillMaxSize()
         .padding(dimensionResource(id = R.dimen.padding_sm))
     ) {
-        AppCard {
+        AppCard(modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(R.dimen.card_height))
+        ) {
             AppRow(modifier = Modifier
                 .fillMaxSize()
                 .padding(start = dimensionResource(id = R.dimen.padding_sm),  end = dimensionResource(id = R.dimen.padding_sm))
             ) {
-                MyMonthlySavingText(monthlySavings = monthlySavings.value ?: 0)
+                MyMonthlySavingText(monthlySavings = userVM.monthlySavings)
             }
         }
     }

@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 @Composable
 fun AppRow(
     modifier: Modifier = Modifier,
-    rowContent: @Composable() RowScope.() -> Unit
+    rowContent: @Composable RowScope.() -> Unit
 ) {
     Row(
         modifier = modifier,

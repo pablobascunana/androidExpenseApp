@@ -5,6 +5,7 @@
     <dimen name="card_elevation">6dp</dimen>
     <dimen name="card_border">1dp</dimen>
     <dimen name="card_height">50dp</dimen>
+    <dimen name="card_height_lg">150dp</dimen>
 
     <dimen name="padding_xs">8dp</dimen>
     <dimen name="padding_sm">16dp</dimen>
@@ -12,4 +13,7 @@
     <dimen name="padding_md">24dp</dimen>
     <dimen name="padding_lg">32dp</dimen>
     <dimen name="padding_xl">40dp</dimen>
+
+    <dimen name="font_sm">16sp</dimen>
+    <dimen name="font_md">24sp</dimen>
 </resources>

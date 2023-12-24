@@ -8,11 +8,13 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun AppButton(
+    enabled: Boolean = true,
     onClick: () -> Unit,
     colors: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-    buttonContent: @Composable()  () -> Unit
+    buttonContent: @Composable () -> Unit
 ) {
     Button(
+        enabled = enabled,
         onClick = { onClick() },
         colors = colors,
     ) {
