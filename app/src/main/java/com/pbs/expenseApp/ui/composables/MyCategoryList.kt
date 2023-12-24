@@ -1,6 +1,5 @@
 package com.pbs.expenseApp.ui.composables
 
-import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -82,7 +81,7 @@ fun MyCategoryList(categories: List<Category>) {
                             modifier = Modifier
                                 .padding(end = dimensionResource(id = R.dimen.padding_xs))
                                 .clickable {
-                                    categoryVM.categoryType = formatCategoryType(
+                                    categoryVM.categoryType = AppUtils.categoryTypeToString(
                                         context, category.type.value
                                     )
                                     categoryVM.categoryName = category.name
@@ -121,7 +120,9 @@ fun MyCategoryList(categories: List<Category>) {
     }
     if (categoryVM.canEditCategory) {
         categoryVM.categoryToEdit.name = categoryVM.categoryName
-        categoryVM.categoryToEdit.type = categoryTypeToEnumValue(categoryVM.categoryType)
+        categoryVM.categoryToEdit.type = AppUtils.categoryTypeToEnum(
+            context = context, type = categoryVM.categoryType
+        )
         LaunchedEffect(key1 = 1) {
             async {
                 categoryVM.editCategory(categoryVM.categoryToEdit)
@@ -141,11 +142,3 @@ private fun getCategoryCardColor(item: Category): Color {
     return MaterialTheme.colorScheme.errorContainer
 }
 
-private fun formatCategoryType(context: Context, type: String): String {
-    return when (type) {
-        CategoryType.INCOME.value -> AppUtils.getString(
-            context = context, id = R.string.category_type_income
-        )
-        else -> AppUtils.getString(context = context, id = R.string.category_type_expense)
-    }
-}
