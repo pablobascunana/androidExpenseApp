@@ -3,6 +3,7 @@ package com.pbs.expenseApp.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.ui.res.stringResource
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.CategoryType
@@ -51,5 +52,10 @@ object AppUtils {
             else -> CategoryType.EXPENSE
         }
     }
-
+    @JvmStatic
+    fun showToast(context: Context, textId: Int) {
+        Toast.makeText(
+            context, getString( context = context, id = textId), Toast.LENGTH_SHORT
+        ).show()
+    }
 }

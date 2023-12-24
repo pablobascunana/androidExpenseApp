@@ -46,7 +46,7 @@ class CategoryViewModel(
     var expandedCategoryTypeDropDown by mutableStateOf(false)
     var categoryName by mutableStateOf("")
     var categoryType by mutableStateOf("")
-    var canSaveCategory by mutableStateOf(false)
+    var canInsertCategory by mutableStateOf(false)
     var selectedCategory by mutableStateOf(
         Category(uuid = "", userUuid = "", type = CategoryType.EXPENSE, name = "" )
     )

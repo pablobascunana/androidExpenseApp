@@ -58,12 +58,13 @@ fun MyCategoryList(categories: List<Category>) {
                     .height(dimensionResource(R.dimen.card_height)),
                 containerColor = getCategoryCardColor(category)
             ) {
-                AppRow(modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(
-                        start = dimensionResource(id = R.dimen.padding_sm),
-                        end = dimensionResource(id = R.dimen.padding_sm)
-                    )
+                AppRow(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(
+                            start = dimensionResource(id = R.dimen.padding_sm),
+                            end = dimensionResource(id = R.dimen.padding_sm)
+                        )
                 ) {
                     /* AppIcon(
                         imageVector = Icons.Filled.Hd,
@@ -104,7 +105,7 @@ fun MyCategoryList(categories: List<Category>) {
             }
         }
     }
-    if(configurationVM.editCategory) {
+    if (configurationVM.editCategory) {
         AppModalBottomSheet(onDismissRequest = {
             configurationVM.editCategory = !configurationVM.editCategory
         }
@@ -132,6 +133,7 @@ fun MyCategoryList(categories: List<Category>) {
                 resetInputs(categoryVM)
                 categoryVM.canEditCategory = !categoryVM.canEditCategory
                 configurationVM.editCategory = !configurationVM.editCategory
+                AppUtils.showToast(context = context, textId = R.string.configuration_edit_feedback)
             }.await()
         }
     }
@@ -139,7 +141,8 @@ fun MyCategoryList(categories: List<Category>) {
         AppAlertDialog(
             dialogTitle = stringResource(id = R.string.configuration_delete_category),
             dialogText = stringResource(
-                id = R.string.configuration_delete_category_confirmation) +
+                id = R.string.configuration_delete_category_confirmation
+            ) +
                     " ${categoryVM.categoryName}?",
             icon = Icons.Outlined.Delete,
             onConfirmation = {
@@ -153,6 +156,10 @@ fun MyCategoryList(categories: List<Category>) {
                     categoryVM.delete(categoryVM.selectedCategory)
                     categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory
                     categoryVM.confirmDelete = !categoryVM.confirmDelete
+                    AppUtils.showToast(
+                        context = context,
+                        textId = R.string.configuration_delete_feedback
+                    )
                 }.await()
             }
         }
@@ -166,4 +173,3 @@ private fun getCategoryCardColor(item: Category): Color {
     }
     return MaterialTheme.colorScheme.errorContainer
 }
-
