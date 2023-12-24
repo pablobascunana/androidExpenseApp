@@ -9,5 +9,6 @@ class CategoryRepositoryImpl(private val categoryDao: CategoryDao): CategoryRepo
     override suspend fun insert(category: Category) = categoryDao.insert(category)
     override suspend fun insertAll(categories: List<Category>) = categoryDao.insertAll(categories)
     override suspend fun update(category: Category) = categoryDao.update(category)
+    override suspend fun delete(category: Category) = categoryDao.delete(category)
     override fun getAllOrderByType(): Flow<List<Category>> = categoryDao.getAllOrderByType()
 }
