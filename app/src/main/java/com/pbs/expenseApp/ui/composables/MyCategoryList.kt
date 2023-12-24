@@ -1,5 +1,6 @@
 package com.pbs.expenseApp.ui.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,17 +12,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
+import com.pbs.expenseApp.states.rememberSnackBarState
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppCard
@@ -35,10 +42,12 @@ import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyCategoryList(categories: List<Category>) {
     val context = LocalContext.current
+    val snackBarHostState = rememberSnackBarState()
 
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -58,12 +67,13 @@ fun MyCategoryList(categories: List<Category>) {
                     .height(dimensionResource(R.dimen.card_height)),
                 containerColor = getCategoryCardColor(category)
             ) {
-                AppRow(modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(
-                        start = dimensionResource(id = R.dimen.padding_sm),
-                        end = dimensionResource(id = R.dimen.padding_sm)
-                    )
+                AppRow(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(
+                            start = dimensionResource(id = R.dimen.padding_sm),
+                            end = dimensionResource(id = R.dimen.padding_sm)
+                        )
                 ) {
                     /* AppIcon(
                         imageVector = Icons.Filled.Hd,
@@ -104,7 +114,7 @@ fun MyCategoryList(categories: List<Category>) {
             }
         }
     }
-    if(configurationVM.editCategory) {
+    if (configurationVM.editCategory) {
         AppModalBottomSheet(onDismissRequest = {
             configurationVM.editCategory = !configurationVM.editCategory
         }
@@ -139,7 +149,8 @@ fun MyCategoryList(categories: List<Category>) {
         AppAlertDialog(
             dialogTitle = stringResource(id = R.string.configuration_delete_category),
             dialogText = stringResource(
-                id = R.string.configuration_delete_category_confirmation) +
+                id = R.string.configuration_delete_category_confirmation
+            ) +
                     " ${categoryVM.categoryName}?",
             icon = Icons.Outlined.Delete,
             onConfirmation = {

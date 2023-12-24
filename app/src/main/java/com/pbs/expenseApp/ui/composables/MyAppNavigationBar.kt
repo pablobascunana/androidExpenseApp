@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.pbs.expenseApp.appstate.AppState
+import com.pbs.expenseApp.states.AppState
 import com.pbs.expenseApp.navigation.BottomBarRoutes
 import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppText

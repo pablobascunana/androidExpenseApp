@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.appstate
+package com.pbs.expenseApp.states
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
