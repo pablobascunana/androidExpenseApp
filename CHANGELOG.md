@@ -22,3 +22,4 @@ All notable changes will be documented in this file
 * [PR-15](https://github.com/pablobascunana/androidExpenseApp/pull/15) Refactor to create view models and composables
 * [PR-16](https://github.com/pablobascunana/androidExpenseApp/pull/16) Add and edit user categories
 * [PR-17](https://github.com/pablobascunana/androidExpenseApp/pull/17) Delete user categories
+* [PR-18](https://github.com/pablobascunana/androidExpenseApp/pull/18) Add toast 
