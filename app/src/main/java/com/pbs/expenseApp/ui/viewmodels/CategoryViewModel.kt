@@ -47,17 +47,19 @@ class CategoryViewModel(
     var categoryName by mutableStateOf("")
     var categoryType by mutableStateOf("")
     var canSaveCategory by mutableStateOf(false)
-    var categoryToEdit by mutableStateOf(
+    var selectedCategory by mutableStateOf(
         Category(uuid = "", userUuid = "", type = CategoryType.EXPENSE, name = "" )
     )
     var canEditCategory by mutableStateOf(false)
+    var canDeleteCategory by mutableStateOf(false)
+    var confirmDelete by mutableStateOf(false)
 
-    suspend fun saveCategories(categories: List<Category> = defaultCategories) {
+    suspend fun insertAll(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {
             categoryRepository.insertAll(categories = categories)
         }
     }
-    suspend fun saveCategory(name: String, type: CategoryType) {
+    suspend fun insert(name: String, type: CategoryType) {
         val category = toCategory(name = name, type = type)
         viewModelScope.launch {
             viewModelScope.async {
@@ -66,12 +68,15 @@ class CategoryViewModel(
         }
     }
 
-    suspend fun editCategory(category: Category) {
+    suspend fun update(category: Category) {
         viewModelScope.launch {
-            viewModelScope.async {
-                categoryRepository.update(category = category)
-                // getCategories()
-            }.await()
+            async { categoryRepository.update(category = category) }.await()
+        }
+    }
+
+    suspend fun delete(category: Category) {
+        viewModelScope.launch {
+            async { categoryRepository.delete(category = category) }.await()
         }
     }
 

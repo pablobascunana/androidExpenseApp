@@ -1,6 +1,7 @@
 package com.pbs.expenseApp.data.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,6 +15,8 @@ interface CategoryDao {
     suspend fun insert(category: Category)
     @Update
     suspend fun update(category: Category)
+    @Delete
+    suspend fun delete(category: Category)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(entities: List<Category?>)
     @Query("SELECT * FROM categories ORDER BY type DESC, isDefault")

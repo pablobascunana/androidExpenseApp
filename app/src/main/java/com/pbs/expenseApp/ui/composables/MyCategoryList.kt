@@ -23,6 +23,7 @@ import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
+import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppLazyColum
@@ -85,17 +86,19 @@ fun MyCategoryList(categories: List<Category>) {
                                         context, category.type.value
                                     )
                                     categoryVM.categoryName = category.name
-                                    categoryVM.categoryToEdit = category
+                                    categoryVM.selectedCategory = category
                                     configurationVM.editCategory = !configurationVM.editCategory
                                 }
                         )
-                        /* AppIcon(
+                        AppIcon(
                             imageVector = Icons.Outlined.Delete,
                             contentDescription = stringResource(id = R.string.delete),
                             modifier = Modifier.clickable {
-                                configurationVM.editCategory = !configurationVM.editCategory
+                                categoryVM.categoryName = category.name
+                                categoryVM.selectedCategory = category
+                                categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory
                             }
-                        ) */ 
+                        )
                     }
                 }
             }
@@ -119,17 +122,39 @@ fun MyCategoryList(categories: List<Category>) {
         }
     }
     if (categoryVM.canEditCategory) {
-        categoryVM.categoryToEdit.name = categoryVM.categoryName
-        categoryVM.categoryToEdit.type = AppUtils.categoryTypeToEnum(
+        categoryVM.selectedCategory.name = categoryVM.categoryName
+        categoryVM.selectedCategory.type = AppUtils.categoryTypeToEnum(
             context = context, type = categoryVM.categoryType
         )
         LaunchedEffect(key1 = 1) {
             async {
-                categoryVM.editCategory(categoryVM.categoryToEdit)
+                categoryVM.update(categoryVM.selectedCategory)
                 resetInputs(categoryVM)
                 categoryVM.canEditCategory = !categoryVM.canEditCategory
                 configurationVM.editCategory = !configurationVM.editCategory
             }.await()
+        }
+    }
+    if (categoryVM.canDeleteCategory) {
+        AppAlertDialog(
+            dialogTitle = stringResource(id = R.string.configuration_delete_category),
+            dialogText = stringResource(
+                id = R.string.configuration_delete_category_confirmation) +
+                    " ${categoryVM.categoryName}?",
+            icon = Icons.Outlined.Delete,
+            onConfirmation = {
+                categoryVM.confirmDelete = !categoryVM.confirmDelete
+            },
+            onDismissRequest = { categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory },
+        )
+        if (categoryVM.confirmDelete) {
+            LaunchedEffect(key1 = 1) {
+                async {
+                    categoryVM.delete(categoryVM.selectedCategory)
+                    categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory
+                    categoryVM.confirmDelete = !categoryVM.confirmDelete
+                }.await()
+            }
         }
     }
 }

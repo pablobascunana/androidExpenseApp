@@ -60,7 +60,7 @@ fun MyAddCategoryFab() {
         )
         LaunchedEffect(key1 = 1) {
             async {
-                categoryVM.saveCategory(categoryVM.categoryName, categoryType)
+                categoryVM.insert(categoryVM.categoryName, categoryType)
                 resetInputs(categoryVM)
                 categoryVM.canSaveCategory = !categoryVM.canSaveCategory
                 configurationVM.addCategory = !configurationVM.addCategory
