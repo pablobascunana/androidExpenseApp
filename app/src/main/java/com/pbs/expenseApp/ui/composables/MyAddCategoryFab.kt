@@ -49,12 +49,12 @@ fun MyAddCategoryFab() {
                     configurationVM.addCategory = !configurationVM.addCategory
                 },
                 onClickPositive = {
-                    categoryVM.canSaveCategory = !categoryVM.canSaveCategory
+                    categoryVM.canInsertCategory = !categoryVM.canInsertCategory
                 }
             )
         }
     }
-    if (categoryVM.canSaveCategory) {
+    if (categoryVM.canInsertCategory) {
         categoryType = AppUtils.categoryTypeToEnum(
             context = context, type = categoryVM.categoryType
         )
@@ -62,8 +62,11 @@ fun MyAddCategoryFab() {
             async {
                 categoryVM.insert(categoryVM.categoryName, categoryType)
                 resetInputs(categoryVM)
-                categoryVM.canSaveCategory = !categoryVM.canSaveCategory
+                categoryVM.canInsertCategory = !categoryVM.canInsertCategory
                 configurationVM.addCategory = !configurationVM.addCategory
+                AppUtils.showToast(
+                    context = context, textId = R.string.configuration_insert_feedback
+                )
             }.await()
         }
     }

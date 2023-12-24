@@ -42,6 +42,9 @@
     <string name="configuration_category_type">Tipo categoría</string>
     <string name="configuration_delete_category">Eliminar categoría</string>
     <string name="configuration_delete_category_confirmation">¿Desea eliminar la categoría</string>
+    <string name="configuration_insert_feedback">La categoría ha sido creada</string>
+    <string name="configuration_edit_feedback">La categoría ha sido editada</string>
+    <string name="configuration_delete_feedback">La categoría ha sido eliminada</string>
 
     <string name="save">Guardar</string>
     <string name="cancel">Cancelar</string>
