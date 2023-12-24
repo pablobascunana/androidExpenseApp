@@ -40,9 +40,12 @@
     <string name="configuration_add_category">Añadir categoría</string>
     <string name="configuration_category_name">Nombre categoría</string>
     <string name="configuration_category_type">Tipo categoría</string>
+    <string name="configuration_delete_category">Eliminar categoría</string>
+    <string name="configuration_delete_category_confirmation">¿Desea eliminar la categoría</string>
 
     <string name="save">Guardar</string>
     <string name="cancel">Cancelar</string>
     <string name="edit">Editar</string>
     <string name="delete">Eliminar</string>
+    <string name="confirm">Confirmar</string>
 </resources>
