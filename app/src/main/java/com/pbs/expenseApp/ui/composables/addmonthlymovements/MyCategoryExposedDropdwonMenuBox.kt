@@ -46,11 +46,11 @@ fun MyCategoryExposedDropdownMenuBox() {
             expanded = categoryVM.expandedCategoryDropDown,
             onDismissRequest = { categoryVM.expandedCategoryDropDown = false }
         ) {
-            categoryVM.categories.forEach { categoryType ->
+            categoryVM.categories.forEach { category ->
                 DropdownMenuItem(
-                    text = { AppText(text = categoryType.name) },
+                    text = { AppText(text = category.name) },
                     onClick = {
-                        categoryVM.categoryName = categoryType.name
+                        categoryVM.selectedCategory = category
                         categoryVM.expandedCategoryDropDown = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

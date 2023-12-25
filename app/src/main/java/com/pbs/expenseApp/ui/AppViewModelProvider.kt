@@ -25,7 +25,7 @@ object AppViewModelProvider {
             ConfigurationViewModel()
         }
         initializer {
-            ExpenseViewModel()
+            ExpenseViewModel(expenseApplication().container.expenseRepository)
         }
     }
 }

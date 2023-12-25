@@ -1,11 +1,9 @@
 package com.pbs.expenseApp.data.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.pbs.expenseApp.domain.model.Expense
 import kotlinx.coroutines.flow.Flow
 
@@ -13,12 +11,6 @@ import kotlinx.coroutines.flow.Flow
 interface ExpenseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(expense: Expense)
-    @Update
-    suspend fun update(expense: Expense)
-    @Delete
-    suspend fun delete(expense: Expense)
-    @Query("SELECT * from expenses WHERE uuid = :uuid")
-    fun getExpense(uuid: String): Flow<Expense?>
     @Query("SELECT * from expenses")
-    fun getAllExpenses(): Flow<List<Expense>>
+    fun getAll(): Flow<List<Expense>>
 }

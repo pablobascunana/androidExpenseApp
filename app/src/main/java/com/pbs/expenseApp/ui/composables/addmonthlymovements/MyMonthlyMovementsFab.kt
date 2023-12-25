@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -16,11 +17,14 @@ import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
+import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
+import kotlinx.coroutines.async
 
 @Composable
 fun MyAddExpenseFab(navHostController: NavHostController) {
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     FloatingActionButton(
         onClick = {
@@ -47,19 +51,52 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
             MyAddExpenseModalBottomSheet(
                 navHostController = navHostController,
                 onClickNegative = {
-                    resetExpenseInputs(expenseVM)
+                    resetExpenseInputs(expenseVM, categoryVM)
                     expenseVM.addExpense = !expenseVM.addExpense
                 },
                 onClickPositive = {
-                    resetExpenseInputs(expenseVM)
+                    expenseVM.canInsertExpense = !expenseVM.canInsertExpense
                 }
             )
+        }
+        if (expenseVM.canInsertExpense) {
+            LaunchedEffect(key1 = 1) {
+                async {
+                    expenseVM.insert(
+                        category = categoryVM.selectedCategory,
+                        amount = expenseVM.amountValue,
+                        description = expenseVM.descriptionValue,
+                        payMethod = expenseVM.payMethod
+                    )
+                    resetExpenseInputs(expenseVM, categoryVM)
+                    expenseVM.canInsertExpense = !expenseVM.canInsertExpense
+                    expenseVM.addExpense = !expenseVM.addExpense
+                    /* AppUtils.showToast(
+                        context = context, textId =
+                    ) */
+                }.await()
+            }
+
+            /* categoryType = AppUtils.categoryTypeToEnum(
+                context = context, type = categoryVM.categoryType
+            )
+            LaunchedEffect(key1 = 1) {
+                async {
+                    categoryVM.insert(categoryVM.categoryName, categoryType)
+                    resetInputs(categoryVM)
+                    categoryVM.canInsertCategory = !categoryVM.canInsertCategory
+                    configurationVM.addCategory = !configurationVM.addCategory
+                    AppUtils.showToast(
+                        context = context, textId = R.string.configuration_insert_feedback
+                    )
+                }.await()
+            }*/
         }
     }
 }
 
-private fun resetExpenseInputs(expenseVM: ExpenseViewModel) {
-    expenseVM.categoryName = ""
+private fun resetExpenseInputs(expenseVM: ExpenseViewModel, categoryVM: CategoryViewModel) {
+    categoryVM.categoryName = ""
     expenseVM.descriptionValue = ""
-    expenseVM.amountValue = ""
+    expenseVM.amountValue = 0
 }

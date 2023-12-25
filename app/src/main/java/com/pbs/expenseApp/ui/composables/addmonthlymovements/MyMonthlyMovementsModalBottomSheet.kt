@@ -24,6 +24,7 @@ import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
+import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.utils.AppUtils
 
@@ -35,6 +36,7 @@ fun MyAddExpenseModalBottomSheet(
 ) {
     val context = LocalContext.current
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val currentType =
         navHostController.currentBackStackEntry?.arguments?.getString("type") ?: ""
@@ -70,8 +72,8 @@ fun MyAddExpenseModalBottomSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = dimensionResource(id = R.dimen.padding_sm)),
-            value = expenseVM.amountValue,
-            onValueChange = { expenseVM.amountValue = it },
+            value = expenseVM.amountValue.toString(),
+            onValueChange = { expenseVM.amountValue = it.toInt() },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         AppRow(modifier = Modifier
@@ -89,9 +91,9 @@ fun MyAddExpenseModalBottomSheet(
             }
             Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
             AppButton(
-                enabled = expenseVM.categoryName.isNotEmpty() &&
+                enabled = categoryVM.categoryName.isNotEmpty() &&
                         expenseVM.descriptionValue.isNotEmpty() &&
-                        expenseVM.amountValue.isNotEmpty(),
+                        expenseVM.amountValue.toString().isNotEmpty(),
                 onClick = { onClickPositive() },
                 buttonContent = {
                     AppText(

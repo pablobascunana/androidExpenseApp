@@ -46,6 +46,6 @@ data class Expense(
     val categoryUuid: String,
     val amount: Int,
     val date: Date,
-    val method: MethodType,
+    val payMethod: MethodType,
     val description: String
 )
