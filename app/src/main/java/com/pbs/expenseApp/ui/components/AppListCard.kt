@@ -13,12 +13,14 @@ import androidx.compose.ui.res.dimensionResource
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
-import com.pbs.expenseApp.domain.model.Expense
+import com.pbs.expenseApp.ui.composables.CardContent
 
+@JvmName("AppCategoryListCard")
 @Composable
 fun AppListCard(
     item: Category,
-    cardContent: @Composable RowScope.() -> Unit
+    onEdit: (item: Category) -> Unit,
+    onDelete: (item: Category) -> Unit,
 ) {
     AppCard(
         modifier = Modifier
@@ -27,18 +29,10 @@ fun AppListCard(
             .height(dimensionResource(R.dimen.card_height)),
         containerColor = getCategoryCardColor(item)
     ) {
-        AppRow(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(
-                    start = dimensionResource(id = R.dimen.padding_sm),
-                    end = dimensionResource(id = R.dimen.padding_sm)
-                )
-        ) {
-            cardContent()
-        }
+        CardContent(item = item, onEdit = onEdit, onDelete = onDelete)
     }
 }
+
 
 @Composable
 private fun getCategoryCardColor(item: Category): Color {
@@ -48,6 +42,7 @@ private fun getCategoryCardColor(item: Category): Color {
     return MaterialTheme.colorScheme.errorContainer
 }
 
+@JvmName("AppExpenseListCard")
 @Composable
 fun AppListCard(cardContent: @Composable RowScope.() -> Unit) {
     AppCard(
