@@ -36,7 +36,7 @@ fun AddExpense() {
     ) {
         AppCard(modifier = Modifier
             .fillMaxWidth()
-            .height(dimensionResource(R.dimen.card_height))
+            .height(dimensionResource(R.dimen.card_height_sm))
         ) {
             AppRow(modifier = Modifier
                 .fillMaxSize()

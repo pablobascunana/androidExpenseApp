@@ -14,12 +14,19 @@ class ConfigurationViewModel: ViewModel() {
     var addCategory by mutableStateOf(false)
     var editCategory by mutableStateOf(false)
     val cardItems by mutableStateOf(listOf(
-        CardItem(title = R.string.configuration_card_savings),
-        CardItem(title = R.string.configuration_card_expenses)
+        CardItem(
+            title = R.string.configuration_card_savings,
+            type = R.string.category_type_income
+        ),
+        CardItem(
+            title = R.string.configuration_card_expenses,
+            type = R.string.category_type_expense
+        )
     ))
 }
 
 data class CardItem(
     val title: Int = 0,
-    var containerColor: Color? = null
+    var containerColor: Color? = null,
+    var type: Int = 0
 )

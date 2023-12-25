@@ -1,7 +1,5 @@
 package com.pbs.expenseApp.ui.screens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppCard
@@ -36,9 +35,10 @@ import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
-@RequiresApi(Build.VERSION_CODES.M)
 @Composable
-fun Configuration() {
+fun Configuration(
+    navHostController: NavHostController
+) {
     val context = LocalContext.current
 
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -64,7 +64,7 @@ fun Configuration() {
     ) {
         AppCard(modifier = Modifier
             .fillMaxWidth()
-            .height(dimensionResource(R.dimen.card_height))
+            .height(dimensionResource(R.dimen.card_height_sm))
         ) {
             AppRow(modifier = Modifier
                 .fillMaxSize()
@@ -86,7 +86,9 @@ fun Configuration() {
                 }
             }
         }
-        MyAddIncomesAndExpensesGrid(configurationVM.cardItems)
+        MyAddIncomesAndExpensesGrid(
+            navHostController = navHostController, cardItems = configurationVM.cardItems
+        )
         MyCategoryList(categoriesVM.categories)
         if (configurationVM.editMonthlySavings) {
             AppModalBottomSheet(onDismissRequest = {
