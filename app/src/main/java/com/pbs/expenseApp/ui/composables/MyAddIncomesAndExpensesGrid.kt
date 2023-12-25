@@ -36,6 +36,8 @@ fun MyAddIncomesAndExpensesGrid(
                     ).clickable {
                         if (item.type == R.string.category_type_income) {
                             navHostController.navigate(AppRoutes.AddIncome.route)
+                        } else {
+                            navHostController.navigate(AppRoutes.AddExpense.route)
                         }
                     },
                 containerColor = item.containerColor!!
