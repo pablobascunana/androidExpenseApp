@@ -53,6 +53,7 @@ class CategoryViewModel(
     var canEditCategory by mutableStateOf(false)
     var canDeleteCategory by mutableStateOf(false)
     var confirmDelete by mutableStateOf(false)
+    var expandedCategoryDropDown by mutableStateOf(false)
 
     suspend fun insertAll(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {

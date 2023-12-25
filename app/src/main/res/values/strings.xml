@@ -55,6 +55,8 @@
 
     <string name="add_monthly_incomes">Añade ingresos fijos mensuales</string>
     <string name="add_monthly_expenses">Añade gastos fijos mensuales</string>
+    <string name="add_monthly_income">Añade ingreso fijo mensual</string>
+    <string name="add_monthly_expense">Añade gasto fijo mensual</string>
 
     <string name="no_items_in_list">No hay elementos en la lista</string>
 </resources>
