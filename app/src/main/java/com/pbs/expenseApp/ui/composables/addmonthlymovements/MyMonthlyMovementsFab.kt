@@ -47,10 +47,19 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
             MyAddExpenseModalBottomSheet(
                 navHostController = navHostController,
                 onClickNegative = {
+                    resetExpenseInputs(expenseVM)
                     expenseVM.addExpense = !expenseVM.addExpense
                 },
-                onClickPositive = {  }
+                onClickPositive = {
+                    resetExpenseInputs(expenseVM)
+                }
             )
         }
     }
+}
+
+private fun resetExpenseInputs(expenseVM: ExpenseViewModel) {
+    expenseVM.categoryName = ""
+    expenseVM.descriptionValue = ""
+    expenseVM.amountValue = ""
 }

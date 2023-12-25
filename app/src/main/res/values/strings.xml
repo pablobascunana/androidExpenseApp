@@ -59,4 +59,7 @@
     <string name="add_monthly_expense">Añade gasto fijo mensual</string>
 
     <string name="no_items_in_list">No hay elementos en la lista</string>
+
+    <string name="expense_description">Descripción</string>
+    <string name="expense_amount">Cantidad</string>
 </resources>

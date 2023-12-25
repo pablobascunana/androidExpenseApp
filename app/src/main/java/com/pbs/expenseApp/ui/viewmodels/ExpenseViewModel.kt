@@ -15,4 +15,5 @@ class ExpenseViewModel: ViewModel() {
     var descriptionValue by mutableStateOf("")
     var movementType by mutableStateOf(CategoryType.INCOME)
     var amountValue by mutableStateOf("")
+    var categoryName by mutableStateOf("")
 }
