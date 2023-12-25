@@ -27,7 +27,7 @@ fun AppListCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = dimensionResource(id = R.dimen.padding_xs))
-            .height(dimensionResource(R.dimen.card_height)),
+            .height(dimensionResource(R.dimen.card_height_sm)),
         containerColor = getCategoryCardColor(item)
     ) {
         CardContentCategory(item = item, onEdit = onEdit, onDelete = onDelete)
@@ -53,7 +53,7 @@ fun AppListCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = dimensionResource(id = R.dimen.padding_xs))
-            .height(dimensionResource(R.dimen.card_height)),
+            .height(dimensionResource(R.dimen.card_height_sm)),
         containerColor = MaterialTheme.colorScheme.secondaryContainer
     ) {
         AppRow(

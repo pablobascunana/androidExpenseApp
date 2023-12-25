@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.appstate.rememberAppState
 import com.pbs.expenseApp.navigation.AppRoutes
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppLazyVerticalGrid
@@ -27,14 +25,12 @@ fun MyAddIncomesAndExpensesGrid(
     navHostController: NavHostController,
     cardItems: List<CardItem>
 ) {
-    val appState = rememberAppState()
-
     AppLazyVerticalGrid {
         items(cardItems) { item ->
             AppCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dimensionResource(R.dimen.card_height_lg))
+                    .height(dimensionResource(R.dimen.card_height_md))
                     .padding(
                         bottom = dimensionResource(R.dimen.padding_xs)
                     ).clickable {
@@ -46,10 +42,7 @@ fun MyAddIncomesAndExpensesGrid(
             ) {
                 AppRow(modifier = Modifier
                     .fillMaxSize()
-                    .padding(
-                        start = dimensionResource(id = R.dimen.padding_sm),
-                        end = dimensionResource(id = R.dimen.padding_sm)
-                    )
+                    .padding(dimensionResource(id = R.dimen.padding_md))
                 ) {
                     AppText(text = stringResource(id = item.title))
                 }
