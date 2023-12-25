@@ -51,6 +51,7 @@
     <string name="edit">Editar</string>
     <string name="delete">Eliminar</string>
     <string name="confirm">Confirmar</string>
+    <string name="add">Añadir</string>
 
     <string name="add_monthly_incomes">Añade ingresos fijos mensuales</string>
     <string name="add_monthly_expenses">Añade gastos fijos mensuales</string>
