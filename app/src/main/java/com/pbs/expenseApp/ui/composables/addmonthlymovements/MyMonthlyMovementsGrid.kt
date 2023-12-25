@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addmonthlymovements
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.navigation.AppRoutes
@@ -34,11 +33,9 @@ fun MyAddIncomesAndExpensesGrid(
                     .padding(
                         bottom = dimensionResource(R.dimen.padding_xs)
                     ).clickable {
-                        if (item.type == R.string.category_type_income) {
-                            navHostController.navigate(AppRoutes.AddIncome.route)
-                        } else {
-                            navHostController.navigate(AppRoutes.AddExpense.route)
-                        }
+                        navHostController.navigate(
+                            route = AppRoutes.AddMovement.route + "/${item.type}"
+                        )
                     },
                 containerColor = item.containerColor!!
             ) {

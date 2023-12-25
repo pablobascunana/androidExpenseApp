@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addcategories
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer

@@ -1,9 +1,8 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addmonthlymovements
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,16 +14,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.CategoryType
-import com.pbs.expenseApp.domain.model.Expense
 import com.pbs.expenseApp.navigation.AppRoutes
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppList
 import com.pbs.expenseApp.ui.components.AppText
+import com.pbs.expenseApp.ui.composables.fontDimensionResource
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 
 @Composable
-fun MyMonthlyExpenseList(
+fun MyMonthlyMovementsList(
     navHostController: NavHostController
 ) {
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -34,7 +33,7 @@ fun MyMonthlyExpenseList(
     var text = stringResource(id = R.string.add_monthly_expenses)
     var type = CategoryType.EXPENSE.value
     var listItems = expenseVM.expenseList
-    if (currentRoute == AppRoutes.AddIncome.route) {
+    if (currentRoute == AppRoutes.AddMovement.route) {
         text = stringResource(id = R.string.add_monthly_incomes)
         type = CategoryType.INCOME.value
         listItems = expenseVM.incomeList

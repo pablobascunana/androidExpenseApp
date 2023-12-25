@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addcategories
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons

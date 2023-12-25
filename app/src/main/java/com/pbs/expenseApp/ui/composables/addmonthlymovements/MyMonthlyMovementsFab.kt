@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addmonthlymovements
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppIcon
+import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
@@ -19,6 +20,7 @@ import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 @Composable
 fun MyAddExpenseFab() {
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
+
     FloatingActionButton(
         onClick = {
             expenseVM.addExpense = !expenseVM.addExpense
@@ -33,6 +35,19 @@ fun MyAddExpenseFab() {
             )
             AppText(
                 text = stringResource(id = R.string.add)
+            )
+        }
+    }
+    if(expenseVM.addExpense) {
+        AppModalBottomSheet(onDismissRequest = {
+            expenseVM.addExpense = !expenseVM.addExpense
+        }
+        ) {
+            MyAddExpenseModalBottomSheet(
+                onClickNegative = {
+                    expenseVM.addExpense = !expenseVM.addExpense
+                },
+                onClickPositive = {  }
             )
         }
     }

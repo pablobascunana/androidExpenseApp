@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addcategories
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,6 +18,7 @@ import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppList
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppText
+import com.pbs.expenseApp.ui.composables.fontDimensionResource
 import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
