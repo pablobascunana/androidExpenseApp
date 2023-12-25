@@ -23,8 +23,7 @@ fun AppScaffold() {
         }
     ) { innerPadding ->
         AppNavigationGraph(
-            navController = appState.navHostController,
-            padding = innerPadding
+            navHostController = appState.navHostController, padding = innerPadding
         )
     }
 }
