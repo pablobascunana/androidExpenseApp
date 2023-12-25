@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppIcon
@@ -18,7 +19,7 @@ import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 
 @Composable
-fun MyAddExpenseFab() {
+fun MyAddExpenseFab(navHostController: NavHostController) {
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     FloatingActionButton(
@@ -44,6 +45,7 @@ fun MyAddExpenseFab() {
         }
         ) {
             MyAddExpenseModalBottomSheet(
+                navHostController = navHostController,
                 onClickNegative = {
                     expenseVM.addExpense = !expenseVM.addExpense
                 },

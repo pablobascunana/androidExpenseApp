@@ -1,14 +1,13 @@
 package com.pbs.expenseApp.ui.components
 
-import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import com.pbs.expenseApp.appstate.rememberAppState
 import com.pbs.expenseApp.navigation.AppNavigationGraph
 import com.pbs.expenseApp.navigation.BottomBarRoutes
+import com.pbs.expenseApp.ui.composables.MyAppNavigationBar
 import com.pbs.expenseApp.ui.composables.addcategories.MyAddCategoryFab
 import com.pbs.expenseApp.ui.composables.addmonthlymovements.MyAddExpenseFab
-import com.pbs.expenseApp.ui.composables.MyAppNavigationBar
 
 @Composable
 fun AppScaffold() {
@@ -19,7 +18,7 @@ fun AppScaffold() {
             if (appState.shouldShowFloatingActionButton) {
                 when (currentRoute) {
                     BottomBarRoutes.CONFIGURATION.route -> MyAddCategoryFab()
-                    else -> MyAddExpenseFab()
+                    else -> MyAddExpenseFab(navHostController = appState.navHostController)
                 }
             }
         },

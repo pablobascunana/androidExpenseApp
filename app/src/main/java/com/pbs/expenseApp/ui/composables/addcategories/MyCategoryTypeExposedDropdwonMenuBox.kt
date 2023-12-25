@@ -26,10 +26,9 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
     val categoryTypes = AppUtils.categoryTypesToString(
         context = context, types = categoryVM.categoryTypes
     )
-    val expandedCategoryTypeDropDown = categoryVM.expandedCategoryTypeDropDown
 
     ExposedDropdownMenuBox(
-        expanded = expandedCategoryTypeDropDown,
+        expanded = categoryVM.expandedCategoryTypeDropDown,
         onExpandedChange = {
             categoryVM.expandedCategoryTypeDropDown = !categoryVM.expandedCategoryTypeDropDown
         },
@@ -44,11 +43,11 @@ fun MyCategoryTypeExposedDropdownMenuBox() {
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expandedCategoryTypeDropDown
+                    expanded = categoryVM.expandedCategoryTypeDropDown
                 )},
         )
         ExposedDropdownMenu(
-            expanded = expandedCategoryTypeDropDown,
+            expanded = categoryVM.expandedCategoryTypeDropDown,
             onDismissRequest = { categoryVM.expandedCategoryTypeDropDown = false }
         ) {
             categoryTypes.forEach { categoryType ->
