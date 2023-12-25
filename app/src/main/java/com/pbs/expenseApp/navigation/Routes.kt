@@ -6,6 +6,5 @@ enum class Routes(val route: String) {
     ADD_EXPENSE(route = "/add_expense"),
     RESUME(route = "/resume"),
     CONFIGURATION(route = "/configuration"),
-    ADD_MONTHLY_INCOMES(route = "/add_monthly_incomes"),
-    ADD_MONTHLY_EXPENSES(route = "/add_monthly_expenses"),
+    ADD_MONTHLY_MOVEMENT(route = "/add_monthly_movement")
 }

@@ -28,10 +28,10 @@ class AppState(
         @Composable get() = currentRoute in routes
 
     val shouldShowFloatingActionButton: Boolean
-    @Composable get() = currentRoute in listOf(
+    @Composable get() =
+        currentRoute in listOf(
         Routes.CONFIGURATION.route,
-        AppRoutes.AddIncome.route,
-        AppRoutes.AddExpense.route
+        AppRoutes.AddMovement.route + "/{type}",
     )
 
     val currentRoute: String

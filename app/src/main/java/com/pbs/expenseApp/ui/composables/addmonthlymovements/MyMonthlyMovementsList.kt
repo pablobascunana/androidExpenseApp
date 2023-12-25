@@ -28,14 +28,15 @@ fun MyMonthlyMovementsList(
 ) {
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val currentRoute = navHostController.currentBackStackEntry?.destination?.route
+    // val currentRoute = navHostController.currentBackStackEntry?.destination?.route
+    val movementType = navHostController.currentBackStackEntry?.arguments?.getString("type")
 
     var text = stringResource(id = R.string.add_monthly_expenses)
-    var type = CategoryType.EXPENSE.value
+    // var type = CategoryType.EXPENSE.value
     var listItems = expenseVM.expenseList
-    if (currentRoute == AppRoutes.AddMovement.route) {
+    if (movementType == CategoryType.INCOME.value) {
         text = stringResource(id = R.string.add_monthly_incomes)
-        type = CategoryType.INCOME.value
+        // type = CategoryType.INCOME.value
         listItems = expenseVM.incomeList
     }
 
