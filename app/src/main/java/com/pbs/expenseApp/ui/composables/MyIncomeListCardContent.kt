@@ -12,16 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.Category
+import com.pbs.expenseApp.domain.model.Expense
 import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 
 @Composable
-fun CardContentCategory(
-    item: Category,
-    onEdit: (item: Category) -> Unit,
-    onDelete: (item: Category) -> Unit,
+fun CardContentIncome(
+    item: Expense,
+    onEdit: (item: Expense) -> Unit,
+    onDelete: (item: Expense) -> Unit,
 ) {
     AppRow(
         modifier = Modifier
@@ -31,18 +31,17 @@ fun CardContentCategory(
                 end = dimensionResource(id = R.dimen.padding_sm)
             )
     ) {
-        AppText(text = item.name)
+        AppText(text = item.description)
         Spacer(modifier = Modifier.weight(1f))
-        if (!item.isDefault) {
-            CardActions(item, onEdit = onEdit, onDelete = onDelete)
-        }
+        CardActionsIncome(item, onEdit = onEdit, onDelete = onDelete)
+
     }
 }
 @Composable
-fun CardActions(
-    item: Category,
-    onEdit: (item: Category) -> Unit,
-    onDelete: (item: Category) -> Unit
+fun CardActionsIncome(
+    item: Expense,
+    onEdit: (item: Expense) -> Unit,
+    onDelete: (item: Expense) -> Unit
 ) {
     AppIcon(
         imageVector = Icons.Outlined.Edit,

@@ -1,6 +1,5 @@
 package com.pbs.expenseApp.ui.components
 
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,7 +12,9 @@ import androidx.compose.ui.res.dimensionResource
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
-import com.pbs.expenseApp.ui.composables.CardContent
+import com.pbs.expenseApp.domain.model.Expense
+import com.pbs.expenseApp.ui.composables.CardContentCategory
+import com.pbs.expenseApp.ui.composables.CardContentIncome
 
 @JvmName("AppCategoryListCard")
 @Composable
@@ -29,10 +30,9 @@ fun AppListCard(
             .height(dimensionResource(R.dimen.card_height)),
         containerColor = getCategoryCardColor(item)
     ) {
-        CardContent(item = item, onEdit = onEdit, onDelete = onDelete)
+        CardContentCategory(item = item, onEdit = onEdit, onDelete = onDelete)
     }
 }
-
 
 @Composable
 private fun getCategoryCardColor(item: Category): Color {
@@ -44,7 +44,11 @@ private fun getCategoryCardColor(item: Category): Color {
 
 @JvmName("AppExpenseListCard")
 @Composable
-fun AppListCard(cardContent: @Composable RowScope.() -> Unit) {
+fun AppListCard(
+    item: Expense,
+    onEdit: (item: Expense) -> Unit,
+    onDelete: (item: Expense) -> Unit,
+) {
     AppCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +64,7 @@ fun AppListCard(cardContent: @Composable RowScope.() -> Unit) {
                     end = dimensionResource(id = R.dimen.padding_sm)
                 )
         ) {
-            cardContent()
+            CardContentIncome(item = item, onEdit = onEdit, onDelete = onDelete)
         }
     }
 }

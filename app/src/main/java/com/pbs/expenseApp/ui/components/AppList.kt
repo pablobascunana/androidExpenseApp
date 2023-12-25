@@ -1,6 +1,5 @@
 package com.pbs.expenseApp.ui.components
 
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import com.pbs.expenseApp.domain.model.Category
@@ -24,13 +23,12 @@ fun AppList(
 @Composable
 fun AppList(
     items: List<Expense>,
-    listContent: @Composable RowScope.(item: Expense) -> Unit
+    onEdit: (item: Expense) -> Unit,
+    onDelete: (item: Expense) -> Unit
 ) {
     AppLazyColum {
         items(items) { item ->
-            AppListCard {
-                listContent(item)
-            }
+            AppListCard(item = item, onEdit = onEdit, onDelete = onDelete)
         }
     }
 }
