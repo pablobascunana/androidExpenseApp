@@ -49,6 +49,7 @@ fun MyAddCategoryFab() {
     }
     if(configurationVM.addCategory) {
         AppModalBottomSheet(onDismissRequest = {
+            resetInputs(categoryVM)
             configurationVM.addCategory = !configurationVM.addCategory
         }
         ) {
@@ -66,7 +67,7 @@ fun MyAddCategoryFab() {
     }
     if (categoryVM.canInsertCategory) {
         categoryType = AppUtils.categoryTypeToEnum(
-            context = context, type = categoryVM.categoryType
+            context = context, category = categoryVM.categoryType
         )
         LaunchedEffect(key1 = 1) {
             async {

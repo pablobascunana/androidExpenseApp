@@ -92,6 +92,7 @@ fun Configuration(
         MyCategoryList(categoriesVM.categories)
         if (configurationVM.editMonthlySavings) {
             AppModalBottomSheet(onDismissRequest = {
+                configurationVM.monthlySavingsInputValue = ""
                 configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
             }) {
                 MyModalMonthlySavingModalBottomSheet()

@@ -24,10 +24,11 @@ class ExpenseViewModel(
     var expenseList by mutableStateOf(emptyList<Expense>())
     var descriptionValue by mutableStateOf("")
     var movementType by mutableStateOf(CategoryType.INCOME)
-    var amountValue by mutableStateOf(0)
-    var payMethod by mutableStateOf(MethodType.CREDIT)
+    var amount by mutableStateOf("")
     var canInsertExpense by mutableStateOf(false)
-
+    var expandedPayMethodDropDown by mutableStateOf(false)
+    var payMethodTypes = enumValues<MethodType>()
+    var payMethodSelected by mutableStateOf("")
     suspend fun insert(category: Category, amount: Int, description: String, payMethod: MethodType) {
         val expense = toExpense(
             category = category, amount = amount, description = description, payMethod = payMethod

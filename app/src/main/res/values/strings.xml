@@ -62,4 +62,11 @@
 
     <string name="expense_description">Descripción</string>
     <string name="expense_amount">Cantidad</string>
+
+    <string name="pay_method">Método de pago</string>
+    <string name="pay_method_cash">Efectivo</string>
+    <string name="pay_method_credit">Crédito</string>
+    <string name="pay_method_debit">Débito</string>
+    <string name="pay_method_transfer">Transferencia</string>
+    <string name="pay_method_bizum">Bizum</string>
 </resources>

@@ -1,14 +1,13 @@
-package com.pbs.expenseApp.ui.composables.addmonthlymovements
+package com.pbs.expenseApp.ui.composables.addcategories
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
@@ -16,42 +15,47 @@ import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
+import com.pbs.expenseApp.utils.AppUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyCategoryExposedDropdownMenuBox() {
+fun MyCategoryTypeExposedDropdownMenuBox() {
+    val context = LocalContext.current
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
+    val categoryTypes = AppUtils.categoryTypesToString(
+        context = context, categoryTypes = categoryVM.categoryTypes
+    )
+
     ExposedDropdownMenuBox(
-        expanded = categoryVM.expandedCategoryDropDown,
-        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm)),
+        expanded = categoryVM.expandedCategoryTypeDropDown,
         onExpandedChange = {
-            categoryVM.expandedCategoryDropDown = !categoryVM.expandedCategoryDropDown
+            categoryVM.expandedCategoryTypeDropDown = !categoryVM.expandedCategoryTypeDropDown
         },
     ) {
         AppTextField(
-            text = stringResource(id = R.string.configuration_category_title),
+            text = stringResource(id = R.string.configuration_category_type),
             modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(),
-            value = categoryVM.categoryName,
-            onValueChange = { categoryVM.categoryName = it },
+            value = categoryVM.categoryType,
+            onValueChange = { categoryVM.categoryType = it },
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = categoryVM.expandedCategoryDropDown
+                    expanded = categoryVM.expandedCategoryTypeDropDown
                 )},
         )
         ExposedDropdownMenu(
-            expanded = categoryVM.expandedCategoryDropDown,
-            onDismissRequest = { categoryVM.expandedCategoryDropDown = false }
+            expanded = categoryVM.expandedCategoryTypeDropDown,
+            onDismissRequest = { categoryVM.expandedCategoryTypeDropDown = false }
         ) {
-            categoryVM.categories.forEach { category ->
+            categoryTypes.forEach { categoryType ->
                 DropdownMenuItem(
-                    text = { AppText(text = category.name) },
+                    text = { AppText(text = categoryType.value) },
                     onClick = {
-                        categoryVM.selectedCategory = category
-                        categoryVM.expandedCategoryDropDown = false
+                        categoryVM.categoryType = categoryType.value
+                        categoryVM.expandedCategoryTypeDropDown = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                 )

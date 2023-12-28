@@ -7,6 +7,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,10 +20,12 @@ import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
+import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
 @Composable
 fun MyAddExpenseFab(navHostController: NavHostController) {
+    val context = LocalContext.current
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
@@ -45,6 +48,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
     }
     if(expenseVM.addExpense) {
         AppModalBottomSheet(onDismissRequest = {
+            resetExpenseInputs(expenseVM, categoryVM)
             expenseVM.addExpense = !expenseVM.addExpense
         }
         ) {
@@ -63,10 +67,12 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
             LaunchedEffect(key1 = 1) {
                 async {
                     expenseVM.insert(
-                        category = categoryVM.selectedCategory,
-                        amount = expenseVM.amountValue,
+                        category = categoryVM.categorySelected,
+                        amount = expenseVM.amount.toInt(),
                         description = expenseVM.descriptionValue,
-                        payMethod = expenseVM.payMethod
+                        payMethod = AppUtils.payMethodTypeToEnum(
+                            context = context, payMethod = expenseVM.payMethodSelected
+                        )
                     )
                     resetExpenseInputs(expenseVM, categoryVM)
                     expenseVM.canInsertExpense = !expenseVM.canInsertExpense
@@ -98,5 +104,5 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
 private fun resetExpenseInputs(expenseVM: ExpenseViewModel, categoryVM: CategoryViewModel) {
     categoryVM.categoryName = ""
     expenseVM.descriptionValue = ""
-    expenseVM.amountValue = 0
+    expenseVM.amount = ""
 }

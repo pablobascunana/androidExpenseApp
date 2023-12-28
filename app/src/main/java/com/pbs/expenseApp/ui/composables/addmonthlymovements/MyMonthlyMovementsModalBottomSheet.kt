@@ -59,6 +59,7 @@ fun MyAddExpenseModalBottomSheet(
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
         )
         MyCategoryExposedDropdownMenuBox()
+        MyPayMethodExposedDropdownMenuBox()
         AppTextField(
             text = stringResource(id = R.string.expense_description),
             modifier = Modifier
@@ -69,11 +70,9 @@ fun MyAddExpenseModalBottomSheet(
         )
         AppTextField(
             text = stringResource(id = R.string.expense_amount),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = dimensionResource(id = R.dimen.padding_sm)),
-            value = expenseVM.amountValue.toString(),
-            onValueChange = { expenseVM.amountValue = it.toInt() },
+            modifier = Modifier.fillMaxWidth(),
+            value = expenseVM.amount,
+            onValueChange = { expenseVM.amount = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         AppRow(modifier = Modifier
@@ -92,8 +91,9 @@ fun MyAddExpenseModalBottomSheet(
             Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
             AppButton(
                 enabled = categoryVM.categoryName.isNotEmpty() &&
+                        expenseVM.payMethodSelected.isNotEmpty() &&
                         expenseVM.descriptionValue.isNotEmpty() &&
-                        expenseVM.amountValue.toString().isNotEmpty(),
+                        expenseVM.amount.isNotEmpty(),
                 onClick = { onClickPositive() },
                 buttonContent = {
                     AppText(
