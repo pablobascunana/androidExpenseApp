@@ -1,4 +1,4 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addcategories
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,6 +18,7 @@ import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppList
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppText
+import com.pbs.expenseApp.ui.composables.fontDimensionResource
 import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
@@ -44,17 +45,18 @@ fun MyCategoryList(categories: List<Category>) {
                 context, it.type.value
             )
             categoryVM.categoryName = it.name
-            categoryVM.selectedCategory = it
+            categoryVM.categorySelected = it
             configurationVM.editCategory = !configurationVM.editCategory
         },
         onDelete = {
             categoryVM.categoryName = it.name
-            categoryVM.selectedCategory = it
+            categoryVM.categorySelected = it
             categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory
         }
     )
     if (configurationVM.editCategory) {
         AppModalBottomSheet(onDismissRequest = {
+            resetInputs(categoryVM)
             configurationVM.editCategory = !configurationVM.editCategory
         }
         ) {
@@ -71,13 +73,13 @@ fun MyCategoryList(categories: List<Category>) {
         }
     }
     if (categoryVM.canEditCategory) {
-        categoryVM.selectedCategory.name = categoryVM.categoryName
-        categoryVM.selectedCategory.type = AppUtils.categoryTypeToEnum(
-            context = context, type = categoryVM.categoryType
+        categoryVM.categorySelected.name = categoryVM.categoryName
+        categoryVM.categorySelected.type = AppUtils.categoryTypeToEnum(
+            context = context, category = categoryVM.categoryType
         )
         LaunchedEffect(key1 = 1) {
             async {
-                categoryVM.update(categoryVM.selectedCategory)
+                categoryVM.update(categoryVM.categorySelected)
                 resetInputs(categoryVM)
                 categoryVM.canEditCategory = !categoryVM.canEditCategory
                 configurationVM.editCategory = !configurationVM.editCategory
@@ -98,7 +100,7 @@ fun MyCategoryList(categories: List<Category>) {
         if (categoryVM.confirmDelete) {
             LaunchedEffect(key1 = 1) {
                 async {
-                    categoryVM.delete(categoryVM.selectedCategory)
+                    categoryVM.delete(categoryVM.categorySelected)
                     categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory
                     categoryVM.confirmDelete = !categoryVM.confirmDelete
                     AppUtils.showToast(

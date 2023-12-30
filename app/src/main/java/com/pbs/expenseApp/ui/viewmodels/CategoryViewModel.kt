@@ -47,12 +47,13 @@ class CategoryViewModel(
     var categoryName by mutableStateOf("")
     var categoryType by mutableStateOf("")
     var canInsertCategory by mutableStateOf(false)
-    var selectedCategory by mutableStateOf(
+    var categorySelected by mutableStateOf(
         Category(uuid = "", userUuid = "", type = CategoryType.EXPENSE, name = "" )
     )
     var canEditCategory by mutableStateOf(false)
     var canDeleteCategory by mutableStateOf(false)
     var confirmDelete by mutableStateOf(false)
+    var expandedCategoryDropDown by mutableStateOf(false)
 
     suspend fun insertAll(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {
@@ -67,19 +68,16 @@ class CategoryViewModel(
             }.await()
         }
     }
-
     suspend fun update(category: Category) {
         viewModelScope.launch {
             async { categoryRepository.update(category = category) }.await()
         }
     }
-
     suspend fun delete(category: Category) {
         viewModelScope.launch {
             async { categoryRepository.delete(category = category) }.await()
         }
     }
-
     private fun getCategories() {
         viewModelScope.launch {
             categoryRepository.getAllOrderByType().collect { response: List<Category> ->
@@ -87,13 +85,11 @@ class CategoryViewModel(
             }
         }
     }
-
     init {
         viewModelScope.launch {
             getCategories()
         }
     }
-
     private fun toCategory(
         uuid: String = AppUtils.getUuid(), name: String, type: CategoryType
     ): Category {
@@ -106,5 +102,3 @@ class CategoryViewModel(
         )
     }
 }
-
-

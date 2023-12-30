@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.pbs.expenseApp.ui.composables.MyMonthlyExpenseList
+import com.pbs.expenseApp.ui.composables.addmonthlymovements.MyMonthlyMovementsList
 import com.pbs.expenseApp.ui.screens.AddExpense
 import com.pbs.expenseApp.ui.screens.Configuration
 import com.pbs.expenseApp.ui.screens.Resume
@@ -41,11 +41,8 @@ fun AppNavigationGraph(
                 Configuration(navHostController = navHostController)
             }
         }
-        composable(AppRoutes.AddIncome.route) {
-            MyMonthlyExpenseList(navHostController = navHostController)
-        }
-        composable(AppRoutes.AddExpense.route) {
-            MyMonthlyExpenseList(navHostController = navHostController)
+        composable(route = AppRoutes.AddMovement.route + "/{type}") {
+            MyMonthlyMovementsList(navHostController = navHostController)
         }
     }
 }

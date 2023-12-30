@@ -24,8 +24,8 @@ import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppRow
-import com.pbs.expenseApp.ui.composables.MyAddIncomesAndExpensesGrid
-import com.pbs.expenseApp.ui.composables.MyCategoryList
+import com.pbs.expenseApp.ui.composables.addmonthlymovements.MyAddIncomesAndExpensesGrid
+import com.pbs.expenseApp.ui.composables.addcategories.MyCategoryList
 import com.pbs.expenseApp.ui.composables.MyModalMonthlySavingModalBottomSheet
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.viewmodels.CardItem
@@ -92,6 +92,7 @@ fun Configuration(
         MyCategoryList(categoriesVM.categories)
         if (configurationVM.editMonthlySavings) {
             AppModalBottomSheet(onDismissRequest = {
+                configurationVM.monthlySavingsInputValue = ""
                 configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
             }) {
                 MyModalMonthlySavingModalBottomSheet()

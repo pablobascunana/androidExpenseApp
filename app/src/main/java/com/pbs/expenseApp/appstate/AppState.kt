@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.compose.runtime.Stable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.pbs.expenseApp.navigation.AppRoutes
 import com.pbs.expenseApp.navigation.BottomBarRoutes
 import com.pbs.expenseApp.navigation.Routes
 
@@ -24,11 +25,16 @@ class AppState(
     private val routes = BottomBarRoutes.values().map { it.route }
 
     val shouldShowBottomBar: Boolean
-        @Composable get() =
-            navHostController.currentBackStackEntryAsState().value?.destination?.route in routes
+        @Composable get() = currentRoute in routes
 
     val shouldShowFloatingActionButton: Boolean
     @Composable get() =
-            navHostController.currentBackStackEntryAsState().value?.destination?.route ==
-                    Routes.CONFIGURATION.route
+        currentRoute in listOf(
+        Routes.CONFIGURATION.route,
+        AppRoutes.AddMovement.route + "/{type}",
+    )
+
+    val currentRoute: String
+        @Composable get() =
+            navHostController.currentBackStackEntryAsState().value?.destination?.route ?: ""
 }

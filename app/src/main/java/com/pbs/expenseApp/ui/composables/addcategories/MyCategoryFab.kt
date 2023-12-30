@@ -1,11 +1,14 @@
-package com.pbs.expenseApp.ui.composables
+package com.pbs.expenseApp.ui.composables.addcategories
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
@@ -13,6 +16,8 @@ import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
+import com.pbs.expenseApp.ui.components.AppRow
+import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
@@ -32,13 +37,19 @@ fun MyAddCategoryFab() {
             configurationVM.addCategory = !configurationVM.addCategory
         },
     ) {
-        AppIcon(
-            imageVector = Icons.Filled.Add,
-            contentDescription = stringResource(id = R.string.configuration_add_category)
-        )
+        AppRow(
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_xs))
+        ) {
+            AppIcon(
+                imageVector = Icons.Filled.Add,
+                contentDescription = stringResource(id = R.string.configuration_add_category)
+            )
+            AppText(text = stringResource(id = R.string.configuration_add_category))
+        }
     }
     if(configurationVM.addCategory) {
         AppModalBottomSheet(onDismissRequest = {
+            resetInputs(categoryVM)
             configurationVM.addCategory = !configurationVM.addCategory
         }
         ) {
@@ -56,7 +67,7 @@ fun MyAddCategoryFab() {
     }
     if (categoryVM.canInsertCategory) {
         categoryType = AppUtils.categoryTypeToEnum(
-            context = context, type = categoryVM.categoryType
+            context = context, category = categoryVM.categoryType
         )
         LaunchedEffect(key1 = 1) {
             async {

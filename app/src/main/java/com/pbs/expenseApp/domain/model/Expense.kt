@@ -9,7 +9,7 @@ import androidx.room.TypeConverters
 import com.pbs.expenseApp.data.converters.DateConverters
 import java.util.Date
 
-enum class MethodType(val value: String) {
+enum class MethodType(var value: String) {
     CASH(value = "cash"),
     CREDIT(value = "credit"),
     DEBIT(value = "debit"),
@@ -46,6 +46,6 @@ data class Expense(
     val categoryUuid: String,
     val amount: Int,
     val date: Date,
-    val method: MethodType,
+    val payMethod: MethodType,
     val description: String
 )

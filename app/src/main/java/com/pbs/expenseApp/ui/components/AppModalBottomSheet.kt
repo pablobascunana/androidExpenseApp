@@ -12,7 +12,9 @@ fun AppModalBottomSheet(
     onDismissRequest: () -> Unit,
     bottomSheetContent: @Composable ColumnScope.() -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     ModalBottomSheet(
         onDismissRequest = { onDismissRequest() },

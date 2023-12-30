@@ -13,8 +13,8 @@ import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.domain.model.Expense
-import com.pbs.expenseApp.ui.composables.CardContentCategory
-import com.pbs.expenseApp.ui.composables.CardContentIncome
+import com.pbs.expenseApp.ui.composables.addcategories.CardContentCategory
+import com.pbs.expenseApp.ui.composables.addmonthlymovements.CardContentIncome
 
 @JvmName("AppCategoryListCard")
 @Composable
