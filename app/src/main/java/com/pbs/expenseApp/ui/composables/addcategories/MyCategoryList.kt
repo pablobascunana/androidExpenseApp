@@ -22,6 +22,7 @@ import com.pbs.expenseApp.ui.composables.fontDimensionResource
 import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
@@ -31,6 +32,7 @@ fun MyCategoryList(categories: List<Category>) {
 
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     AppText(
         text = stringResource(id = R.string.configuration_category_title),
@@ -41,7 +43,7 @@ fun MyCategoryList(categories: List<Category>) {
     AppList(
         categories,
         onEdit = {
-            categoryVM.categoryType = AppUtils.categoryTypeToString(
+            dropdownVM.dropdownValue = AppUtils.categoryTypeToString(
                 context, it.type.value
             )
             categoryVM.categoryName = it.name
@@ -56,14 +58,14 @@ fun MyCategoryList(categories: List<Category>) {
     )
     if (configurationVM.editCategory) {
         AppModalBottomSheet(onDismissRequest = {
-            resetInputs(categoryVM)
+            resetInputs(dropdownVM, categoryVM)
             configurationVM.editCategory = !configurationVM.editCategory
         }
         ) {
-            MyConfigurationModalBottomSheet(
+            MyCategoryModalBottomSheet(
                 text = stringResource(id = R.string.configuration_edit_category),
                 onClickNegative = {
-                    resetInputs(categoryVM)
+                    resetInputs(dropdownVM, categoryVM)
                     configurationVM.editCategory = !configurationVM.editCategory
                 },
                 onClickPositive = {
@@ -75,12 +77,12 @@ fun MyCategoryList(categories: List<Category>) {
     if (categoryVM.canEditCategory) {
         categoryVM.categorySelected.name = categoryVM.categoryName
         categoryVM.categorySelected.type = AppUtils.categoryTypeToEnum(
-            context = context, category = categoryVM.categoryType
+            context = context, category = dropdownVM.dropdownValue
         )
         LaunchedEffect(key1 = 1) {
             async {
                 categoryVM.update(categoryVM.categorySelected)
-                resetInputs(categoryVM)
+                resetInputs(dropdownVM, categoryVM)
                 categoryVM.canEditCategory = !categoryVM.canEditCategory
                 configurationVM.editCategory = !configurationVM.editCategory
                 AppUtils.showToast(context = context, textId = R.string.configuration_edit_feedback)

@@ -31,6 +31,7 @@ import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.viewmodels.CardItem
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
@@ -112,7 +113,7 @@ private fun GetCardColors(item: CardItem) {
     }
 }
 
-fun resetInputs(categoryVM: CategoryViewModel) {
+fun resetInputs(dropdownVM: ExposedDropDownViewModel, categoryVM: CategoryViewModel) {
+    dropdownVM.dropdownValue = ""
     categoryVM.categoryName = ""
-    categoryVM.categoryType = ""
 }
