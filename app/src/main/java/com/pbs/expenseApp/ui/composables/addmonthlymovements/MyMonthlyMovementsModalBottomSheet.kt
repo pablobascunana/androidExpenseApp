@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,13 +24,16 @@ import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppButton
 import com.pbs.expenseApp.ui.components.AppColumn
+import com.pbs.expenseApp.ui.components.AppExposedDropdownMenuBox
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAddExpenseModalBottomSheet(
     navHostController: NavHostController,
@@ -37,6 +43,7 @@ fun MyAddExpenseModalBottomSheet(
     val context = LocalContext.current
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val currentType =
         navHostController.currentBackStackEntry?.arguments?.getString("type") ?: ""
@@ -58,7 +65,22 @@ fun MyAddExpenseModalBottomSheet(
             text = text,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
         )
-        MyCategoryExposedDropdownMenuBox()
+        AppExposedDropdownMenuBox(
+            text = stringResource(id = R.string.configuration_category_title),
+            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
+        ) {
+            categoryVM.categories.forEach { category ->
+                DropdownMenuItem(
+                    text = { AppText(text = category.name) },
+                    onClick = {
+                        dropdownVM.dropdownValue = category.name
+                        categoryVM.categorySelected = category
+                        dropdownVM.dropdownExpanded = !dropdownVM.dropdownExpanded
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                )
+            }
+        }
         MyPayMethodExposedDropdownMenuBox()
         AppTextField(
             text = stringResource(id = R.string.expense_description),
@@ -90,7 +112,7 @@ fun MyAddExpenseModalBottomSheet(
             }
             Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
             AppButton(
-                enabled = categoryVM.categoryName.isNotEmpty() &&
+                enabled = dropdownVM.dropdownValue.isNotEmpty() &&
                         expenseVM.payMethodSelected.isNotEmpty() &&
                         expenseVM.descriptionValue.isNotEmpty() &&
                         expenseVM.amount.isNotEmpty(),

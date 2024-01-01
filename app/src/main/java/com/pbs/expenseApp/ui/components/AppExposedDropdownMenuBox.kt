@@ -15,11 +15,13 @@ import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 @Composable
 fun AppExposedDropdownMenuBox(
     text: String,
+    modifier: Modifier = Modifier,
     exposedDropdownContent: @Composable ExposedDropdownMenuBoxScope.() -> Unit
 ) {
     val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     ExposedDropdownMenuBox(
+        modifier = modifier,
         expanded = dropdownVM.dropdownExpanded,
         onExpandedChange = { dropdownVM.dropdownExpanded = !dropdownVM.dropdownExpanded }
     ) {

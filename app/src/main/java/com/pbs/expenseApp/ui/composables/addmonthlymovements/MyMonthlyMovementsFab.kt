@@ -20,6 +20,7 @@ import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
@@ -28,6 +29,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
     val context = LocalContext.current
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     FloatingActionButton(
         onClick = {
@@ -48,14 +50,14 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
     }
     if(expenseVM.addExpense) {
         AppModalBottomSheet(onDismissRequest = {
-            resetExpenseInputs(expenseVM, categoryVM)
+            resetExpenseInputs(expenseVM, dropdownVM)
             expenseVM.addExpense = !expenseVM.addExpense
         }
         ) {
             MyAddExpenseModalBottomSheet(
                 navHostController = navHostController,
                 onClickNegative = {
-                    resetExpenseInputs(expenseVM, categoryVM)
+                    resetExpenseInputs(expenseVM, dropdownVM)
                     expenseVM.addExpense = !expenseVM.addExpense
                 },
                 onClickPositive = {
@@ -74,7 +76,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
                             context = context, payMethod = expenseVM.payMethodSelected
                         )
                     )
-                    resetExpenseInputs(expenseVM, categoryVM)
+                    resetExpenseInputs(expenseVM, dropdownVM)
                     expenseVM.canInsertExpense = !expenseVM.canInsertExpense
                     expenseVM.addExpense = !expenseVM.addExpense
                     /* AppUtils.showToast(
@@ -101,8 +103,8 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
     }
 }
 
-private fun resetExpenseInputs(expenseVM: ExpenseViewModel, categoryVM: CategoryViewModel) {
-    categoryVM.categoryName = ""
+private fun resetExpenseInputs(expenseVM: ExpenseViewModel, dropdownVM: ExposedDropDownViewModel) {
+    dropdownVM.dropdownValue = ""
     expenseVM.descriptionValue = ""
     expenseVM.amount = ""
 }
