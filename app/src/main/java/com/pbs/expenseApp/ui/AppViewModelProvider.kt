@@ -8,6 +8,7 @@ import com.pbs.expenseApp.ExpenseApplication
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 
 object AppViewModelProvider {
@@ -25,7 +26,13 @@ object AppViewModelProvider {
             ConfigurationViewModel()
         }
         initializer {
-            ExpenseViewModel(expenseApplication().container.expenseRepository)
+            ExposedDropDownViewModel()
+        }
+        initializer {
+            ExpenseViewModel(
+                expenseApplication().container.expenseRepository,
+                expenseApplication().baseContext
+            )
         }
     }
 }

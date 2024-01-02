@@ -8,7 +8,6 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -17,17 +16,13 @@ import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
-import com.pbs.expenseApp.utils.AppUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPayMethodExposedDropdownMenuBox() {
-    val context = LocalContext.current
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val payMethods = AppUtils.payMethodTypesToString(
-        context = context, methodTypes = expenseVM.payMethodTypes
-    )
+    val payMethods = expenseVM.getPayMethods()
 
     ExposedDropdownMenuBox(
         expanded = expenseVM.expandedPayMethodDropDown,
@@ -55,10 +50,10 @@ fun MyPayMethodExposedDropdownMenuBox() {
         ) {
             payMethods.forEach { payMethod ->
                 DropdownMenuItem(
-                    text = { AppText(text = payMethod.name) },
+                    text = { AppText(text = payMethod.value) },
                     onClick = {
                         expenseVM.payMethodSelected = payMethod.value
-                        expenseVM.expandedPayMethodDropDown = false
+                        expenseVM.expandedPayMethodDropDown = !expenseVM.expandedPayMethodDropDown
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                 )

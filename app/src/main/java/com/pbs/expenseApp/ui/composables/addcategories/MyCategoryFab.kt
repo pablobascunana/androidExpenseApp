@@ -12,7 +12,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
@@ -21,6 +20,7 @@ import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
@@ -30,7 +30,7 @@ fun MyAddCategoryFab() {
 
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val categoryType: CategoryType?
+    val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     FloatingActionButton(
         onClick = {
@@ -49,14 +49,14 @@ fun MyAddCategoryFab() {
     }
     if(configurationVM.addCategory) {
         AppModalBottomSheet(onDismissRequest = {
-            resetInputs(categoryVM)
+            resetInputs(dropdownVM, categoryVM)
             configurationVM.addCategory = !configurationVM.addCategory
         }
         ) {
-            MyConfigurationModalBottomSheet(
+            MyCategoryModalBottomSheet(
                 text = stringResource(id = R.string.configuration_add_new_category),
                 onClickNegative = {
-                    resetInputs(categoryVM)
+                    resetInputs(dropdownVM, categoryVM)
                     configurationVM.addCategory = !configurationVM.addCategory
                 },
                 onClickPositive = {
@@ -66,13 +66,11 @@ fun MyAddCategoryFab() {
         }
     }
     if (categoryVM.canInsertCategory) {
-        categoryType = AppUtils.categoryTypeToEnum(
-            context = context, category = categoryVM.categoryType
-        )
+        val categoryType = categoryVM.getCategoryType(dropdownVM.dropdownValue)
         LaunchedEffect(key1 = 1) {
             async {
                 categoryVM.insert(categoryVM.categoryName, categoryType)
-                resetInputs(categoryVM)
+                resetInputs(dropdownVM, categoryVM)
                 categoryVM.canInsertCategory = !categoryVM.canInsertCategory
                 configurationVM.addCategory = !configurationVM.addCategory
                 AppUtils.showToast(

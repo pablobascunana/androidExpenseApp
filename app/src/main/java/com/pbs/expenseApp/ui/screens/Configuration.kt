@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
@@ -31,9 +32,11 @@ import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.viewmodels.CardItem
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun Configuration(
@@ -95,7 +98,24 @@ fun Configuration(
                 configurationVM.monthlySavingsInputValue = ""
                 configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
             }) {
-                MyModalMonthlySavingModalBottomSheet()
+                MyModalMonthlySavingModalBottomSheet(
+                    onClickNegative = {
+                        configurationVM.monthlySavingsInputValue = ""
+                        configurationVM.editMonthlySavings = !configurationVM.editMonthlySavings
+                    },
+                    onClickPositive = {
+                        userVM.viewModelScope.launch {
+                            async {
+                                userVM.updateUser(
+                                    AppUtils.getAppId(context),
+                                    configurationVM.monthlySavingsInputValue.toInt()
+                                )
+                            }.await()
+                            configurationVM.editMonthlySavings = ! configurationVM.editMonthlySavings
+                        }
+                        configurationVM.monthlySavingsInputValue = ""
+                    }
+                )
             }
         }
     }
@@ -112,7 +132,7 @@ private fun GetCardColors(item: CardItem) {
     }
 }
 
-fun resetInputs(categoryVM: CategoryViewModel) {
+fun resetInputs(dropdownVM: ExposedDropDownViewModel, categoryVM: CategoryViewModel) {
+    dropdownVM.dropdownValue = ""
     categoryVM.categoryName = ""
-    categoryVM.categoryType = ""
 }
