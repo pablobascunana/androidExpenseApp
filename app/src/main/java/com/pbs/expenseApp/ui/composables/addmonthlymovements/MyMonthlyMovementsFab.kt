@@ -100,6 +100,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
 
 private fun resetExpenseInputs(expenseVM: ExpenseViewModel, dropdownVM: ExposedDropDownViewModel) {
     dropdownVM.dropdownValue = ""
+    expenseVM.payMethodSelected = ""
     expenseVM.descriptionValue = ""
     expenseVM.amount = ""
 }

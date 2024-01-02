@@ -1,37 +1,30 @@
 package com.pbs.expenseApp.ui.composables.addmonthlymovements
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
-import com.pbs.expenseApp.ui.components.AppButton
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppExposedDropdownMenuBox
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
+import com.pbs.expenseApp.ui.composables.MyModalBottomSheetActions
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
-import com.pbs.expenseApp.utils.AppUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,28 +89,13 @@ fun MyAddExpenseModalBottomSheet(
             .align(Alignment.End)
             .padding(top = dimensionResource(id = R.dimen.padding_sm))
         ) {
-            AppButton(
-                onClick = { onClickNegative() },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer)
-            ) {
-                AppText(
-                    text = stringResource(id = R.string.cancel),
-                    color = MaterialTheme.colorScheme.onErrorContainer
-                )
-            }
-            Spacer(Modifier.size(dimensionResource(id = R.dimen.padding_xs)))
-            AppButton(
+            MyModalBottomSheetActions(
                 enabled = dropdownVM.dropdownValue.isNotEmpty() &&
                         expenseVM.payMethodSelected.isNotEmpty() &&
                         expenseVM.descriptionValue.isNotEmpty() &&
                         expenseVM.amount.isNotEmpty(),
-                onClick = { onClickPositive() },
-                buttonContent = {
-                    AppText(
-                        text = stringResource(id = R.string.save),
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                }
+                onClickNegative = { onClickNegative() },
+                onClickPositive = { onClickPositive() }
             )
         }
     }

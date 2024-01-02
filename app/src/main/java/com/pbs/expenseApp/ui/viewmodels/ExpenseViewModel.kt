@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.R
@@ -27,7 +26,6 @@ class ExpenseViewModel(
     private var payMethodTypes = enumValues<MethodType>()
 
     private var incomeList by mutableStateOf(emptyList<Expense>())
-    private var expenseList by mutableStateOf(emptyList<Expense>())
 
     var addExpense by mutableStateOf(false)
     var descriptionValue by mutableStateOf("")
@@ -101,7 +99,7 @@ class ExpenseViewModel(
         if (movementType == CategoryType.INCOME) {
             return incomeList
         }
-        return expenseList
+        return incomeList
     }
 
     fun getExpenseText(): String {
