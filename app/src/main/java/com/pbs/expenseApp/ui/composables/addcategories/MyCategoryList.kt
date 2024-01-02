@@ -43,7 +43,7 @@ fun MyCategoryList(categories: List<Category>) {
     AppList(
         categories,
         onEdit = {
-            dropdownVM.dropdownValue = AppUtils.categoryTypeToString(
+            dropdownVM.dropdownValue = categoryVM.categoryTypeToString(
                 context, it.type.value
             )
             categoryVM.categoryName = it.name
@@ -76,8 +76,8 @@ fun MyCategoryList(categories: List<Category>) {
     }
     if (categoryVM.canEditCategory) {
         categoryVM.categorySelected.name = categoryVM.categoryName
-        categoryVM.categorySelected.type = AppUtils.categoryTypeToEnum(
-            context = context, category = dropdownVM.dropdownValue
+        categoryVM.categorySelected.type = categoryVM.categoryTypeToEnum(
+            category = dropdownVM.dropdownValue
         )
         LaunchedEffect(key1 = 1) {
             async {

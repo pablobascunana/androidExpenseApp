@@ -12,7 +12,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppIcon
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
@@ -32,7 +31,6 @@ fun MyAddCategoryFab() {
     val configurationVM: ConfigurationViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
-    val categoryType: CategoryType?
 
     FloatingActionButton(
         onClick = {
@@ -68,9 +66,7 @@ fun MyAddCategoryFab() {
         }
     }
     if (categoryVM.canInsertCategory) {
-        categoryType = AppUtils.categoryTypeToEnum(
-            context = context, category = dropdownVM.dropdownValue
-        )
+        val categoryType = categoryVM.getCategoryType(dropdownVM.dropdownValue)
         LaunchedEffect(key1 = 1) {
             async {
                 categoryVM.insert(categoryVM.categoryName, categoryType)

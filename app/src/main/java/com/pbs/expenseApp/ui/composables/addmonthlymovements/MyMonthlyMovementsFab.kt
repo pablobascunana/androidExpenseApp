@@ -7,7 +7,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -21,12 +20,10 @@ import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
-import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
 @Composable
 fun MyAddExpenseFab(navHostController: NavHostController) {
-    val context = LocalContext.current
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -72,9 +69,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
                         category = categoryVM.categorySelected,
                         amount = expenseVM.amount.toInt(),
                         description = expenseVM.descriptionValue,
-                        payMethod = AppUtils.payMethodTypeToEnum(
-                            context = context, payMethod = expenseVM.payMethodSelected
-                        )
+                        payMethod = expenseVM.payMethodTypeToEnum()
                     )
                     resetExpenseInputs(expenseVM, dropdownVM)
                     expenseVM.canInsertExpense = !expenseVM.canInsertExpense

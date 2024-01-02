@@ -40,12 +40,10 @@ class CategoryViewModel(
         Category(uuid = AppUtils.getUuid(), userUuid = AppUtils.getAppId(context), type = CategoryType.EXPENSE, name = AppUtils.getString(context = context, id = R.string.expense_transports))
     )
 
-    val categoryTypes = enumValues<CategoryType>()
+    private val categoryTypes = enumValues<CategoryType>()
 
     var categories by mutableStateOf(emptyList<Category>())
-    var expandedCategoryTypeDropDown by mutableStateOf(false)
     var categoryName by mutableStateOf("")
-    var categoryType by mutableStateOf("")
     var canInsertCategory by mutableStateOf(false)
     var categorySelected by mutableStateOf(
         Category(uuid = "", userUuid = "", type = CategoryType.EXPENSE, name = "" )
@@ -53,7 +51,6 @@ class CategoryViewModel(
     var canEditCategory by mutableStateOf(false)
     var canDeleteCategory by mutableStateOf(false)
     var confirmDelete by mutableStateOf(false)
-    var expandedCategoryDropDown by mutableStateOf(false)
 
     suspend fun insertAll(categories: List<Category> = defaultCategories) {
         viewModelScope.launch {
@@ -100,5 +97,32 @@ class CategoryViewModel(
             type = type,
             isDefault = false,
         )
+    }
+
+    fun getCategoryType(category: String): CategoryType {
+        return categoryTypeToEnum(category = category)
+    }
+
+    fun categoryTypeToString(context: Context, type: String): String {
+        return when (type) {
+            CategoryType.INCOME.value -> AppUtils.getString(
+                context = context, id = R.string.category_type_income
+            )
+            else -> AppUtils.getString(context = context, id = R.string.category_type_expense)
+        }
+    }
+
+    fun getCategoryTypes(): Array<CategoryType> {
+        categoryTypes.forEach { category ->
+            category.value = categoryTypeToString(context = appContext, type = category.value)
+        }
+        return categoryTypes
+    }
+
+    fun categoryTypeToEnum(category: String): CategoryType {
+        return when (category) {
+            AppUtils.getString(context = appContext, id = R.string.category_type_income) -> CategoryType.INCOME
+            else -> CategoryType.EXPENSE
+        }
     }
 }

@@ -40,7 +40,6 @@ fun MyAddExpenseModalBottomSheet(
     onClickNegative: () -> Unit,
     onClickPositive: () -> Unit,
 ) {
-    val context = LocalContext.current
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -48,12 +47,8 @@ fun MyAddExpenseModalBottomSheet(
     val currentType =
         navHostController.currentBackStackEntry?.arguments?.getString("type") ?: ""
 
-    expenseVM.movementType = AppUtils.categoryTypeToEnum(context, currentType)
+    expenseVM.movementType = categoryVM.categoryTypeToEnum(currentType)
 
-    var text = stringResource(id = R.string.add_monthly_expense)
-    if (expenseVM.movementType == CategoryType.INCOME) {
-        text = stringResource(id = R.string.add_monthly_income)
-    }
     AppColumn(
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.padding_sm_3),
@@ -62,7 +57,7 @@ fun MyAddExpenseModalBottomSheet(
         ),
     ) {
         AppText(
-            text = text,
+            text = expenseVM.getExpenseText(),
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
         )
         AppExposedDropdownMenuBox(

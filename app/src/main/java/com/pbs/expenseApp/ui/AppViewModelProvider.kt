@@ -29,7 +29,10 @@ object AppViewModelProvider {
             ExposedDropDownViewModel()
         }
         initializer {
-            ExpenseViewModel(expenseApplication().container.expenseRepository)
+            ExpenseViewModel(
+                expenseApplication().container.expenseRepository,
+                expenseApplication().baseContext
+            )
         }
     }
 }

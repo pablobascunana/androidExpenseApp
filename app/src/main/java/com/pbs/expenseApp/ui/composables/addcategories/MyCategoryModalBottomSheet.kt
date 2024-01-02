@@ -12,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,7 +25,6 @@ import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.components.AppTextField
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
-import com.pbs.expenseApp.utils.AppUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,13 +33,10 @@ fun MyCategoryModalBottomSheet(
     onClickNegative: () -> Unit,
     onClickPositive: () -> Unit,
 ) {
-    val context = LocalContext.current
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-    val categoryTypes = AppUtils.categoryTypesToString(
-        context = context, categoryTypes = categoryVM.categoryTypes
-    )
+    val categoryTypes = categoryVM.getCategoryTypes()
 
     AppColumn(
         modifier = Modifier.padding(
