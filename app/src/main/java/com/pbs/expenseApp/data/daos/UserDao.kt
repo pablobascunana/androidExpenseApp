@@ -15,6 +15,6 @@ interface UserDao {
     suspend fun update(user: User)
     @Query("SELECT EXISTS(SELECT * FROM users WHERE uuid = :uuid)")
     suspend fun userExists(uuid : String): Boolean
-    @Query("SELECT monthlySavings from users where uuid = :uuid")
+    @Query("SELECT monthlySavings FROM users WHERE uuid = :uuid")
     suspend fun getMonthlySavings(uuid: String): Int
 }
