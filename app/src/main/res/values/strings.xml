@@ -40,7 +40,6 @@
     <string name="configuration_add_category">Añadir categoría</string>
     <string name="configuration_category_name">Nombre categoría</string>
     <string name="configuration_category_type">Tipo categoría</string>
-    <string name="configuration_delete_category">Eliminar categoría</string>
     <string name="configuration_delete_category_confirmation">¿Desea eliminar la categoría</string>
     <string name="configuration_insert_feedback">La categoría ha sido creada</string>
     <string name="configuration_edit_feedback">La categoría ha sido editada</string>
@@ -62,6 +61,7 @@
 
     <string name="expense_description">Descripción</string>
     <string name="expense_amount">Cantidad</string>
+    <string name="expense_delete">¿Desea eliminar el siguiente registro?</string>
 
     <string name="pay_method">Método de pago</string>
     <string name="pay_method_cash">Efectivo</string>
@@ -69,4 +69,5 @@
     <string name="pay_method_debit">Débito</string>
     <string name="pay_method_transfer">Transferencia</string>
     <string name="pay_method_bizum">Bizum</string>
+
 </resources>

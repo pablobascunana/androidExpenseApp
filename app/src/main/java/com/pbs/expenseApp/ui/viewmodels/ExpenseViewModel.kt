@@ -34,6 +34,7 @@ class ExpenseViewModel(
     var expandedPayMethodDropDown by mutableStateOf(false)
     var payMethodSelected by mutableStateOf("")
     var canDelete by mutableStateOf(false)
+    var confirmDelete by mutableStateOf(false)
     var expenseSelected by mutableStateOf(
         Expense(uuid = "", userUuid = "", categoryUuid = "", amount = 0, date = Date(),
             payMethod = MethodType.CREDIT, description = ""

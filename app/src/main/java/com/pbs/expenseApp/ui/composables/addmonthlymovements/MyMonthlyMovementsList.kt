@@ -3,6 +3,8 @@ package com.pbs.expenseApp.ui.composables.addmonthlymovements
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,6 +20,7 @@ import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.domain.model.Expense
 import com.pbs.expenseApp.ui.AppViewModelProvider
+import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppList
 import com.pbs.expenseApp.ui.components.AppText
@@ -37,6 +40,7 @@ fun MyMonthlyMovementsList(
         navHostController.currentBackStackEntry?.arguments?.getString("type") ?: ""
 
     expenseVM.movementType = categoryVM.categoryTypeToEnum(currentType)
+
     LaunchedEffect(key1 = 1) {
         expenseVM.viewModelScope.async {
             expenseVM.getExpenseList()
@@ -75,6 +79,17 @@ fun MyMonthlyMovementsList(
     }
 
     if (expenseVM.canDelete) {
+        AppAlertDialog(
+            dialogText = stringResource(id = R.string.expense_delete) +
+                    " ${expenseVM.expenseSelected.description}" +
+                    " - ${expenseVM.expenseSelected.amount}",
+            icon = Icons.Outlined.Delete,
+            onConfirmation = { expenseVM.confirmDelete = !expenseVM.confirmDelete },
+            onDismissRequest = { expenseVM.canDelete = !expenseVM.canDelete },
+        )
+    }
+
+    if (expenseVM.confirmDelete) {
         LaunchedEffect(key1 = 1) {
             expenseVM.viewModelScope.async {
                 expenseVM.delete(expense = expenseVM.expenseSelected)

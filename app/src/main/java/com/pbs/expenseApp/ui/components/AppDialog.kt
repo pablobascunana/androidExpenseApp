@@ -11,7 +11,7 @@ import com.pbs.expenseApp.R
 fun AppAlertDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    dialogTitle: String,
+    dialogTitle: String = stringResource(id = R.string.delete),
     dialogText: String,
     icon: ImageVector,
 ) {
