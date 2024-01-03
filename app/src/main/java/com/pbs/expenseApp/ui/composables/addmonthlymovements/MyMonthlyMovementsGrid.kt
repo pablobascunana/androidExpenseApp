@@ -27,6 +27,7 @@ fun MyAddIncomesAndExpensesGrid(
     cardItems: List<CardItem>
 ) {
     val context = LocalContext.current
+
     AppLazyVerticalGrid {
         items(cardItems) { item ->
             AppCard(

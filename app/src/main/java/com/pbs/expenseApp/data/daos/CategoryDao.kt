@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.pbs.expenseApp.domain.model.Category
+import com.pbs.expenseApp.domain.model.CategoryType
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,4 +22,6 @@ interface CategoryDao {
     suspend fun insertAll(entities: List<Category?>)
     @Query("SELECT * FROM categories ORDER BY type DESC, isDefault")
     fun getAllOrderByType(): Flow<List<Category>>
+    @Query("SELECT * FROM categories WHERE type = :categoryType")
+    fun getCategoryByCategoryType(categoryType: CategoryType): Flow<List<Category>>
 }

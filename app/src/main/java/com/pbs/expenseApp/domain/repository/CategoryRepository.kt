@@ -1,6 +1,7 @@
 package com.pbs.expenseApp.domain.repository
 
 import com.pbs.expenseApp.domain.model.Category
+import com.pbs.expenseApp.domain.model.CategoryType
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
@@ -9,4 +10,5 @@ interface CategoryRepository {
     suspend fun delete(category: Category)
     suspend fun insertAll(categories: List<Category>)
     fun getAllOrderByType(): Flow<List<Category>>
+    fun getCategoryByCategoryType(categoryType: CategoryType): Flow<List<Category>>
 }
