@@ -65,9 +65,21 @@ fun MyMonthlyMovementsList(
         } else {
             AppList(
                 expenseVM.expenses,
-                onEdit = {  },
-                onDelete = {  }
+                onEdit = { },
+                onDelete = {
+                    expenseVM.expenseSelected = it
+                    expenseVM.canDelete = !expenseVM.canDelete
+                }
             )
+        }
+    }
+
+    if (expenseVM.canDelete) {
+        LaunchedEffect(key1 = 1) {
+            expenseVM.viewModelScope.async {
+                expenseVM.delete(expense = expenseVM.expenseSelected)
+                expenseVM.canDelete = !expenseVM.canDelete
+            }.await()
         }
     }
 }

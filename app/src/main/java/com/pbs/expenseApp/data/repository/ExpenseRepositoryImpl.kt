@@ -11,4 +11,5 @@ class ExpenseRepositoryImpl(private val expenseDao: ExpenseDao): ExpenseReposito
     override fun getAll(): Flow<List<Expense>> = expenseDao.getAll()
     override suspend fun getExpensesByCategoryType(categoryType: CategoryType): Flow<List<Expense>> =
         expenseDao.getExpensesByCategoryType(categoryType)
+    override suspend fun delete(expense: Expense) = expenseDao.delete(expense)
 }

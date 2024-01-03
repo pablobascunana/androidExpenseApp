@@ -33,6 +33,12 @@ class ExpenseViewModel(
     var canInsertExpense by mutableStateOf(false)
     var expandedPayMethodDropDown by mutableStateOf(false)
     var payMethodSelected by mutableStateOf("")
+    var canDelete by mutableStateOf(false)
+    var expenseSelected by mutableStateOf(
+        Expense(uuid = "", userUuid = "", categoryUuid = "", amount = 0, date = Date(),
+            payMethod = MethodType.CREDIT, description = ""
+        )
+    )
 
     suspend fun insert(category: Category, amount: Int, description: String, payMethod: MethodType) {
         val expense = toExpense(
@@ -50,6 +56,12 @@ class ExpenseViewModel(
              expenseRepository.getExpensesByCategoryType(categoryType = categoryType).collect {
                  response: List<Expense> -> expenses = response
             }
+        }.await()
+    }
+
+    suspend fun delete(expense: Expense) {
+        viewModelScope.async {
+            expenseRepository.delete(expense)
         }.await()
     }
 

@@ -1,6 +1,7 @@
 package com.pbs.expenseApp.data.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,7 +15,11 @@ interface ExpenseDao {
     suspend fun insert(expense: Expense)
     @Query("SELECT * FROM expenses")
     fun getAll(): Flow<List<Expense>>
-    @Query("SELECT * FROM expenses JOIN categories ON categories.uuid == expenses.categoryUuid " +
+    @Query("SELECT expenses.uuid, expenses.userUuid, categoryUuid, amount, date, payMethod, description " +
+            "FROM expenses " +
+            "JOIN categories ON categories.uuid == expenses.categoryUuid " +
             "WHERE categories.type = :categoryType")
     fun getExpensesByCategoryType(categoryType: CategoryType): Flow<List<Expense>>
+    @Delete
+    suspend fun delete(expense: Expense)
 }
