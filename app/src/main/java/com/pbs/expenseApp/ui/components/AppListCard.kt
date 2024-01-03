@@ -57,12 +57,7 @@ fun AppListCard(
         containerColor = MaterialTheme.colorScheme.secondaryContainer
     ) {
         AppRow(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(
-                    start = dimensionResource(id = R.dimen.padding_sm),
-                    end = dimensionResource(id = R.dimen.padding_sm)
-                )
+            modifier = Modifier.fillMaxHeight()
         ) {
             CardContentIncome(item = item, onEdit = onEdit, onDelete = onDelete)
         }
