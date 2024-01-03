@@ -40,7 +40,7 @@ fun AddExpense() {
         ) {
             AppRow(modifier = Modifier
                 .fillMaxSize()
-                .padding(start = dimensionResource(id = R.dimen.padding_sm),  end = dimensionResource(id = R.dimen.padding_sm))
+                .padding(start = dimensionResource(id = R.dimen.padding_sm), end = dimensionResource(id = R.dimen.padding_sm))
             ) {
                 MyMonthlySavingText(monthlySavings = userVM.monthlySavings)
             }

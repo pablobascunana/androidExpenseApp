@@ -25,8 +25,7 @@ class ExpenseViewModel(
     private val appContext = context
     private var payMethodTypes = enumValues<MethodType>()
 
-    private var incomeList by mutableStateOf(emptyList<Expense>())
-
+    var expenses by mutableStateOf(emptyList<Expense>())
     var addExpense by mutableStateOf(false)
     var descriptionValue by mutableStateOf("")
     var movementType by mutableStateOf(CategoryType.INCOME)
@@ -44,6 +43,14 @@ class ExpenseViewModel(
                 expenseRepository.insert(expense = expense)
             }.await()
         }
+    }
+
+    private suspend fun getExpenses(categoryType: CategoryType) {
+        viewModelScope.async {
+             expenseRepository.getExpensesByCategoryType(categoryType = categoryType).collect {
+                 response: List<Expense> -> expenses = response
+            }
+        }.await()
     }
 
     private fun toExpense(
@@ -95,11 +102,11 @@ class ExpenseViewModel(
         }
     }
 
-    fun getExpenseList(): List<Expense> {
+    suspend fun getExpenseList() {
         if (movementType == CategoryType.INCOME) {
-            return incomeList
+            getExpenses(categoryType = CategoryType.INCOME)
         }
-        return incomeList
+        getExpenses(categoryType = CategoryType.EXPENSE)
     }
 
     fun getExpenseText(): String {
