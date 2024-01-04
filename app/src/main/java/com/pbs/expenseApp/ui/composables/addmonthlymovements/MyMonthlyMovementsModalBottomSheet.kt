@@ -27,12 +27,14 @@ import com.pbs.expenseApp.ui.composables.MyModalBottomSheetActions
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
+import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAddExpenseModalBottomSheet(
     navHostController: NavHostController,
+    text: String,
     onClickNegative: () -> Unit,
     onClickPositive: () -> Unit,
 ) {
@@ -59,7 +61,7 @@ fun MyAddExpenseModalBottomSheet(
         ),
     ) {
         AppText(
-            text = expenseVM.getExpenseText(),
+            text = text,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
         )
         AppExposedDropdownMenuBox(
@@ -91,7 +93,13 @@ fun MyAddExpenseModalBottomSheet(
             text = stringResource(id = R.string.expense_amount),
             modifier = Modifier.fillMaxWidth(),
             value = expenseVM.amount,
-            onValueChange = { expenseVM.amount = it },
+            onValueChange = {
+                if (it.isNotEmpty() && it.matches(AppUtils.getDecimalPattern())) {
+                    expenseVM.amount = it
+                } else if(it.isEmpty()) {
+                    expenseVM.amount = ""
+                }
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         AppRow(modifier = Modifier

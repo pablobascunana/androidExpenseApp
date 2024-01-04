@@ -56,6 +56,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
         ) {
             MyAddExpenseModalBottomSheet(
                 navHostController = navHostController,
+                text = expenseVM.getCreateExpenseText(),
                 onClickNegative = {
                     resetExpenseInputs(expenseVM, dropdownVM)
                     expenseVM.addExpense = !expenseVM.addExpense
@@ -84,7 +85,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
     }
 }
 
-private fun resetExpenseInputs(expenseVM: ExpenseViewModel, dropdownVM: ExposedDropDownViewModel) {
+fun resetExpenseInputs(expenseVM: ExpenseViewModel, dropdownVM: ExposedDropDownViewModel) {
     dropdownVM.dropdownValue = ""
     expenseVM.payMethodSelected = ""
     expenseVM.descriptionValue = ""

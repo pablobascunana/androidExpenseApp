@@ -52,10 +52,10 @@
     <string name="confirm">Confirmar</string>
     <string name="add">Añadir</string>
 
-    <string name="add_monthly_incomes">Añade ingresos fijos mensuales</string>
-    <string name="add_monthly_expenses">Añade gastos fijos mensuales</string>
     <string name="add_monthly_income">Añade ingreso fijo mensual</string>
     <string name="add_monthly_expense">Añade gasto fijo mensual</string>
+    <string name="edit_monthly_income">Edita ingreso fijo mensual</string>
+    <string name="edit_monthly_expense">Edita gasto fijo mensual</string>
 
     <string name="no_items_in_list">No hay elementos en la lista</string>
 
@@ -64,6 +64,7 @@
     <string name="expense_delete">¿Desea eliminar el siguiente registro?</string>
     <string name="expense_registry_add">El registro ha sido añadido</string>
     <string name="expense_registry_delete">El registro ha sido eliminado</string>
+    <string name="expense_registry_edit">El registro ha sido editado</string>
 
     <string name="pay_method">Método de pago</string>
     <string name="pay_method_cash">Efectivo</string>

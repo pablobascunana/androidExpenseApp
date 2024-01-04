@@ -24,12 +24,17 @@ import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppList
+import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppText
+import com.pbs.expenseApp.ui.composables.addcategories.MyCategoryModalBottomSheet
 import com.pbs.expenseApp.ui.composables.fontDimensionResource
+import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
+import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
+import kotlin.math.exp
 
 @Composable
 fun MyMonthlyMovementsList(
@@ -38,6 +43,7 @@ fun MyMonthlyMovementsList(
     val context = LocalContext.current
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val dropdownVM: ExposedDropDownViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     val currentType =
         navHostController.currentBackStackEntry?.arguments?.getString("type") ?: ""
@@ -56,7 +62,7 @@ fun MyMonthlyMovementsList(
             .padding(dimensionResource(id = R.dimen.padding_sm))
     ){
         AppText(
-            text = expenseVM.getExpenseText(),
+            text = expenseVM.getCreateExpenseText(),
             fontSize = fontDimensionResource(id = R.dimen.font_md),
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
@@ -71,13 +77,60 @@ fun MyMonthlyMovementsList(
             )
         } else {
             AppList(
-                expenseVM.expenses,
-                onEdit = { },
+                items = expenseVM.expenses,
+                onEdit = {
+                    expenseVM.expenseSelected = it
+                    expenseVM.canEdit = !expenseVM.canEdit
+                },
                 onDelete = {
                     expenseVM.expenseSelected = it
                     expenseVM.canDelete = !expenseVM.canDelete
                 }
             )
+        }
+    }
+    if (expenseVM.canEdit) {
+        LaunchedEffect(key1 = 1) {
+            categoryVM.viewModelScope.async {
+                categoryVM.getCategory(expenseVM.expenseSelected.categoryUuid)
+            }.await()
+            dropdownVM.dropdownValue = categoryVM.categorySelected.name
+            expenseVM.payMethodSelected = expenseVM.expenseSelected.payMethod.value
+            expenseVM.descriptionValue = expenseVM.expenseSelected.description
+            expenseVM.amount = expenseVM.expenseSelected.amount.toString()
+        }
+        AppModalBottomSheet(onDismissRequest = {
+            resetExpenseInputs(expenseVM, dropdownVM)
+            expenseVM.canEdit = !expenseVM.canEdit
+        }) {
+            MyAddExpenseModalBottomSheet(
+                navHostController = navHostController,
+                text = expenseVM.getEditExpenseText(),
+                onClickNegative = {
+                    resetExpenseInputs(expenseVM, dropdownVM)
+                    expenseVM.canEdit = !expenseVM.canEdit
+                },
+                onClickPositive = {
+                    expenseVM.confirmEdit = !expenseVM.confirmEdit
+                }
+            )
+        }
+    }
+    if (expenseVM.confirmEdit) {
+        LaunchedEffect(key1 = 1) {
+            expenseVM.viewModelScope.async {
+                expenseVM.update(
+                    category = categoryVM.categorySelected,
+                    uuid = expenseVM.expenseSelected.uuid,
+                    amount = expenseVM.amount.toInt(),
+                    description = expenseVM.descriptionValue,
+                    payMethod = expenseVM.payMethodTypeToEnum()
+                )
+            }.await()
+            resetExpenseInputs(expenseVM, dropdownVM)
+            expenseVM.canEdit = !expenseVM.canEdit
+            expenseVM.confirmEdit = !expenseVM.confirmEdit
+            AppUtils.showToast(context = context, textId = R.string.expense_registry_edit)
         }
     }
 
@@ -101,4 +154,12 @@ fun MyMonthlyMovementsList(
         }
         AppUtils.showToast(context = context, textId = R.string.expense_registry_delete)
     }
+}
+
+@Composable
+private fun SetValuesToEdit(
+    expense: Expense, categoryVM: CategoryViewModel, expenseVM: ExpenseViewModel,
+    dropdownVM: ExposedDropDownViewModel
+) {
+
 }
