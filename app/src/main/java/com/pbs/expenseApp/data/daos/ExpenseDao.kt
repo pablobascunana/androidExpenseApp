@@ -15,7 +15,7 @@ interface ExpenseDao {
     suspend fun insert(expense: Expense)
     @Query("SELECT * FROM expenses")
     fun getAll(): Flow<List<Expense>>
-    @Query("SELECT expenses.uuid, expenses.userUuid, categoryUuid, amount, date, payMethod, description " +
+    @Query("SELECT expenses.uuid, expenses.userUuid, categoryUuid, amount, payMethod, description, categories.name " +
             "FROM expenses " +
             "JOIN categories ON categories.uuid == expenses.categoryUuid " +
             "WHERE categories.type = :categoryType")
