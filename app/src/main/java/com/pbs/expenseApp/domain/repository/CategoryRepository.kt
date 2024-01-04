@@ -9,6 +9,7 @@ interface CategoryRepository {
     suspend fun update(category: Category)
     suspend fun delete(category: Category)
     suspend fun insertAll(categories: List<Category>)
+    suspend fun getCategory(uuid: String): Category
     fun getAllOrderByType(): Flow<List<Category>>
     fun getCategoryByCategoryType(categoryType: CategoryType): Flow<List<Category>>
 }

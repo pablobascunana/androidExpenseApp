@@ -66,6 +66,12 @@ class CategoryViewModel(
         }
     }
 
+    fun getCategory(uuid: String) {
+        viewModelScope.launch {
+            categorySelected = categoryRepository.getCategory(uuid)
+        }
+    }
+
     fun getCategoryByCategoryType(categoryType: CategoryType) {
         viewModelScope.launch {
             categoryRepository.getCategoryByCategoryType(categoryType = categoryType).collect {
