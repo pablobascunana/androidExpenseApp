@@ -62,6 +62,8 @@
     <string name="expense_description">Descripción</string>
     <string name="expense_amount">Cantidad</string>
     <string name="expense_delete">¿Desea eliminar el siguiente registro?</string>
+    <string name="expense_registry_add">El registro ha sido añadido</string>
+    <string name="expense_registry_delete">El registro ha sido eliminado</string>
 
     <string name="pay_method">Método de pago</string>
     <string name="pay_method_cash">Efectivo</string>

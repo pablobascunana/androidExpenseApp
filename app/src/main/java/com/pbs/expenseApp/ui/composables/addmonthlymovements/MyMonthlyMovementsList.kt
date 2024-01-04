@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -27,12 +28,14 @@ import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.composables.fontDimensionResource
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
+import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 
 @Composable
 fun MyMonthlyMovementsList(
     navHostController: NavHostController
 ) {
+    val context = LocalContext.current
     val categoryVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val expenseVM: ExpenseViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
@@ -96,5 +99,6 @@ fun MyMonthlyMovementsList(
                 expenseVM.canDelete = !expenseVM.canDelete
             }.await()
         }
+        AppUtils.showToast(context = context, textId = R.string.expense_registry_delete)
     }
 }
