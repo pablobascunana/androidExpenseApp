@@ -22,4 +22,11 @@ All notable changes will be documented in this file
 * [PR-15](https://github.com/pablobascunana/androidExpenseApp/pull/15) Refactor to create view models and composables
 * [PR-16](https://github.com/pablobascunana/androidExpenseApp/pull/16) Add and edit user categories
 * [PR-17](https://github.com/pablobascunana/androidExpenseApp/pull/17) Delete user categories
-* [PR-18](https://github.com/pablobascunana/androidExpenseApp/pull/18) Add toast 
+* [PR-18](https://github.com/pablobascunana/androidExpenseApp/pull/18) Add toast
+* [PR-20](https://github.com/pablobascunana/androidExpenseApp/pull/20) List refactor
+* [PR-21](https://github.com/pablobascunana/androidExpenseApp/pull/21) Create monthly income lists
+* [PR-22](https://github.com/pablobascunana/androidExpenseApp/pull/22) Add navigation to create expenses
+* [PR-23](https://github.com/pablobascunana/androidExpenseApp/pull/23) Add monthly incomes and expenses
+* [PR-25](https://github.com/pablobascunana/androidExpenseApp/pull/25) Code refactor
+* [PR-26](https://github.com/pablobascunana/androidExpenseApp/pull/26) Add items in expense lists
+* [PR-27](https://github.com/pablobascunana/androidExpenseApp/pull/27) Edit and delete items in expense lists
