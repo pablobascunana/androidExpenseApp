@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.domain.model.Expense
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,8 @@ interface ExpenseDao {
             "JOIN categories ON categories.uuid == expenses.categoryUuid " +
             "WHERE categories.type = :categoryType")
     fun getExpensesByCategoryType(categoryType: CategoryType): Flow<List<Expense>>
+    @Update
+    suspend fun update(expense: Expense)
     @Delete
     suspend fun delete(expense: Expense)
 }

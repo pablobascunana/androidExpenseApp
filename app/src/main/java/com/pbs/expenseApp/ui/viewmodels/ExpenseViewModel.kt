@@ -15,7 +15,6 @@ import com.pbs.expenseApp.domain.repository.ExpenseRepository
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.util.Date
 
 class ExpenseViewModel(
     private val expenseRepository: ExpenseRepository,
@@ -60,6 +59,16 @@ class ExpenseViewModel(
         }.await()
     }
 
+    suspend fun update(category: Category, uuid: String, amount: Int, description: String, payMethod: MethodType) {
+        val expense = toExpense(
+            category = category, uuid = uuid, amount = amount,
+            description = description, payMethod = payMethod
+        )
+        viewModelScope.async {
+            expenseRepository.update(expense = expense)
+        }.await()
+    }
+
     suspend fun delete(expense: Expense) {
         viewModelScope.async {
             expenseRepository.delete(expense)
@@ -67,14 +76,14 @@ class ExpenseViewModel(
     }
 
     private fun toExpense(
-        category: Category, amount: Int, description: String, payMethod: MethodType
+        category: Category, uuid: String = AppUtils.getUuid(), amount: Int,
+        description: String, payMethod: MethodType
     ): Expense {
         return Expense(
-            uuid = AppUtils.getUuid(),
+            uuid = uuid,
             userUuid = category.userUuid,
             categoryUuid = category.uuid,
             amount = amount,
-            date = Date(),
             payMethod = payMethod,
             description = description
         )
