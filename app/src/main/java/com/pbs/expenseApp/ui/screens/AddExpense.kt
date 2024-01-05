@@ -21,6 +21,7 @@ import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppCard
 import com.pbs.expenseApp.ui.components.AppColumn
+import com.pbs.expenseApp.ui.components.AppHorizontalPager
 import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.components.AppText
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
@@ -36,10 +37,6 @@ fun AddExpense() {
     val context = LocalContext.current
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val pagerVM: HorizontalPagerViewModel = viewModel(factory = AppViewModelProvider.Factory)
-
-    val pagerState = rememberPagerState(pageCount = {
-        10
-    })
 
     LaunchedEffect(key1 = true) {
         userVM.viewModelScope.launch { userVM.getMonthlySavings(AppUtils.getAppId(context)) }
@@ -75,13 +72,12 @@ fun AddExpense() {
         AppColumn(modifier = Modifier
             .fillMaxSize()
         ) {
-            HorizontalPager(state = pagerState) { page ->
+            AppHorizontalPager(pageCount = 10) {
                 AppText(
-                    text = "Page: $page",
+                    text = "Page: $it",
                     modifier = Modifier.fillMaxWidth().fillMaxHeight()
                 )
             }
         }
-
     }
 }

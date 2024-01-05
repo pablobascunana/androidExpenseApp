@@ -1,5 +1,7 @@
 package com.pbs.expenseApp.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
@@ -13,6 +15,7 @@ import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 
 object AppViewModelProvider {
+    @RequiresApi(Build.VERSION_CODES.O)
     val Factory = viewModelFactory {
         initializer {
             UserViewModel(expenseApplication().container.userRepository)
