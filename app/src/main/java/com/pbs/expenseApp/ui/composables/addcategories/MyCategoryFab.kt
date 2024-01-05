@@ -23,7 +23,6 @@ import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable

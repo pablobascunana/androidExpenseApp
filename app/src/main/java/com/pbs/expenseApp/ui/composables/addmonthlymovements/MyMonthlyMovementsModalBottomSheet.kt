@@ -28,7 +28,7 @@ import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,9 +48,9 @@ fun MyAddExpenseModalBottomSheet(
     expenseVM.movementType = categoryVM.categoryTypeToEnum(currentType)
 
     LaunchedEffect(key1 = 1) {
-        categoryVM.viewModelScope.async {
+        categoryVM.viewModelScope.launch {
             categoryVM.getCategoryByCategoryType(expenseVM.movementType)
-        }.await()
+        }
     }
 
     AppColumn(

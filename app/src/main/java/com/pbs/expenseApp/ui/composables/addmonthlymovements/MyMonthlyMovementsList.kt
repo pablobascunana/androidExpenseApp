@@ -18,7 +18,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.Expense
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppColumn
@@ -31,6 +30,7 @@ import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyMonthlyMovementsList(
@@ -87,9 +87,9 @@ fun MyMonthlyMovementsList(
     }
     if (expenseVM.canEdit) {
         LaunchedEffect(key1 = 1) {
-            categoryVM.viewModelScope.async {
+            categoryVM.viewModelScope.launch {
                 categoryVM.getCategory(expenseVM.expenseSelected.categoryUuid)
-            }.await()
+            }
             dropdownVM.dropdownValue = categoryVM.categorySelected.name
             expenseVM.payMethodSelected = expenseVM.expenseSelected.payMethod.value
             expenseVM.descriptionValue = expenseVM.expenseSelected.description

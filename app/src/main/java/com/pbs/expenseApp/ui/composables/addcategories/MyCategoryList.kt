@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
@@ -25,6 +26,7 @@ import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyCategoryList(categories: List<Category>) {
@@ -80,13 +82,13 @@ fun MyCategoryList(categories: List<Category>) {
             category = dropdownVM.dropdownValue
         )
         LaunchedEffect(key1 = 1) {
-            async {
+            categoryVM.viewModelScope.launch {
                 categoryVM.update(categoryVM.categorySelected)
-                resetInputs(dropdownVM, categoryVM)
-                categoryVM.canEditCategory = !categoryVM.canEditCategory
-                configurationVM.editCategory = !configurationVM.editCategory
-                AppUtils.showToast(context = context, textId = R.string.configuration_edit_feedback)
-            }.await()
+            }
+            resetInputs(dropdownVM, categoryVM)
+            categoryVM.canEditCategory = !categoryVM.canEditCategory
+            configurationVM.editCategory = !configurationVM.editCategory
+            AppUtils.showToast(context = context, textId = R.string.configuration_edit_feedback)
         }
     }
     if (categoryVM.canDeleteCategory) {
@@ -100,15 +102,15 @@ fun MyCategoryList(categories: List<Category>) {
         )
         if (categoryVM.confirmDelete) {
             LaunchedEffect(key1 = 1) {
-                async {
+                categoryVM.viewModelScope.async {
                     categoryVM.delete(categoryVM.categorySelected)
-                    categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory
-                    categoryVM.confirmDelete = !categoryVM.confirmDelete
-                    AppUtils.showToast(
-                        context = context,
-                        textId = R.string.configuration_delete_feedback
-                    )
                 }.await()
+                categoryVM.canDeleteCategory = !categoryVM.canDeleteCategory
+                categoryVM.confirmDelete = !categoryVM.confirmDelete
+                AppUtils.showToast(
+                    context = context,
+                    textId = R.string.configuration_delete_feedback
+                )
             }
         }
     }
