@@ -5,10 +5,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.domain.model.User
 import com.pbs.expenseApp.domain.repository.UserRepository
-import kotlinx.coroutines.async
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
 
@@ -22,15 +20,11 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
         userRepository.insertUser(toUser(uuid = uuid))
     }
     suspend fun updateUser(uuid: String, savings: Int) {
-        viewModelScope.async {
-            userRepository.updateUser(toUser(uuid = uuid, monthlySavings = savings))
-            monthlySavings = savings
-        }.await()
+        userRepository.updateUser(toUser(uuid = uuid, monthlySavings = savings))
+        monthlySavings = savings
     }
     suspend fun getMonthlySavings(uuid: String) {
-        viewModelScope.async {
-            monthlySavings = userRepository.getMonthlySavings(uuid)
-        }.await()
+        monthlySavings = userRepository.getMonthlySavings(uuid)
     }
     private fun toUser(uuid: String, monthlySavings: Int = 0): User {
         return User(uuid = uuid, monthlySavings = monthlySavings)

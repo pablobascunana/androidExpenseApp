@@ -35,7 +35,6 @@ import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
@@ -49,12 +48,10 @@ fun Configuration(
     val categoriesVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
+        userVM.viewModelScope.launch { userVM.getMonthlySavings(AppUtils.getAppId(context)) }
     }
 
-    configurationVM.cardItems.forEach { item ->
-        GetCardColors(item)
-    }
+    configurationVM.cardItems.forEach { item -> GetCardColors(item) }
 
     AppColumn(
         modifier = Modifier
@@ -105,14 +102,12 @@ fun Configuration(
                     },
                     onClickPositive = {
                         userVM.viewModelScope.launch {
-                            async {
-                                userVM.updateUser(
-                                    AppUtils.getAppId(context),
-                                    configurationVM.monthlySavingsInputValue.toInt()
-                                )
-                            }.await()
-                            configurationVM.editMonthlySavings = ! configurationVM.editMonthlySavings
+                            userVM.updateUser(
+                                AppUtils.getAppId(context),
+                                configurationVM.monthlySavingsInputValue.toInt()
+                            )
                         }
+                        configurationVM.editMonthlySavings = ! configurationVM.editMonthlySavings
                         configurationVM.monthlySavingsInputValue = ""
                     }
                 )

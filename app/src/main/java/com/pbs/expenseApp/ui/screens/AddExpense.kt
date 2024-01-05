@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
@@ -18,7 +19,7 @@ import com.pbs.expenseApp.ui.components.AppRow
 import com.pbs.expenseApp.ui.composables.MyMonthlySavingText
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddExpense() {
@@ -26,7 +27,7 @@ fun AddExpense() {
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        async { userVM.getMonthlySavings(AppUtils.getAppId(context)) }.await()
+        userVM.viewModelScope.launch { userVM.getMonthlySavings(AppUtils.getAppId(context)) }
     }
 
     AppColumn(
