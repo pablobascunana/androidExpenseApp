@@ -18,7 +18,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.domain.model.Expense
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppAlertDialog
@@ -26,15 +25,12 @@ import com.pbs.expenseApp.ui.components.AppColumn
 import com.pbs.expenseApp.ui.components.AppList
 import com.pbs.expenseApp.ui.components.AppModalBottomSheet
 import com.pbs.expenseApp.ui.components.AppText
-import com.pbs.expenseApp.ui.composables.addcategories.MyCategoryModalBottomSheet
 import com.pbs.expenseApp.ui.composables.fontDimensionResource
-import com.pbs.expenseApp.ui.screens.resetInputs
 import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
-import kotlin.math.exp
 
 @Composable
 fun MyMonthlyMovementsList(
@@ -133,7 +129,6 @@ fun MyMonthlyMovementsList(
             AppUtils.showToast(context = context, textId = R.string.expense_registry_edit)
         }
     }
-
     if (expenseVM.canDelete) {
         AppAlertDialog(
             dialogText = stringResource(id = R.string.expense_delete) +
@@ -144,7 +139,6 @@ fun MyMonthlyMovementsList(
             onDismissRequest = { expenseVM.canDelete = !expenseVM.canDelete },
         )
     }
-
     if (expenseVM.confirmDelete) {
         LaunchedEffect(key1 = 1) {
             expenseVM.viewModelScope.async {
@@ -154,12 +148,4 @@ fun MyMonthlyMovementsList(
         }
         AppUtils.showToast(context = context, textId = R.string.expense_registry_delete)
     }
-}
-
-@Composable
-private fun SetValuesToEdit(
-    expense: Expense, categoryVM: CategoryViewModel, expenseVM: ExpenseViewModel,
-    dropdownVM: ExposedDropDownViewModel
-) {
-
 }

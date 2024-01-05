@@ -1,6 +1,5 @@
 package com.pbs.expenseApp.data.repository
 
-import androidx.room.Query
 import com.pbs.expenseApp.data.daos.CategoryDao
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType

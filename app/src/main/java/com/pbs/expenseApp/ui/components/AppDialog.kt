@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.pbs.expenseApp.R
 
-
 @Composable
 fun AppAlertDialog(
     onDismissRequest: () -> Unit,
