@@ -27,9 +27,7 @@ class CategoryViewModel(
     var categories by mutableStateOf(emptyList<Category>())
     var categoryName by mutableStateOf("")
     var canInsertCategory by mutableStateOf(false)
-    var categorySelected by mutableStateOf(
-        Category(uuid = "", userUuid = "", type = CategoryType.EXPENSE, name = "" )
-    )
+    var categorySelected by mutableStateOf(Category())
     var canEditCategory by mutableStateOf(false)
     var canDeleteCategory by mutableStateOf(false)
     var confirmDelete by mutableStateOf(false)

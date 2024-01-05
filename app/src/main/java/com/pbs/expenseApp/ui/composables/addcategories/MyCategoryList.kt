@@ -43,7 +43,7 @@ fun MyCategoryList(categories: List<Category>) {
         modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_sm))
     )
     AppList(
-        categories,
+        items = categories,
         onEdit = {
             dropdownVM.dropdownValue = categoryVM.categoryTypeToString(
                 context, it.type.value
