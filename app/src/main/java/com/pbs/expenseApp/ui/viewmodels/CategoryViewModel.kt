@@ -36,17 +36,11 @@ class CategoryViewModel(
     var confirmDelete by mutableStateOf(false)
 
     suspend fun insertAll(categories: List<Category> = defaultCategories) {
-        viewModelScope.launch {
-            categoryRepository.insertAll(categories = categories)
-        }
+        categoryRepository.insertAll(categories = categories)
     }
     suspend fun insert(name: String, type: CategoryType) {
         val category = toCategory(name = name, type = type)
-        viewModelScope.launch {
-            viewModelScope.async {
-                categoryRepository.insert(category = category)
-            }.await()
-        }
+        categoryRepository.insert(category = category)
     }
     suspend fun update(category: Category) {
         viewModelScope.launch {

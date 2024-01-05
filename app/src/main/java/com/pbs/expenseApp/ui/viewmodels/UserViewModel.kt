@@ -17,24 +17,16 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
     var monthlySavings by mutableIntStateOf(0)
 
     suspend fun userExists(uuid: String) {
-        viewModelScope.async {
-            userExists = userRepository.userExists(uuid)
-        }.await()
+        userExists = userRepository.userExists(uuid)
     }
 
-    fun insertUser(uuid: String) {
-        val user = toUser(uuid = uuid)
-        viewModelScope.launch {
-            async {
-                userRepository.insertUser(user)
-            }.await()
-        }
+    suspend fun insertUser(uuid: String) {
+        userRepository.insertUser(toUser(uuid = uuid))
     }
 
     suspend fun updateUser(uuid: String, savings: Int) {
-        val user = toUser(uuid = uuid, monthlySavings = savings)
         viewModelScope.async {
-            userRepository.updateUser(user)
+            userRepository.updateUser(toUser(uuid = uuid, monthlySavings = savings))
             monthlySavings = savings
         }.await()
     }
