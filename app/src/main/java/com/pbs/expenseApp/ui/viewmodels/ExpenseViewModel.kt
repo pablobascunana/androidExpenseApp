@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
@@ -13,8 +12,6 @@ import com.pbs.expenseApp.domain.model.Expense
 import com.pbs.expenseApp.domain.model.MethodType
 import com.pbs.expenseApp.domain.repository.ExpenseRepository
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 class ExpenseViewModel(
     private val expenseRepository: ExpenseRepository,
@@ -45,35 +42,22 @@ class ExpenseViewModel(
         val expense = toExpense(
             category = category, amount = amount, description = description, payMethod = payMethod
         )
-        viewModelScope.launch {
-            viewModelScope.async {
-                expenseRepository.insert(expense = expense)
-            }.await()
-        }
+        expenseRepository.insert(expense = expense)
     }
-
     private suspend fun getExpenses(categoryType: CategoryType) {
-        viewModelScope.async {
-             expenseRepository.getExpensesByCategoryType(categoryType = categoryType).collect {
-                 response: List<Expense> -> expenses = response
-            }
-        }.await()
+         expenseRepository.getExpensesByCategoryType(categoryType = categoryType).collect {
+             response: List<Expense> -> expenses = response
+         }
     }
-
     suspend fun update(category: Category, uuid: String, amount: Float, description: String, payMethod: MethodType) {
         val expense = toExpense(
             category = category, uuid = uuid, amount = amount,
             description = description, payMethod = payMethod
         )
-        viewModelScope.async {
-            expenseRepository.update(expense = expense)
-        }.await()
+        expenseRepository.update(expense = expense)
     }
-
     suspend fun delete(expense: Expense) {
-        viewModelScope.async {
-            expenseRepository.delete(expense)
-        }.await()
+        expenseRepository.delete(expense)
     }
 
     private fun toExpense(
@@ -124,21 +108,18 @@ class ExpenseViewModel(
             else -> MethodType.BIZUM
         }
     }
-
     suspend fun getExpenseList() {
         if (movementType == CategoryType.INCOME) {
             getExpenses(categoryType = CategoryType.INCOME)
         }
         getExpenses(categoryType = CategoryType.EXPENSE)
     }
-
     fun getCreateExpenseText(): String {
         if (movementType == CategoryType.INCOME) {
             return AppUtils.getString(context = appContext, id = R.string.add_monthly_income)
         }
         return AppUtils.getString(context = appContext, id = R.string.add_monthly_expense)
     }
-
     fun getEditExpenseText(): String {
         if (movementType == CategoryType.INCOME) {
             return AppUtils.getString(context = appContext, id = R.string.edit_monthly_income)

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
@@ -22,7 +23,7 @@ import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyAddExpenseFab(navHostController: NavHostController) {
@@ -68,18 +69,18 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
         }
         if (expenseVM.canInsertExpense) {
             LaunchedEffect(key1 = 1) {
-                async {
+                expenseVM.viewModelScope.launch {
                     expenseVM.insert(
                         category = categoryVM.categorySelected,
                         amount = expenseVM.amount.toFloat(),
                         description = expenseVM.descriptionValue,
                         payMethod = expenseVM.payMethodTypeToEnum()
                     )
-                    resetExpenseInputs(expenseVM, dropdownVM)
-                    expenseVM.canInsertExpense = !expenseVM.canInsertExpense
-                    expenseVM.addExpense = !expenseVM.addExpense
-                    AppUtils.showToast(context = context, textId = R.string.expense_registry_add)
-                }.await()
+                }
+                resetExpenseInputs(expenseVM, dropdownVM)
+                expenseVM.canInsertExpense = !expenseVM.canInsertExpense
+                expenseVM.addExpense = !expenseVM.addExpense
+                AppUtils.showToast(context = context, textId = R.string.expense_registry_add)
             }
         }
     }
