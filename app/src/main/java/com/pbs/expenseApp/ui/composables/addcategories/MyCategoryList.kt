@@ -91,7 +91,6 @@ fun MyCategoryList(categories: List<Category>) {
     }
     if (categoryVM.canDeleteCategory) {
         AppAlertDialog(
-            dialogTitle = stringResource(id = R.string.configuration_delete_category),
             dialogText = stringResource(
                 id = R.string.configuration_delete_category_confirmation
             ) + " ${categoryVM.categoryName}?",

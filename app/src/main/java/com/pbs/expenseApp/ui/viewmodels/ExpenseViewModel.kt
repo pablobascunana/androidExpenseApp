@@ -15,7 +15,6 @@ import com.pbs.expenseApp.domain.repository.ExpenseRepository
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.util.Date
 
 class ExpenseViewModel(
     private val expenseRepository: ExpenseRepository,
@@ -33,8 +32,16 @@ class ExpenseViewModel(
     var canInsertExpense by mutableStateOf(false)
     var expandedPayMethodDropDown by mutableStateOf(false)
     var payMethodSelected by mutableStateOf("")
+    var canEdit by mutableStateOf(false)
+    var confirmEdit by mutableStateOf(false)
+    var canDelete by mutableStateOf(false)
+    var confirmDelete by mutableStateOf(false)
+    var expenseSelected by mutableStateOf(
+        Expense(uuid = "", userUuid = "", categoryUuid = "", payMethod = MethodType.CREDIT, description = ""
+        )
+    )
 
-    suspend fun insert(category: Category, amount: Int, description: String, payMethod: MethodType) {
+    suspend fun insert(category: Category, amount: Float, description: String, payMethod: MethodType) {
         val expense = toExpense(
             category = category, amount = amount, description = description, payMethod = payMethod
         )
@@ -53,15 +60,31 @@ class ExpenseViewModel(
         }.await()
     }
 
+    suspend fun update(category: Category, uuid: String, amount: Float, description: String, payMethod: MethodType) {
+        val expense = toExpense(
+            category = category, uuid = uuid, amount = amount,
+            description = description, payMethod = payMethod
+        )
+        viewModelScope.async {
+            expenseRepository.update(expense = expense)
+        }.await()
+    }
+
+    suspend fun delete(expense: Expense) {
+        viewModelScope.async {
+            expenseRepository.delete(expense)
+        }.await()
+    }
+
     private fun toExpense(
-        category: Category, amount: Int, description: String, payMethod: MethodType
+        category: Category, uuid: String = AppUtils.getUuid(), amount: Float,
+        description: String, payMethod: MethodType
     ): Expense {
         return Expense(
-            uuid = AppUtils.getUuid(),
+            uuid = uuid,
             userUuid = category.userUuid,
             categoryUuid = category.uuid,
             amount = amount,
-            date = Date(),
             payMethod = payMethod,
             description = description
         )
@@ -109,10 +132,17 @@ class ExpenseViewModel(
         getExpenses(categoryType = CategoryType.EXPENSE)
     }
 
-    fun getExpenseText(): String {
+    fun getCreateExpenseText(): String {
         if (movementType == CategoryType.INCOME) {
-            return AppUtils.getString(context = appContext, id = R.string.add_monthly_incomes)
+            return AppUtils.getString(context = appContext, id = R.string.add_monthly_income)
         }
-        return AppUtils.getString(context = appContext, id = R.string.add_monthly_expenses)
+        return AppUtils.getString(context = appContext, id = R.string.add_monthly_expense)
+    }
+
+    fun getEditExpenseText(): String {
+        if (movementType == CategoryType.INCOME) {
+            return AppUtils.getString(context = appContext, id = R.string.edit_monthly_income)
+        }
+        return AppUtils.getString(context = appContext, id = R.string.edit_monthly_expense)
     }
 }

@@ -44,8 +44,8 @@ data class Expense(
     val uuid: String,
     val userUuid: String,
     val categoryUuid: String,
-    val amount: Int,
-    val date: Date,
+    val amount: Float = 0f,
+    val date: Date? = null,
     val payMethod: MethodType,
-    val description: String
+    val description: String = ""
 )

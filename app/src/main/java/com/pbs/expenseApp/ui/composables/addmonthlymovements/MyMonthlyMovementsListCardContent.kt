@@ -31,7 +31,7 @@ fun CardContentIncome(
                 end = dimensionResource(id = R.dimen.padding_sm)
             )
     ) {
-        AppText(text = item.description + " - " + item.amount + "€")
+        AppText(text = "${item.description} - ${item.amount}€")
         Spacer(modifier = Modifier.weight(1f))
         CardActionsIncome(item, onEdit = onEdit, onDelete = onDelete)
     }
