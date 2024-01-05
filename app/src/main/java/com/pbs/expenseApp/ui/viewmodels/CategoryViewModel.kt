@@ -11,7 +11,6 @@ import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
 import com.pbs.expenseApp.domain.repository.CategoryRepository
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
@@ -28,35 +27,23 @@ class CategoryViewModel(
     var categories by mutableStateOf(emptyList<Category>())
     var categoryName by mutableStateOf("")
     var canInsertCategory by mutableStateOf(false)
-    var categorySelected by mutableStateOf(
-        Category(uuid = "", userUuid = "", type = CategoryType.EXPENSE, name = "" )
-    )
+    var categorySelected by mutableStateOf(Category())
     var canEditCategory by mutableStateOf(false)
     var canDeleteCategory by mutableStateOf(false)
     var confirmDelete by mutableStateOf(false)
 
     suspend fun insertAll(categories: List<Category> = defaultCategories) {
-        viewModelScope.launch {
-            categoryRepository.insertAll(categories = categories)
-        }
+        categoryRepository.insertAll(categories = categories)
     }
     suspend fun insert(name: String, type: CategoryType) {
         val category = toCategory(name = name, type = type)
-        viewModelScope.launch {
-            viewModelScope.async {
-                categoryRepository.insert(category = category)
-            }.await()
-        }
+        categoryRepository.insert(category = category)
     }
     suspend fun update(category: Category) {
-        viewModelScope.launch {
-            async { categoryRepository.update(category = category) }.await()
-        }
+        categoryRepository.update(category = category)
     }
     suspend fun delete(category: Category) {
-        viewModelScope.launch {
-            async { categoryRepository.delete(category = category) }.await()
-        }
+        categoryRepository.delete(category = category)
     }
     private fun getCategories() {
         viewModelScope.launch {
@@ -65,24 +52,16 @@ class CategoryViewModel(
             }
         }
     }
-
-    fun getCategory(uuid: String) {
-        viewModelScope.launch {
-            categorySelected = categoryRepository.getCategory(uuid)
-        }
+    suspend fun getCategory(uuid: String) {
+        categorySelected = categoryRepository.getCategory(uuid)
     }
-
-    fun getCategoryByCategoryType(categoryType: CategoryType) {
-        viewModelScope.launch {
-            categoryRepository.getCategoryByCategoryType(categoryType = categoryType).collect {
-                response: List<Category> -> categories = response
-            }
+    suspend fun getCategoryByCategoryType(categoryType: CategoryType) {
+        categoryRepository.getCategoryByCategoryType(categoryType = categoryType).collect {
+            response: List<Category> -> categories = response
         }
     }
     init {
-        viewModelScope.launch {
-            getCategories()
-        }
+        getCategories()
     }
     private fun toCategory(
         uuid: String = AppUtils.getUuid(), name: String, type: CategoryType
@@ -95,11 +74,9 @@ class CategoryViewModel(
             isDefault = false,
         )
     }
-
     fun getCategoryType(category: String): CategoryType {
         return categoryTypeToEnum(category = category)
     }
-
     fun categoryTypeToString(context: Context, type: String): String {
         return when (type) {
             CategoryType.INCOME.value -> AppUtils.getString(
@@ -108,14 +85,12 @@ class CategoryViewModel(
             else -> AppUtils.getString(context = context, id = R.string.category_type_expense)
         }
     }
-
     fun getCategoryTypes(): Array<CategoryType> {
         categoryTypes.forEach { category ->
             category.value = categoryTypeToString(context = appContext, type = category.value)
         }
         return categoryTypes
     }
-
     fun categoryTypeToEnum(category: String): CategoryType {
         return when (category) {
             AppUtils.getString(context = appContext, id = R.string.category_type_income) -> CategoryType.INCOME

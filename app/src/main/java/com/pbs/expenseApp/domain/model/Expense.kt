@@ -41,11 +41,11 @@ enum class MethodType(var value: String) {
 @TypeConverters(DateConverters::class)
 data class Expense(
     @PrimaryKey()
-    val uuid: String,
-    val userUuid: String,
-    val categoryUuid: String,
+    val uuid: String = "",
+    val userUuid: String = "",
+    val categoryUuid: String = "",
     val amount: Float = 0f,
     val date: Date? = null,
-    val payMethod: MethodType,
+    val payMethod: MethodType = MethodType.CREDIT,
     val description: String = ""
 )

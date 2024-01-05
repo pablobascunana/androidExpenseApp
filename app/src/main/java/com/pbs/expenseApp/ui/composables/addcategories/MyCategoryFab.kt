@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.ui.AppViewModelProvider
@@ -22,7 +23,7 @@ import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ConfigurationViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyAddCategoryFab() {
@@ -68,15 +69,15 @@ fun MyAddCategoryFab() {
     if (categoryVM.canInsertCategory) {
         val categoryType = categoryVM.getCategoryType(dropdownVM.dropdownValue)
         LaunchedEffect(key1 = 1) {
-            async {
+            categoryVM.viewModelScope.launch {
                 categoryVM.insert(categoryVM.categoryName, categoryType)
-                resetInputs(dropdownVM, categoryVM)
-                categoryVM.canInsertCategory = !categoryVM.canInsertCategory
-                configurationVM.addCategory = !configurationVM.addCategory
-                AppUtils.showToast(
-                    context = context, textId = R.string.configuration_insert_feedback
-                )
-            }.await()
+            }
+            resetInputs(dropdownVM, categoryVM)
+            categoryVM.canInsertCategory = !categoryVM.canInsertCategory
+            configurationVM.addCategory = !configurationVM.addCategory
+            AppUtils.showToast(
+                context = context, textId = R.string.configuration_insert_feedback
+            )
         }
     }
 }

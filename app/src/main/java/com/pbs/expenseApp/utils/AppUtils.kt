@@ -7,7 +7,6 @@ import android.widget.Toast
 import com.pbs.expenseApp.R
 import com.pbs.expenseApp.domain.model.Category
 import com.pbs.expenseApp.domain.model.CategoryType
-import com.pbs.expenseApp.domain.model.MethodType
 import java.util.UUID
 
 object AppUtils {

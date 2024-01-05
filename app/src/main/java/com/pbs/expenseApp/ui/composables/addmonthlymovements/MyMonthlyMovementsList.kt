@@ -18,7 +18,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.pbs.expenseApp.R
-import com.pbs.expenseApp.domain.model.Expense
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppAlertDialog
 import com.pbs.expenseApp.ui.components.AppColumn
@@ -30,7 +29,7 @@ import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExpenseViewModel
 import com.pbs.expenseApp.ui.viewmodels.ExposedDropDownViewModel
 import com.pbs.expenseApp.utils.AppUtils
-import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyMonthlyMovementsList(
@@ -47,9 +46,7 @@ fun MyMonthlyMovementsList(
     expenseVM.movementType = categoryVM.categoryTypeToEnum(currentType)
 
     LaunchedEffect(key1 = 1) {
-        expenseVM.viewModelScope.async {
-            expenseVM.getExpenseList()
-        }.await()
+        expenseVM.viewModelScope.launch { expenseVM.getExpenseList() }
     }
 
     AppColumn(
@@ -87,9 +84,9 @@ fun MyMonthlyMovementsList(
     }
     if (expenseVM.canEdit) {
         LaunchedEffect(key1 = 1) {
-            categoryVM.viewModelScope.async {
+            categoryVM.viewModelScope.launch {
                 categoryVM.getCategory(expenseVM.expenseSelected.categoryUuid)
-            }.await()
+            }
             dropdownVM.dropdownValue = categoryVM.categorySelected.name
             expenseVM.payMethodSelected = expenseVM.expenseSelected.payMethod.value
             expenseVM.descriptionValue = expenseVM.expenseSelected.description
@@ -114,7 +111,7 @@ fun MyMonthlyMovementsList(
     }
     if (expenseVM.confirmEdit) {
         LaunchedEffect(key1 = 1) {
-            expenseVM.viewModelScope.async {
+            expenseVM.viewModelScope.launch {
                 expenseVM.update(
                     category = categoryVM.categorySelected,
                     uuid = expenseVM.expenseSelected.uuid,
@@ -122,7 +119,7 @@ fun MyMonthlyMovementsList(
                     description = expenseVM.descriptionValue,
                     payMethod = expenseVM.payMethodTypeToEnum()
                 )
-            }.await()
+            }
             resetExpenseInputs(expenseVM, dropdownVM)
             expenseVM.canEdit = !expenseVM.canEdit
             expenseVM.confirmEdit = !expenseVM.confirmEdit
@@ -141,10 +138,10 @@ fun MyMonthlyMovementsList(
     }
     if (expenseVM.confirmDelete) {
         LaunchedEffect(key1 = 1) {
-            expenseVM.viewModelScope.async {
+            expenseVM.viewModelScope.launch {
                 expenseVM.delete(expense = expenseVM.expenseSelected)
-                expenseVM.canDelete = !expenseVM.canDelete
-            }.await()
+            }
+            expenseVM.canDelete = !expenseVM.canDelete
         }
         AppUtils.showToast(context = context, textId = R.string.expense_registry_delete)
     }
