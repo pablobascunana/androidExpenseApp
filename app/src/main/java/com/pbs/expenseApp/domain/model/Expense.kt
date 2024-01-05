@@ -5,6 +5,9 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.pbs.expenseApp.data.converters.DateConverters
+import java.util.Date
 
 enum class MethodType(var value: String) {
     CASH(value = "cash"),
@@ -35,12 +38,14 @@ enum class MethodType(var value: String) {
         Index(value = ["categoryUuid"])
     ]
 )
+@TypeConverters(DateConverters::class)
 data class Expense(
     @PrimaryKey()
     val uuid: String,
     val userUuid: String,
     val categoryUuid: String,
-    val amount: Int,
+    val amount: Float = 0f,
+    val date: Date? = null,
     val payMethod: MethodType,
-    val description: String
+    val description: String = ""
 )

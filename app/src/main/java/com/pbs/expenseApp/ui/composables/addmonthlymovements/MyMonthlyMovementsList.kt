@@ -122,7 +122,7 @@ fun MyMonthlyMovementsList(
                 expenseVM.update(
                     category = categoryVM.categorySelected,
                     uuid = expenseVM.expenseSelected.uuid,
-                    amount = expenseVM.amount.toInt(),
+                    amount = expenseVM.amount.toFloat(),
                     description = expenseVM.descriptionValue,
                     payMethod = expenseVM.payMethodTypeToEnum()
                 )

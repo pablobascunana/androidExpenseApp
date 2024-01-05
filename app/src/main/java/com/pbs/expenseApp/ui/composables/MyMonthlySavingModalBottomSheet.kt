@@ -35,7 +35,7 @@ fun MyModalMonthlySavingModalBottomSheet(
         AppTextField(
             value = configurationVM.monthlySavingsInputValue,
             onValueChange = {
-                if (it.isNotEmpty() && it.matches(AppUtils.getDecimalPattern())) {
+                if (it.isNotEmpty() && it.matches(AppUtils.getIntegerPattern())) {
                     configurationVM.monthlySavingsInputValue = it
                 } else if(it.isEmpty()) {
                     configurationVM.monthlySavingsInputValue = ""

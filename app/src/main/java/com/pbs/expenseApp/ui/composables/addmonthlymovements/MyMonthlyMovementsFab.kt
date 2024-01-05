@@ -71,7 +71,7 @@ fun MyAddExpenseFab(navHostController: NavHostController) {
                 async {
                     expenseVM.insert(
                         category = categoryVM.categorySelected,
-                        amount = expenseVM.amount.toInt(),
+                        amount = expenseVM.amount.toFloat(),
                         description = expenseVM.descriptionValue,
                         payMethod = expenseVM.payMethodTypeToEnum()
                     )

@@ -44,8 +44,12 @@ object AppUtils {
     }
 
     @JvmStatic
-    fun getDecimalPattern(): Regex {
+    fun getIntegerPattern(): Regex {
         return Regex(pattern = "^\\d+\$")
+    }
+    @JvmStatic
+    fun getDecimalPattern(): Regex {
+        return Regex(pattern = "\\d+(\\.\\d*)?|\\.\\d+")
     }
 
     @JvmStatic

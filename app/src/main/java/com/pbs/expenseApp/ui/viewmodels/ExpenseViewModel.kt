@@ -37,12 +37,11 @@ class ExpenseViewModel(
     var canDelete by mutableStateOf(false)
     var confirmDelete by mutableStateOf(false)
     var expenseSelected by mutableStateOf(
-        Expense(uuid = "", userUuid = "", categoryUuid = "", amount = 0,
-            payMethod = MethodType.CREDIT, description = ""
+        Expense(uuid = "", userUuid = "", categoryUuid = "", payMethod = MethodType.CREDIT, description = ""
         )
     )
 
-    suspend fun insert(category: Category, amount: Int, description: String, payMethod: MethodType) {
+    suspend fun insert(category: Category, amount: Float, description: String, payMethod: MethodType) {
         val expense = toExpense(
             category = category, amount = amount, description = description, payMethod = payMethod
         )
@@ -61,7 +60,7 @@ class ExpenseViewModel(
         }.await()
     }
 
-    suspend fun update(category: Category, uuid: String, amount: Int, description: String, payMethod: MethodType) {
+    suspend fun update(category: Category, uuid: String, amount: Float, description: String, payMethod: MethodType) {
         val expense = toExpense(
             category = category, uuid = uuid, amount = amount,
             description = description, payMethod = payMethod
@@ -78,7 +77,7 @@ class ExpenseViewModel(
     }
 
     private fun toExpense(
-        category: Category, uuid: String = AppUtils.getUuid(), amount: Int,
+        category: Category, uuid: String = AppUtils.getUuid(), amount: Float,
         description: String, payMethod: MethodType
     ): Expense {
         return Expense(
