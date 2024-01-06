@@ -1,15 +1,11 @@
 package com.pbs.expenseApp.ui.screens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -36,6 +32,8 @@ fun AddExpense() {
     val context = LocalContext.current
     val userVM: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val pagerVM: HorizontalPagerViewModel = viewModel(factory = AppViewModelProvider.Factory)
+
+    pagerVM.calculatePageCount(userVM.user.creationDate)
 
     LaunchedEffect(key1 = true) {
         userVM.viewModelScope.launch { userVM.getUser(AppUtils.getAppId(context)) }
@@ -71,7 +69,7 @@ fun AddExpense() {
         AppColumn(modifier = Modifier
             .fillMaxSize()
         ) {
-            AppHorizontalPager(pageCount = 10) {
+            AppHorizontalPager(pageCount = pagerVM.pageCount) {
                 AppText(
                     text = "Page: $it",
                     modifier = Modifier.fillMaxWidth().fillMaxHeight()
