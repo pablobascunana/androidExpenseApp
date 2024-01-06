@@ -2,17 +2,19 @@ package com.pbs.expenseApp.data.converters
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import java.util.Date
+import java.time.LocalDate
+import java.time.ZoneId
 
 @ProvidedTypeConverter
 class DateConverters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun fromTimestamp(value: Long?): LocalDate? {
+        return value?.let { LocalDate.ofEpochDay(it) }
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+    fun dateToTimestamp(date: LocalDate?): Long? {
+        val zoneId: ZoneId = ZoneId.systemDefault()
+        return date?.atStartOfDay(zoneId)?.toEpochSecond()
     }
 }
