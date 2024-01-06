@@ -48,7 +48,7 @@ fun Configuration(
     val categoriesVM: CategoryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        userVM.viewModelScope.launch { userVM.getMonthlySavings(AppUtils.getAppId(context)) }
+        userVM.viewModelScope.launch { userVM.getUser(AppUtils.getAppId(context)) }
     }
 
     configurationVM.cardItems.forEach { item -> GetCardColors(item) }
@@ -73,7 +73,7 @@ fun Configuration(
                     end = dimensionResource(id = R.dimen.padding_xs)
                 )
             ) {
-                MyMonthlySavingText(monthlySavings = userVM.monthlySavings)
+                MyMonthlySavingText(monthlySavings = userVM.user.monthlySavings)
                 Spacer(modifier = Modifier.weight(1f))
                 if (!configurationVM.editMonthlySavings) {
                     AppIcon(
@@ -102,10 +102,9 @@ fun Configuration(
                     },
                     onClickPositive = {
                         userVM.viewModelScope.launch {
-                            userVM.updateUser(
-                                AppUtils.getAppId(context),
+                            userVM.user.monthlySavings =
                                 configurationVM.monthlySavingsInputValue.toInt()
-                            )
+                            userVM.updateUser()
                         }
                         configurationVM.editMonthlySavings = ! configurationVM.editMonthlySavings
                         configurationVM.monthlySavingsInputValue = ""

@@ -8,5 +8,5 @@ class UserRepositoryImpl(private val userDao: UserDao): UserRepository {
     override suspend fun insertUser(user: User) = userDao.insert(user)
     override suspend fun updateUser(user: User) = userDao.update(user)
     override suspend fun userExists(uuid: String): Boolean = userDao.userExists(uuid = uuid)
-    override suspend fun getMonthlySavings(uuid: String) = userDao.getMonthlySavings(uuid = uuid)
+    override suspend fun getUser(uuid: String): User = userDao.getUser(uuid = uuid)
 }

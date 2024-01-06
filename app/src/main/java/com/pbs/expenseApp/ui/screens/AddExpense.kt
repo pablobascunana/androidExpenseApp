@@ -31,7 +31,6 @@ import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddExpense() {
     val context = LocalContext.current
@@ -39,7 +38,7 @@ fun AddExpense() {
     val pagerVM: HorizontalPagerViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     LaunchedEffect(key1 = true) {
-        userVM.viewModelScope.launch { userVM.getMonthlySavings(AppUtils.getAppId(context)) }
+        userVM.viewModelScope.launch { userVM.getUser(AppUtils.getAppId(context)) }
     }
 
     AppColumn(
@@ -58,7 +57,7 @@ fun AddExpense() {
                     end = dimensionResource(id = R.dimen.padding_sm)
                 )
             ) {
-                MyMonthlySavingText(monthlySavings = userVM.monthlySavings)
+                MyMonthlySavingText(monthlySavings = userVM.user.monthlySavings)
             }
         }
 
