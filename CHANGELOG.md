@@ -30,3 +30,5 @@ All notable changes will be documented in this file
 * [PR-25](https://github.com/pablobascunana/androidExpenseApp/pull/25) Code refactor
 * [PR-26](https://github.com/pablobascunana/androidExpenseApp/pull/26) Add items in expense lists
 * [PR-27](https://github.com/pablobascunana/androidExpenseApp/pull/27) Edit and delete items in expense lists
+* [PR-28](https://github.com/pablobascunana/androidExpenseApp/pull/28) Async functions refactor
+* [PR-29](https://github.com/pablobascunana/androidExpenseApp/pull/29) Create horizontal pager and page months 

@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.pbs.expenseApp.domain.model.User
 import com.pbs.expenseApp.navigation.AppRoutes
 import com.pbs.expenseApp.ui.AppViewModelProvider
 import com.pbs.expenseApp.ui.components.AppSplash
@@ -13,7 +14,6 @@ import com.pbs.expenseApp.ui.viewmodels.CategoryViewModel
 import com.pbs.expenseApp.ui.viewmodels.UserViewModel
 import com.pbs.expenseApp.utils.AppUtils
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(navHostController: NavHostController) {
@@ -25,8 +25,10 @@ fun SplashScreen(navHostController: NavHostController) {
     LaunchedEffect(key1 = true) {
         userVM.viewModelScope.async { userVM.userExists(appId) }.await()
         if (!userVM.userExists) {
-            userVM.insertUser(appId)
+            userVM.insertUser(User(uuid = appId))
             categoryVM.insertAll()
+        } else {
+            userVM.getUser(appId)
         }
         navHostController.popBackStack()
         navHostController.navigate(AppRoutes.BottomBar.route)

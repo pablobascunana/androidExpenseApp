@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.pbs.expenseApp.data.converters.DateConverters
-import java.util.Date
+import java.time.LocalDate
 
 enum class MethodType(var value: String) {
     CASH(value = "cash"),
@@ -45,7 +45,7 @@ data class Expense(
     val userUuid: String = "",
     val categoryUuid: String = "",
     val amount: Float = 0f,
-    val date: Date? = null,
+    val creationDate: LocalDate? = null,
     val payMethod: MethodType = MethodType.CREDIT,
     val description: String = ""
 )
