@@ -17,4 +17,9 @@ object DateUtils {
     fun getMonthsDifference(startDate: LocalDate, endDate: LocalDate): Long {
         return ChronoUnit.MONTHS.between(startDate, endDate)
     }
+    
+    @JvmStatic
+    fun addMonths(date: LocalDate, monthsToAdd: Long): LocalDate {
+        return date.plusMonths(monthsToAdd)
+    }
 }
