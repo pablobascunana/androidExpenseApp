@@ -22,6 +22,7 @@ class ExpenseViewModel(
     private var payMethodTypes = enumValues<MethodType>()
 
     var expenses by mutableStateOf(emptyList<Expense>())
+    var monthlyExpenses by mutableStateOf(emptyList<Expense>())
     var addExpense by mutableStateOf(false)
     var descriptionValue by mutableStateOf("")
     var movementType by mutableStateOf(CategoryType.INCOME)
@@ -36,17 +37,24 @@ class ExpenseViewModel(
     var expenseSelected by mutableStateOf(Expense())
 
     suspend fun insert(category: Category, amount: Float, description: String, payMethod: MethodType) {
+        // TODO work with expense and remove toExpense function
         val expense = toExpense(
             category = category, amount = amount, description = description, payMethod = payMethod
         )
         expenseRepository.insert(expense = expense)
     }
-    private suspend fun getExpenses(categoryType: CategoryType) {
+    private suspend fun getExpensesByCategoryType(categoryType: CategoryType) {
          expenseRepository.getExpensesByCategoryType(categoryType = categoryType).collect {
              response: List<Expense> -> expenses = response
          }
     }
+    suspend fun getMonthlyExpenses() {
+        expenseRepository.getMonthlyExpenses().collect {
+                response: List<Expense> -> monthlyExpenses = response
+        }
+    }
     suspend fun update(category: Category, uuid: String, amount: Float, description: String, payMethod: MethodType) {
+        // TODO work with expense and remove toExpense function
         val expense = toExpense(
             category = category, uuid = uuid, amount = amount,
             description = description, payMethod = payMethod
@@ -107,9 +115,9 @@ class ExpenseViewModel(
     }
     suspend fun getExpenseList() {
         if (movementType == CategoryType.INCOME) {
-            getExpenses(categoryType = CategoryType.INCOME)
+            getExpensesByCategoryType(categoryType = CategoryType.INCOME)
         }
-        getExpenses(categoryType = CategoryType.EXPENSE)
+        getExpensesByCategoryType(categoryType = CategoryType.EXPENSE)
     }
     fun getCreateExpenseText(): String {
         if (movementType == CategoryType.INCOME) {

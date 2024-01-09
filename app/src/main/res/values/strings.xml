@@ -65,6 +65,7 @@
     <string name="expense_registry_add">El registro ha sido añadido</string>
     <string name="expense_registry_delete">El registro ha sido eliminado</string>
     <string name="expense_registry_edit">El registro ha sido editado</string>
+    <string name="expense_empty">No tiene movimientos en el mes actual</string>
 
     <string name="pay_method">Método de pago</string>
     <string name="pay_method_cash">Efectivo</string>

@@ -21,6 +21,11 @@ interface ExpenseDao {
             "JOIN categories ON categories.uuid == expenses.categoryUuid " +
             "WHERE categories.type = :categoryType")
     fun getExpensesByCategoryType(categoryType: CategoryType): Flow<List<Expense>>
+    @Query("SELECT expenses.uuid, expenses.userUuid, categoryUuid, amount, creationDate, payMethod, description, categories.name, categories.type " +
+            "FROM expenses " +
+            "JOIN categories ON categories.uuid == expenses.categoryUuid " +
+            "WHERE expenses.creationDate IS NULL")
+    fun getMonthlyExpenses(): Flow<List<Expense>>
     @Update
     suspend fun update(expense: Expense)
     @Delete
